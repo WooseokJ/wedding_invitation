@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -6,10 +6,27 @@ import { Reveal } from "@/components/Reveal";
 import { wedding } from "@/lib/wedding";
 import { cn } from "@/lib/utils";
 
+const GUESTBOOK_AUTHOR_STORAGE_KEY = "wedding_guestbook_author_id";
+
+function readGuestbookAuthorId() {
+  if (typeof window === "undefined") {
+    return "";
+  }
+
+  const existing = window.localStorage.getItem(GUESTBOOK_AUTHOR_STORAGE_KEY);
+  if (existing) {
+    return existing;
+  }
+
+  const nextId = crypto.randomUUID();
+  window.localStorage.setItem(GUESTBOOK_AUTHOR_STORAGE_KEY, nextId);
+  return nextId;
+}
+
 type Entry = {
   id: string;
   name: string;
-  relation: string | null;
+  author_id: string | null;
   message: string;
   attending: boolean;
   created_at: string;
@@ -18,7 +35,7 @@ type Entry = {
 async function fetchEntries(): Promise<Entry[]> {
   const { data, error } = await supabase
     .from("guestbook")
-    .select("id, name, relation, message, attending, created_at")
+    .select("id, name, author_id, message, attending, created_at")
     .order("created_at", { ascending: false })
     .limit(24);
 
@@ -34,8 +51,8 @@ function when(iso: string) {
 }
 
 export function Guestbook() {
+  const authorId = useMemo(() => readGuestbookAuthorId(), []);
   const [name, setName] = useState("");
-  const [relation, setRelation] = useState("");
   const [message, setMessage] = useState("");
   const [attending, setAttending] = useState(true);
   const [sending, setSending] = useState(false);
@@ -55,7 +72,7 @@ export function Guestbook() {
     setSending(true);
     const { error } = await supabase.from("guestbook").insert({
       name: name.trim(),
-      relation: relation.trim() || null,
+      author_id: authorId,
       message: message.trim(),
       attending,
     });
@@ -68,9 +85,24 @@ export function Guestbook() {
 
     toast.success("따뜻한 답장을 남겼습니다. 감사합니다.");
     setName("");
-    setRelation("");
     setMessage("");
     setAttending(true);
+    void refetch();
+  }
+
+  async function deleteEntry(entryId: string) {
+    const { error } = await supabase
+      .from("guestbook")
+      .delete()
+      .eq("id", entryId)
+      .eq("author_id", authorId);
+
+    if (error) {
+      toast.error("작성자 본인 글만 지울 수 있습니다.");
+      return;
+    }
+
+    toast.success("방명록을 삭제했어요.");
     void refetch();
   }
 
@@ -92,7 +124,7 @@ export function Guestbook() {
             onSubmit={submit}
             className="mt-12 rounded-[min(1vw,12px)] bg-paper-deep/50 p-7 ring-1 ring-hair sm:p-10"
           >
-            <div className="grid gap-7 sm:grid-cols-2">
+            <div className="grid gap-7 sm:grid-cols-1">
               <label className="block">
                 <span className="mb-1 block text-xs tracking-[0.18em] text-brass-deep">
                   이름
@@ -102,18 +134,6 @@ export function Guestbook() {
                   onChange={(event) => setName(event.target.value)}
                   maxLength={20}
                   placeholder="홍길동"
-                  className="field-line"
-                />
-              </label>
-              <label className="block">
-                <span className="mb-1 block text-xs tracking-[0.18em] text-brass-deep">
-                  관계
-                </span>
-                <input
-                  value={relation}
-                  onChange={(event) => setRelation(event.target.value)}
-                  maxLength={20}
-                  placeholder="신부 친구"
                   className="field-line"
                 />
               </label>
@@ -191,16 +211,27 @@ export function Guestbook() {
           {(data ?? []).map((entry, index) => (
             <Reveal key={entry.id} delay={Math.min(index, 5) * 80}>
               <article className="h-full rounded-[min(1vw,12px)] bg-paper p-5 ring-1 ring-hair">
-                <header className="flex items-baseline justify-between gap-3">
+                <header className="flex items-start justify-between gap-3">
                   <span className="font-display text-base font-bold text-ink">
                     {entry.name}
                   </span>
-                  <span className="text-[11px] text-ink-soft">
-                    {when(entry.created_at)}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[11px] text-ink-soft">
+                      {when(entry.created_at)}
+                    </span>
+                    {entry.author_id === authorId && (
+                      <button
+                        type="button"
+                        aria-label="삭제"
+                        onClick={() => void deleteEntry(entry.id)}
+                        className="flex size-6 items-center justify-center rounded-full text-sm text-ink-soft transition-colors hover:bg-paper-deep hover:text-ink"
+                      >
+                        ×
+                      </button>
+                    )}
+                  </div>
                 </header>
                 <p className="mt-1 text-[11px] text-ink-soft">
-                  {entry.relation ? `${entry.relation} · ` : ""}
                   {entry.attending ? "참석" : "함께하지 못함"}
                 </p>
                 <p className="mt-3 text-sm leading-relaxed text-pretty text-ink-soft">

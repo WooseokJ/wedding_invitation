@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { DayOf } from "@/components/DayOf";
 import { Gallery } from "@/components/Gallery";
 import { Guestbook } from "@/components/Guestbook";
 import { Hero } from "@/components/Hero";
@@ -40,7 +39,6 @@ function Index() {
         <Hero />
         <WhenWhere />
         <Invitation />
-        <DayOf />
         <Venue />
         <Gallery />
         <Guestbook />

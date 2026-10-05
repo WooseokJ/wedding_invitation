@@ -50,13 +50,6 @@ export function InviteFooter() {
         <p className="mt-1 text-xs text-ink-faint">{wedding.venue.address}</p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-          <a
-            href={icsHref || "#"}
-            download="invitation.ics"
-            className="rounded-full border border-hair-strong px-5 py-2.5 text-sm text-ink transition-colors duration-300 hover:border-brass hover:bg-brass hover:text-paper"
-          >
-            캘린더에 저장
-          </a>
           <button
             type="button"
             onClick={shareInvitation}

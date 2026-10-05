@@ -17,6 +17,13 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
       new Headers(init.headers).forEach((value, key) => headers.set(key, value));
     }
 
+    const guestbookAuthorId =
+      typeof window !== 'undefined' ? window.localStorage.getItem('wedding_guestbook_author_id') : null;
+
+    if (guestbookAuthorId) {
+      headers.set('x-guestbook-author-id', guestbookAuthorId);
+    }
+
     // New Supabase API keys are opaque strings, not bearer JWTs.
     if (isNewSupabaseApiKey(supabaseKey) && headers.get('Authorization') === `Bearer ${supabaseKey}`) {
       headers.delete('Authorization');

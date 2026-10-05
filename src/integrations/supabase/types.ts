@@ -17,6 +17,7 @@ export type Database = {
       guestbook: {
         Row: {
           attending: boolean
+          author_id: string | null
           created_at: string
           id: string
           message: string
@@ -25,6 +26,7 @@ export type Database = {
         }
         Insert: {
           attending?: boolean
+          author_id?: string | null
           created_at?: string
           id?: string
           message: string
@@ -33,6 +35,7 @@ export type Database = {
         }
         Update: {
           attending?: boolean
+          author_id?: string | null
           created_at?: string
           id?: string
           message?: string
