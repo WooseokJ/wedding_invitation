@@ -1,43 +1,28 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fireEvent, render, screen } from "@testing-library/react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 
 import { Guestbook } from "@/components/Guestbook";
 
-const mockUseQuery = vi.fn();
-const mockEq = vi.fn();
+function renderGuestbook() {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  });
 
-vi.mock("@tanstack/react-query", () => ({
-  useQuery: (...args: unknown[]) => mockUseQuery(...args),
-}));
-
-vi.mock("@/integrations/supabase/client", () => ({
-  supabase: {
-    from: vi.fn(() => ({
-      insert: vi.fn(),
-      delete: () => ({
-        eq: mockEq,
-      }),
-    })),
-  },
-}));
-
-vi.mock("@/components/Reveal", () => ({
-  Reveal: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-}));
+  return render(
+    <QueryClientProvider client={queryClient}>
+      <Guestbook />
+    </QueryClientProvider>,
+  );
+}
 
 describe("Guestbook author controls", () => {
   beforeEach(() => {
     localStorage.clear();
     localStorage.setItem("wedding_guestbook_author_id", "me");
-
-    mockEq.mockReset();
-    mockEq.mockImplementation(() => ({
-      eq: mockEq,
-      then: undefined,
-    }));
-
-    mockUseQuery.mockReturnValue({
-      data: [
+    localStorage.setItem(
+      "wedding_guestbook_entries",
+      JSON.stringify([
         {
           id: "entry-1",
           name: "나",
@@ -54,21 +39,22 @@ describe("Guestbook author controls", () => {
           attending: false,
           created_at: "2025-07-02T00:00:00.000Z",
         },
-      ],
-      isPending: false,
-      isError: false,
-      refetch: vi.fn(),
-    });
+      ]),
+    );
   });
 
   it("shows a delete button only for the current author's entries", async () => {
-    render(<Guestbook />);
+    renderGuestbook();
 
-    const buttons = screen.getAllByRole("button", { name: /삭제/i });
+    expect(await screen.findByText("나")).toBeInTheDocument();
+
+    const buttons = await screen.findAllByRole("button", { name: /삭제/i });
     expect(buttons).toHaveLength(1);
 
     fireEvent.click(buttons[0]);
-    expect(mockEq.mock.calls).toContainEqual(["id", "entry-1"]);
-    expect(mockEq.mock.calls).toContainEqual(["author_id", "me"]);
+
+    const savedEntries = JSON.parse(localStorage.getItem("wedding_guestbook_entries") ?? "[]");
+    expect(savedEntries).toHaveLength(1);
+    expect(savedEntries[0].id).toBe("entry-2");
   });
 });

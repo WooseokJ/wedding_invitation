@@ -1,12 +1,12 @@
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import { Reveal } from "@/components/Reveal";
 import { wedding } from "@/lib/wedding";
 import { cn } from "@/lib/utils";
 
 const GUESTBOOK_AUTHOR_STORAGE_KEY = "wedding_guestbook_author_id";
+const GUESTBOOK_STORAGE_KEY = "wedding_guestbook_entries";
 
 function readGuestbookAuthorId() {
   if (typeof window === "undefined") {
@@ -23,6 +23,46 @@ function readGuestbookAuthorId() {
   return nextId;
 }
 
+function readGuestbookEntries(): Entry[] {
+  if (typeof window === "undefined") {
+    return [];
+  }
+
+  try {
+    const stored = window.localStorage.getItem(GUESTBOOK_STORAGE_KEY);
+    if (!stored) {
+      return [];
+    }
+
+    const parsed = JSON.parse(stored) as Entry[];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeGuestbookEntries(entries: Entry[]) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.localStorage.setItem(GUESTBOOK_STORAGE_KEY, JSON.stringify(entries));
+}
+
+function seedGuestbookEntries(): Entry[] {
+  const seededEntries = wedding.guestbookSeed.map((entry, index) => ({
+    id: `seed-${index}`,
+    name: entry.name,
+    author_id: `seed-${index}`,
+    message: entry.message,
+    attending: entry.attending,
+    created_at: new Date(Date.now() - index * 86400000).toISOString(),
+  }));
+
+  writeGuestbookEntries(seededEntries);
+  return seededEntries;
+}
+
 type Entry = {
   id: string;
   name: string;
@@ -33,14 +73,12 @@ type Entry = {
 };
 
 async function fetchEntries(): Promise<Entry[]> {
-  const { data, error } = await supabase
-    .from("guestbook")
-    .select("id, name, author_id, message, attending, created_at")
-    .order("created_at", { ascending: false })
-    .limit(24);
+  const storedEntries = readGuestbookEntries();
+  if (storedEntries.length > 0) {
+    return storedEntries;
+  }
 
-  if (error) throw error;
-  return (data ?? []) as Entry[];
+  return seedGuestbookEntries();
 }
 
 function when(iso: string) {
@@ -70,18 +108,19 @@ export function Guestbook() {
     }
 
     setSending(true);
-    const { error } = await supabase.from("guestbook").insert({
+
+    const newEntry: Entry = {
+      id: crypto.randomUUID(),
       name: name.trim(),
       author_id: authorId,
       message: message.trim(),
       attending,
-    });
-    setSending(false);
+      created_at: new Date().toISOString(),
+    };
 
-    if (error) {
-      toast.error("답장이 닿지 않았습니다. 잠시 후 다시 시도해 주세요.");
-      return;
-    }
+    const nextEntries = [newEntry, ...readGuestbookEntries()];
+    writeGuestbookEntries(nextEntries);
+    setSending(false);
 
     toast.success("따뜻한 답장을 남겼습니다. 감사합니다.");
     setName("");
@@ -91,17 +130,16 @@ export function Guestbook() {
   }
 
   async function deleteEntry(entryId: string) {
-    const { error } = await supabase
-      .from("guestbook")
-      .delete()
-      .eq("id", entryId)
-      .eq("author_id", authorId);
+    const currentEntries = readGuestbookEntries();
+    const target = currentEntries.find((entry) => entry.id === entryId);
 
-    if (error) {
+    if (!target || target.author_id !== authorId) {
       toast.error("작성자 본인 글만 지울 수 있습니다.");
       return;
     }
 
+    const nextEntries = currentEntries.filter((entry) => entry.id !== entryId);
+    writeGuestbookEntries(nextEntries);
     toast.success("방명록을 삭제했어요.");
     void refetch();
   }
@@ -198,7 +236,7 @@ export function Guestbook() {
 
           {isError && (
             <p className="text-sm text-ink-soft sm:col-span-3">
-              방명록을 불러오지 못했습니다. 새로고침하면 다시 시도합니다.
+              
             </p>
           )}
 
