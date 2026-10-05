@@ -72,13 +72,7 @@ export const wedding = {
   ],
 
   guestbookSeed: [
-    {
-      name: "김하늘",
-      relation: "신부 친구",
-      attending: true,
-      message:
-        "은행잎 편지처럼 오래 간직할 하루 되세요. 두 사람, 정말 축하해요.",
-    }
+
   ],
 } as const;
 

@@ -1,13 +1,13 @@
 CREATE TABLE public.guestbook (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   name text NOT NULL,
-  relation text,
+  author_id text,
   message text NOT NULL,
   attending boolean NOT NULL DEFAULT true,
   created_at timestamptz NOT NULL DEFAULT now()
 );
 
-GRANT SELECT, INSERT ON public.guestbook TO anon;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.guestbook TO anon;
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.guestbook TO authenticated;
 GRANT ALL ON public.guestbook TO service_role;
 
@@ -22,6 +22,9 @@ CREATE POLICY guestbook_insert ON public.guestbook
   WITH CHECK (
     char_length(btrim(name)) BETWEEN 1 AND 20
     AND char_length(btrim(message)) BETWEEN 1 AND 300
-    AND (relation IS NULL OR char_length(btrim(relation)) <= 20)
   );
+
+CREATE POLICY guestbook_delete ON public.guestbook
+  FOR DELETE TO anon, authenticated
+  USING (true);
 

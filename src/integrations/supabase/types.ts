@@ -22,7 +22,6 @@ export type Database = {
           id: string
           message: string
           name: string
-          relation: string | null
         }
         Insert: {
           attending?: boolean
@@ -31,7 +30,6 @@ export type Database = {
           id?: string
           message: string
           name: string
-          relation?: string | null
         }
         Update: {
           attending?: boolean
@@ -40,7 +38,6 @@ export type Database = {
           id?: string
           message?: string
           name?: string
-          relation?: string | null
         }
         Relationships: []
       }
