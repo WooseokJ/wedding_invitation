@@ -1,0 +1,325 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Olympic Park wedding invitation — design system.
+ *
+ * A warm paper palette (pressed ginkgo leaf folded into a hand-written letter):
+ * cream paper, warm near-black ink, brass and lake-sage accents, hairline rules.
+ * All colors use oklch. shadcn semantic names (background, foreground, primary…)
+ * are re-mapped onto this palette so shared components inherit the mood.
+ */
+
+:root {
+  --radius: 0.5rem;
+  --ease-soft: cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* palette */
+  --paper: oklch(0.968 0.011 86);
+  --paper-deep: oklch(0.932 0.021 82);
+  --paper-shade: oklch(0.885 0.028 78);
+  --ink: oklch(0.245 0.022 60);
+  --ink-soft: oklch(0.505 0.028 68);
+  --ink-faint: oklch(0.665 0.021 72);
+  --brass: oklch(0.635 0.108 76);
+  --brass-deep: oklch(0.512 0.101 74);
+  --sage: oklch(0.575 0.075 128);
+  --sage-deep: oklch(0.452 0.082 126);
+  --lake: oklch(0.612 0.049 205);
+  --hair: oklch(0.245 0.022 60 / 0.14);
+  --hair-strong: oklch(0.245 0.022 60 / 0.3);
+
+  /* shadcn semantic mapping */
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--brass-deep);
+  --primary-foreground: var(--paper);
+  --secondary: var(--paper-deep);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-deep);
+  --muted-foreground: var(--ink-soft);
+  --accent: var(--paper-shade);
+  --accent-foreground: var(--ink);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: var(--paper);
+  --border: var(--hair);
+  --input: var(--hair-strong);
+  --ring: var(--brass);
+  --chart-1: var(--brass);
+  --chart-2: var(--sage);
+  --chart-3: var(--lake);
+  --chart-4: var(--paper-shade);
+  --chart-5: var(--ink-soft);
+  --sidebar: var(--paper-deep);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--brass-deep);
+  --sidebar-primary-foreground: var(--paper);
+  --sidebar-accent: var(--paper-shade);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--hair);
+  --sidebar-ring: var(--brass);
+
+  /* elevation */
+  --shadow-soft: 0 18px 44px -28px oklch(0.245 0.022 60 / 0.4);
+  --shadow-lift: 0 30px 64px -30px oklch(0.245 0.022 60 / 0.5);
+}
+
+.dark {
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--brass-deep);
+  --primary-foreground: var(--paper);
+  --secondary: var(--paper-deep);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-deep);
+  --muted-foreground: var(--ink-soft);
+  --accent: var(--paper-shade);
+  --accent-foreground: var(--ink);
+  --border: var(--hair);
+  --input: var(--hair-strong);
+  --ring: var(--brass);
+  --sidebar: var(--paper-deep);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--brass-deep);
+  --sidebar-primary-foreground: var(--paper);
+  --sidebar-accent: var(--paper-shade);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--hair);
+  --sidebar-ring: var(--brass);
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  --color-paper-shade: var(--paper-shade);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-brass: var(--brass);
+  --color-brass-deep: var(--brass-deep);
+  --color-sage: var(--sage);
+  --color-sage-deep: var(--sage-deep);
+  --color-lake: var(--lake);
+  --color-hair: var(--hair);
+  --color-hair-strong: var(--hair-strong);
+
+  --shadow-soft: var(--shadow-soft);
+  --shadow-lift: var(--shadow-lift);
+}
+
+@theme {
+  --font-display: "Nanum Myeongjo", "Noto Serif KR", serif;
+  --font-body: "Pretendard Variable", "Pretendard", -apple-system, sans-serif;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    font-weight: 400;
+  }
+
+  ::selection {
+    background-color: oklch(0.635 0.108 76 / 0.25);
+  }
+}
+
+/* ---- motion ---- */
+
+@keyframes drift {
+  from {
+    transform: scale(1.06) translate(0, 0);
+  }
+  to {
+    transform: scale(1.17) translate(-2%, -1.5%);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes draw-rule {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes thread {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(180%);
+    opacity: 0;
+  }
+}
+
+@utility drift {
+  animation: drift 30s var(--ease-soft) infinite alternate;
+  will-change: transform;
+}
+
+@utility rise {
+  animation: rise 900ms var(--ease-soft) both;
+}
+
+@utility draw-rule {
+  transform-origin: left center;
+  animation: draw-rule 1200ms var(--ease-soft) both;
+}
+
+@utility thread {
+  animation: thread 3200ms ease-in-out infinite;
+}
+
+@utility reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 1000ms var(--ease-soft),
+    transform 1000ms var(--ease-soft);
+}
+
+@utility reveal-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- surfaces ---- */
+
+@utility paper-fibre {
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      oklch(0.245 0.022 60 / 0.022) 0 1px,
+      transparent 1px 4px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      oklch(0.245 0.022 60 / 0.018) 0 1px,
+      transparent 1px 5px
+    );
+}
+
+@utility eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-brass-deep);
+}
+
+@utility field-line {
+  width: 100%;
+  background-color: transparent;
+  border-bottom: 1px solid var(--color-hair);
+  padding: 0.6rem 0.125rem;
+  font-size: 0.9375rem;
+  color: var(--color-ink);
+  outline: none;
+  transition: border-color 400ms var(--ease-soft);
+
+  &::placeholder {
+    color: oklch(0.575 0.024 70);
+  }
+
+  &:focus {
+    border-bottom-color: var(--color-brass);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .drift,
+  .rise,
+  .draw-rule,
+  .thread {
+    animation: none;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
