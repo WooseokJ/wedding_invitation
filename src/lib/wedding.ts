@@ -6,6 +6,18 @@
 export const wedding = {
   groom: { first: "우석", full: "조우석", family: "조형곤 · 이미송의 아들" },
   bride: { first: "소현", full: "심소현", family: "심영하 · 김은순의 딸" },
+  accounts: {
+    groom: [
+      { role: "신랑 아버지", bank: "국민은행", number: "000-0000-0002", holder: "조형곤" },
+      { role: "신랑 어머니", bank: "국민은행", number: "000-0000-0003", holder: "이미송" },
+      { role: "신랑", bank: "국민은행", number: "000-0000-0001", holder: "조우석" }
+    ],
+    bride: [
+      { role: "신부 아버지", bank: "신한은행", number: "000-0000-0005", holder: "심영하" },
+      { role: "신부 어머니", bank: "신한은행", number: "000-0000-0006", holder: "김은순" },
+      { role: "신부", bank: "신한은행", number: "000-0000-0004", holder: "심소현" }
+    ],
+  },
 
   /** Displayed date parts. `iso` drives the countdown + .ics export. */
   date: {
@@ -19,7 +31,7 @@ export const wedding = {
     numeric: "2027. 02. 14",
   },
 
-  rsvpDeadline: { iso: "2027-04-30T23:59:00+09:00", label: "4월 30일" },
+  rsvpDeadline: { iso: "", label: "" },
 
   venue: {
     park: "더베네치아",

@@ -115,7 +115,6 @@ export function Guestbook() {
             함께해 주시겠습니까
           </h2>
           <p className="mt-3 text-sm text-ink-soft">
-            {wedding.rsvpDeadline.label}까지 답을 기다립니다.
           </p>
         </Reveal>
 
@@ -133,7 +132,7 @@ export function Guestbook() {
                   value={name}
                   onChange={(event) => setName(event.target.value)}
                   maxLength={20}
-                  placeholder="홍길동"
+                  placeholder=""
                   className="field-line"
                 />
               </label>

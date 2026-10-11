@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Accounts } from "@/components/Accounts";
 import { Gallery } from "@/components/Gallery";
 import { Guestbook } from "@/components/Guestbook";
 import { Hero } from "@/components/Hero";
@@ -37,6 +38,7 @@ function Index() {
         <Hero />
         <Venue />
         <Gallery />
+        <Accounts />
         <Guestbook />
       </main>
       <InviteFooter />

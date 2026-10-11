@@ -46,7 +46,7 @@ export function Gallery() {
         <Reveal className="text-center">
           <p className="eyebrow">함께한 순간</p>
           <h2 className="mt-4 font-display text-2xl font-bold text-pretty text-ink">
-            여덟손이 호수에서
+            
           </h2>
         </Reveal>
 
