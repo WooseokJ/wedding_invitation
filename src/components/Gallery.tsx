@@ -3,6 +3,7 @@ import image2 from "@/assets/image2.jpg";
 import image3 from "@/assets/image3.jpg";
 import image4 from "@/assets/image4.jpg";
 import image5 from "@/assets/image5.jpg";
+import { ZoomIn } from "lucide-react";
 
 
 
@@ -56,6 +57,7 @@ const galleryImages = [
 export function Gallery() {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [selectedImage, setSelectedImage] = useState<(typeof galleryImages)[number] | null>(null);
 
   useEffect(() => {
     if (!carouselApi) return;
@@ -129,9 +131,12 @@ export function Gallery() {
               </DialogTitle>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
                 {galleryImages.map((image) => (
-                  <div
+                  <button
                     key={image.src}
-                    className="aspect-[1008/752] overflow-hidden rounded-md bg-paper-deep/30"
+                    type="button"
+                    aria-label={`사진 확대: ${image.alt}`}
+                    onClick={() => setSelectedImage(image)}
+                    className="group relative aspect-[1008/752] cursor-zoom-in overflow-hidden rounded-md bg-paper-deep/30 focus-visible:outline-2 focus-visible:outline-brass"
                   >
                     <img
                       src={image.src}
@@ -139,9 +144,32 @@ export function Gallery() {
                       loading="lazy"
                       className="h-full w-full object-contain"
                     />
-                  </div>
+                    <span
+                      aria-hidden="true"
+                      className="absolute right-2 top-2 grid size-8 place-items-center rounded-full border border-hair bg-paper/90 text-ink opacity-0 shadow-soft transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                    >
+                      <ZoomIn className="size-4" />
+                    </span>
+                  </button>
                 ))}
               </div>
+            </DialogContent>
+          </Dialog>
+          <Dialog
+            open={selectedImage !== null}
+            onOpenChange={(open) => {
+              if (!open) setSelectedImage(null);
+            }}
+          >
+            <DialogContent className="w-[96vw] max-w-[1100px] border-0 bg-transparent p-0 text-white shadow-none sm:rounded-[8px]">
+              <DialogTitle className="sr-only">{selectedImage?.alt} 확대 이미지</DialogTitle>
+              {selectedImage && (
+                <img
+                  src={selectedImage.src}
+                  alt={selectedImage.alt}
+                  className="mx-auto max-h-[85vh] max-w-full rounded-[8px] object-contain"
+                />
+              )}
             </DialogContent>
           </Dialog>
         </Reveal>
