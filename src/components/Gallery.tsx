@@ -6,6 +6,7 @@ import image3 from "@/assets/image30.jpg";
 
 import { useEffect, useState } from "react";
 import { Reveal } from "@/components/Reveal";
+import { ZoomableImage } from "@/components/ZoomableImage";
 import {
   Carousel,
   CarouselContent,
@@ -75,7 +76,7 @@ export function Gallery() {
               {galleryImages.map((image) => (
                 <CarouselItem key={image.src} className="pl-0">
                   <div className="aspect-[1008/752] overflow-hidden rounded-[min(1vw,12px)] bg-paper-deep/30 shadow-soft">
-                    <img
+                    <ZoomableImage
                       src={image.src}
                       alt={image.alt}
                       width={image.width}

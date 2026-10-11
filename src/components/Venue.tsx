@@ -8,6 +8,7 @@ import {
   TrainFront,
 } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
+import { ZoomableImage } from "@/components/ZoomableImage";
 import {
   Carousel,
   CarouselContent,
@@ -54,21 +55,12 @@ export function Venue() {
               {venueImages.map((image) => (
                 <CarouselItem key={image.src} className="pl-0">
                   <div className="aspect-[590/401] overflow-hidden rounded-[min(1vw,12px)] bg-paper-deep/30 shadow-soft">
-                    {image.parallax ? (
-                      <img
-                        src={image.src}
-                        alt={image.alt}
-                        loading="lazy"
-                        className="photo-parallax h-full w-full object-contain"
-                      />
-                    ) : (
-                      <img
-                        src={image.src}
-                        alt={image.alt}
-                        loading="lazy"
-                        className="h-full w-full object-contain"
-                      />
-                    )}
+                    <ZoomableImage
+                      src={image.src}
+                      alt={image.alt}
+                      loading="lazy"
+                      className={`${image.parallax ? "photo-parallax" : ""} h-full w-full object-contain`}
+                    />
                   </div>
                 </CarouselItem>
               ))}
