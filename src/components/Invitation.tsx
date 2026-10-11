@@ -9,12 +9,12 @@ const stanzas = [
 
 export function Invitation() {
   return (
-    <section className="mx-auto max-w-[900px] px-6 py-28">
+    <section className="mx-auto max-w-[900px] px-5 py-16 sm:px-6 sm:py-28">
       <Reveal className="text-center">
         <p className="eyebrow">인사 드립니다</p>
       </Reveal>
 
-      <div className="mx-auto mt-12 max-w-[34ch] space-y-10 text-center">
+      <div className="mx-auto mt-9 max-w-[34ch] space-y-8 text-center sm:mt-12 sm:space-y-10">
         {stanzas.map((stanza, index) => (
           <Reveal key={stanza} delay={index * 140}>
             <p className="font-display text-xl leading-[1.9] text-pretty whitespace-pre-line text-ink">

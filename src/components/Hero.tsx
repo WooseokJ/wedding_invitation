@@ -24,13 +24,13 @@ export function Hero() {
 
   return (
     <section id="top" className="relative min-h-[100svh] overflow-hidden">
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 overflow-hidden">
         <img
           src={heroLoneTree}
           alt="맑은 날 올림픽공원 언덕, 그 위에 홀로 서 있는 나무"
           width={1600}
           height={1120}
-          className="drift size-full object-cover"
+          className="h-full w-full object-cover object-[center_22%] sm:drift sm:scale-100 sm:object-center"
         />
       </div>
 
@@ -38,10 +38,10 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-b from-transparent to-paper" />
 
       <div className="relative mx-auto flex min-h-[100svh] max-w-[900px] flex-col px-6 pt-[16vh] pb-28">
-        <div className="mx-auto w-full max-w-[19ch] text-center sm:mx-0 sm:ml-auto sm:mr-[7%] sm:max-w-[24ch]">
+        <div className="mx-auto w-full max-w-full text-center sm:mx-0 sm:ml-auto sm:mr-[7%] sm:max-w-[24ch]">
           <p className="rise eyebrow [animation-delay:80ms]">초대합니다</p>
 
-          <h1 className="rise mt-6 font-display text-[2.75rem] leading-[1.08] font-extrabold tracking-tight text-balance text-ink sm:text-6xl [animation-delay:180ms]">
+          <h1 className="rise mt-6 whitespace-nowrap font-display text-4xl leading-[1.08] font-extrabold tracking-tight text-ink sm:text-6xl [animation-delay:180ms]">
             {wedding.groom.first}
             <span className="mx-2 font-normal text-brass">·</span>
             {wedding.bride.first}

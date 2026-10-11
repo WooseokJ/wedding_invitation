@@ -9,7 +9,7 @@ const frame =
 export function Gallery() {
   return (
     <section className="border-t border-hair bg-paper-deep/40 paper-fibre">
-      <div className="mx-auto max-w-[900px] px-6 py-28">
+      <div className="mx-auto max-w-[900px] px-5 py-16 sm:px-6 sm:py-28">
         <Reveal className="text-center">
           <p className="eyebrow">함께한 순간</p>
           <h2 className="mt-4 font-display text-2xl font-bold text-pretty text-ink">
@@ -17,8 +17,8 @@ export function Gallery() {
           </h2>
         </Reveal>
 
-        <div className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Reveal className="sm:row-span-2">
+        <div className="mt-9 grid grid-cols-2 gap-3 sm:mt-14 sm:gap-4">
+          <Reveal className="col-span-2 sm:col-span-1 sm:row-span-2">
             <div className="overflow-hidden rounded-[min(1vw,12px)] shadow-soft">
               <img
                 src={galleryLake}
@@ -26,7 +26,7 @@ export function Gallery() {
                 width={912}
                 height={1200}
                 loading="lazy"
-                className={`${frame} aspect-[4/5] sm:aspect-[3/4]`}
+                className={`${frame} aspect-[16/10] sm:aspect-[3/4]`}
               />
             </div>
           </Reveal>

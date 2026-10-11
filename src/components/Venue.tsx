@@ -7,7 +7,7 @@ export function Venue() {
 
   return (
     <section id="venue" className="border-t border-hair">
-      <div className="mx-auto grid max-w-[900px] items-center gap-10 px-6 py-28 md:grid-cols-2">
+      <div className="mx-auto grid max-w-[900px] items-center gap-8 px-5 py-16 sm:px-6 sm:py-20 md:grid-cols-2 md:gap-10 md:py-28">
         <Reveal>
           <img
             src={venueStone}

@@ -108,7 +108,7 @@ export function Guestbook() {
 
   return (
     <section id="guestbook" className="border-t border-hair">
-      <div className="mx-auto max-w-[900px] px-6 py-28">
+      <div className="mx-auto max-w-[900px] px-5 py-16 sm:px-6 sm:py-28">
         <Reveal className="text-center">
           <p className="eyebrow">방명록 · 참석</p>
           <h2 className="mt-4 font-display text-2xl font-bold text-pretty text-ink">
@@ -122,7 +122,7 @@ export function Guestbook() {
         <Reveal delay={120}>
           <form
             onSubmit={submit}
-            className="mt-12 rounded-[min(1vw,12px)] bg-paper-deep/50 p-7 ring-1 ring-hair sm:p-10"
+            className="mt-9 rounded-[min(1vw,12px)] bg-paper-deep/50 p-5 ring-1 ring-hair sm:mt-12 sm:p-10"
           >
             <div className="grid gap-7 sm:grid-cols-1">
               <label className="block">
@@ -143,7 +143,7 @@ export function Guestbook() {
               <span className="mb-3 block text-xs tracking-[0.18em] text-brass-deep">
                 참석 여부
               </span>
-              <div className="flex gap-3">
+              <div className="flex flex-col gap-2 min-[360px]:flex-row min-[360px]:gap-3">
                 {[
                   { value: true, label: "참석합니다" },
                   { value: false, label: "함께하지 못합니다" },
