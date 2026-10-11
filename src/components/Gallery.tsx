@@ -65,7 +65,7 @@ export function Gallery() {
           </h2>
         </Reveal>
 
-        <Reveal className="mx-auto mt-9 max-w-[720px] sm:mt-14">
+        <Reveal className="mx-auto mt-9 w-full max-w-[900px] sm:mt-14">
           <Carousel
             opts={{ loop: true }}
             setApi={setCarouselApi}
@@ -74,21 +74,23 @@ export function Gallery() {
             <CarouselContent className="ml-0">
               {galleryImages.map((image) => (
                 <CarouselItem key={image.src} className="pl-0">
-                  <div className="overflow-hidden rounded-[min(1vw,12px)] bg-paper-deep/30 shadow-soft">
+                  <div className="aspect-[1008/752] overflow-hidden rounded-[min(1vw,12px)] bg-paper-deep/30 shadow-soft">
                     <img
                       src={image.src}
                       alt={image.alt}
                       width={image.width}
                       height={image.height}
                       loading="lazy"
-                      className="photo-parallax mx-auto h-auto max-h-[min(70svh,680px)] w-full object-contain"
+                      className="h-full w-full object-contain object-center"
                     />
                   </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="left-3 size-10 border-hair bg-paper/90 text-ink hover:bg-paper" />
-            <CarouselNext className="right-3 size-10 border-hair bg-paper/90 text-ink hover:bg-paper" />
+            <div className="mt-3 flex items-center justify-between px-1">
+              <CarouselPrevious className="static left-auto right-auto top-auto bottom-auto size-10 translate-y-0 border-hair bg-paper/90 text-ink hover:bg-paper" />
+              <CarouselNext className="static left-auto right-auto top-auto bottom-auto size-10 translate-y-0 border-hair bg-paper/90 text-ink hover:bg-paper" />
+            </div>
           </Carousel>
         </Reveal>
 
