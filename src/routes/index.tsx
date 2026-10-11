@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Accounts } from "@/components/Accounts";
 import { Gallery } from "@/components/Gallery";
 import { Hero } from "@/components/Hero";
 import { InviteFooter } from "@/components/InviteFooter";
 import { InviteHeader } from "@/components/InviteHeader";
+import { OpeningScreen } from "@/components/OpeningScreen";
 import { SakuraPetals } from "@/components/SakuraPetals";
 import { Venue } from "@/components/Venue";
 import { WeddingCalendar } from "@/components/WeddingCalendar";
@@ -32,18 +34,23 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const [hasEntered, setHasEntered] = useState(false);
+
   return (
-    <div className="bg-paper">
-      <InviteHeader />
-      <SakuraPetals />
-      <main>
-        <Hero />
-        <WeddingCalendar />
-        <Venue />
-        <Gallery />
-        <Accounts />
-      </main>
-      <InviteFooter />
+    <div className={hasEntered ? "bg-paper" : "h-svh overflow-hidden bg-paper"}>
+      <div inert={!hasEntered} aria-hidden={!hasEntered}>
+        <InviteHeader />
+        <SakuraPetals />
+        <main>
+          <Hero />
+          <WeddingCalendar />
+          <Venue />
+          <Gallery />
+          <Accounts />
+        </main>
+        <InviteFooter />
+      </div>
+      {!hasEntered && <OpeningScreen onEnter={() => setHasEntered(true)} />}
     </div>
   );
 }

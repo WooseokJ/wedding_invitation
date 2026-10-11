@@ -215,6 +215,52 @@
   }
 }
 
+@keyframes opening-title-in {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(18px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes opening-title-reduced {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes opening-screen-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes opening-screen-title-in {
+  from {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
 @keyframes hero-image-arrive {
   from {
     opacity: 0.25;
@@ -363,6 +409,43 @@
   animation: rise 900ms var(--ease-soft) both;
 }
 
+@utility opening-kicker {
+  animation: rise 900ms var(--ease-soft) 100ms both;
+}
+
+@utility opening-title {
+  animation: opening-title-in 1500ms var(--ease-soft) 260ms both;
+}
+
+@utility opening-detail {
+  animation: rise 1000ms var(--ease-soft) both;
+}
+
+@utility opening-screen-backdrop {
+  animation: opening-screen-fade 1000ms ease-out both;
+}
+
+@utility opening-screen-label {
+  animation: rise 900ms var(--ease-soft) 120ms both;
+}
+
+@utility opening-screen-title {
+  animation: opening-screen-title-in 1300ms var(--ease-soft) 240ms both;
+}
+
+@utility opening-screen-rule {
+  transform-origin: center;
+  animation: draw-rule 900ms var(--ease-soft) 800ms both;
+}
+
+@utility opening-screen-names {
+  animation: rise 900ms var(--ease-soft) 860ms both;
+}
+
+@utility opening-screen-action {
+  animation: rise 900ms var(--ease-soft) 1050ms both;
+}
+
 @utility draw-rule {
   transform-origin: left center;
   animation: draw-rule 1200ms var(--ease-soft) both;
@@ -443,6 +526,29 @@
   .hero-image-intro,
   .photo-parallax {
     animation: none;
+  }
+
+  .opening-kicker,
+  .opening-detail {
+    animation-duration: 700ms;
+  }
+
+  .opening-title {
+    animation-name: opening-title-reduced;
+    animation-duration: 700ms;
+  }
+
+  .opening-screen-backdrop,
+  .opening-screen-label,
+  .opening-screen-rule,
+  .opening-screen-names,
+  .opening-screen-action {
+    animation-duration: 500ms;
+  }
+
+  .opening-screen-title {
+    animation-name: opening-title-reduced;
+    animation-duration: 700ms;
   }
 
   .sakura-petal:not(:nth-child(3n + 1)) {

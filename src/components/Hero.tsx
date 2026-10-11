@@ -2,7 +2,7 @@ import heroLoneTree from "@/assets/image10.jpg";
 import { wedding } from "@/lib/wedding";
 
 export function Hero() {
-  const { date, venue } = wedding;
+  const { date, venue, invitation } = wedding;
 
   return (
     <section id="top" className="relative min-h-[100svh] overflow-hidden">
@@ -24,21 +24,21 @@ export function Hero() {
 
       <div className="relative mx-auto flex min-h-[100svh] max-w-[900px] flex-col px-6 pt-[16vh] pb-28">
         <div className="mx-auto w-full max-w-full text-center sm:mx-0 sm:ml-auto sm:mr-[7%] sm:max-w-[24ch]">
-          <p className="rise eyebrow [animation-delay:80ms]"></p>
+          <p className="opening-kicker eyebrow">{invitation.label}</p>
 
-          <h1 className="rise mt-6 whitespace-nowrap font-display text-4xl leading-[1.08] font-extrabold tracking-tight text-ink sm:text-6xl [animation-delay:180ms]">
-            초대합니다
+          <h1 className="opening-title mt-6 whitespace-nowrap font-display text-5xl leading-[1.12] font-medium text-ink sm:text-7xl">
+            {invitation.title}
           </h1>
 
-          <span className="draw-rule mx-auto mt-8 block h-px w-16 bg-brass/60 [animation-delay:520ms]" />
+          <span className="draw-rule mx-auto mt-8 block h-px w-16 bg-brass/60 [animation-delay:1050ms]" />
 
-          <p className="rise mt-8 font-display text-lg text-pretty text-ink [animation-delay:320ms]">
+          <p className="opening-detail mt-8 font-display text-lg text-pretty text-ink [animation-delay:1250ms]">
             {date.hangul}
           </p>
-          <p className="rise mt-3 text-sm tabular-nums text-ink-soft [animation-delay:400ms]">
+          <p className="opening-detail mt-3 text-sm tabular-nums text-ink-soft [animation-delay:1420ms]">
             {date.numeric} ({date.weekday}) {date.hourLabel}
           </p>
-          <p className="rise mt-2 text-sm text-ink-soft [animation-delay:460ms]">
+          <p className="opening-detail mt-2 text-sm text-ink-soft [animation-delay:1580ms]">
             서울 잠실 · {venue.park} {venue.hall}
           </p>
         </div>

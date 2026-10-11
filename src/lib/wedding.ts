@@ -6,6 +6,11 @@
 export const wedding = {
   groom: { first: "우석", full: "조우석", family: "조형곤 · 이미송의 아들" },
   bride: { first: "소현", full: "심소현", family: "심영하 · 김은순의 딸" },
+  invitation: {
+    label: "WEDDING INVITATION",
+    title: "초대합니다",
+    enterLabel: "초대장 열기",
+  },
   accounts: {
     groom: [
       { role: "신랑 아버지", bank: "국민은행", number: "000-0000-0002", holder: "조형곤" },
