@@ -44,6 +44,11 @@ export const wedding = {
     address: "서울 송파구 올림픽로35다길 42",
     mapUrl:
       "https://map.naver.com/p/search/%EB%8D%94%EB%B2%A0%EB%84%A4%EC%B9%98%EC%95%84%20%EC%9B%A8%EB%94%A9?c=15.00,0,0,0,dh&placePath=%2Fhome%3Ffrom%3Dmap%26fromPanelNum%3D1%26additionalHeight%3D76%26timestamp%3D202610051616%26locale%3Dko%26svcName%3Dmap_pcv5%26searchText%3D%EB%8D%94%EB%B2%A0%EB%84%A4%EC%B9%98%EC%95%84%20%EC%9B%A8%EB%94%A9",
+    imageCaptions: {
+      map: "더베네치아 위치",
+      surroundings: "예식장 주차장 출입 위치",
+      parking: "대한제당 주차장 출입 위치",
+    },
     note: "",
     transit: [
       {

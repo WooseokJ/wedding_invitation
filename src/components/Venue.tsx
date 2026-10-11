@@ -1,5 +1,6 @@
 import venueStone from "@/assets/venue-stone.jpg";
 import heroLoneTree from "@/assets/hero-lone-tree.png";
+import parking2 from "@/assets/parking2.png"
 import {
   BusFront,
   Banknote,
@@ -20,8 +21,24 @@ import {
 import { wedding } from "@/lib/wedding";
 
 const venueImages = [
-  { src: venueStone, alt: "예식장 위치 안내 지도", parallax: false },
-  { src: heroLoneTree, alt: "언덕 위 나무와 도시 풍경", parallax: true },
+  {
+    src: venueStone,
+    alt: "예식장 위치 안내 지도",
+    caption: wedding.venue.imageCaptions.map,
+    parallax: false,
+  },
+  {
+    src: heroLoneTree,
+    alt: "언덕 위 나무와 도시 풍경",
+    caption: wedding.venue.imageCaptions.surroundings,
+    parallax: true,
+  },
+  {
+    src: parking2,
+    alt: "주차장 안내",
+    caption: wedding.venue.imageCaptions.parking,
+    parallax: false,
+  },
 ];
 
 const transitIcons = {
@@ -64,6 +81,9 @@ export function Venue() {
                       className={`${image.parallax ? "photo-parallax" : ""} h-full w-full object-contain`}
                     />
                   </div>
+                  <p className="mt-3 text-center font-display text-sm text-ink-soft">
+                    {image.caption}
+                  </p>
                 </CarouselItem>
               ))}
             </CarouselContent>
