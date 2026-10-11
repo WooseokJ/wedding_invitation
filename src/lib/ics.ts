@@ -51,8 +51,22 @@ export function invitationIcsHref() {
 }
 
 /** Days remaining until the ceremony, for the quiet D-day line in the hero. */
-export function daysLeft() {
+export function daysLeft(now = new Date()) {
   const target = seoulDay(new Date(wedding.date.iso));
-  const today = seoulDay(new Date());
+  const today = seoulDay(now);
   return Math.max(0, (target - today) / 86400000);
+}
+
+export function timeUntilWedding(now = new Date()) {
+  const remainingSeconds = Math.max(
+    0,
+    Math.floor((new Date(wedding.date.iso).getTime() - now.getTime()) / 1000),
+  );
+
+  return {
+    days: daysLeft(now),
+    hours: Math.floor(remainingSeconds / 3600) % 24,
+    minutes: Math.floor(remainingSeconds / 60) % 60,
+    seconds: remainingSeconds % 60,
+  };
 }

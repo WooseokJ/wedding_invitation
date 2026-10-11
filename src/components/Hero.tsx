@@ -1,34 +1,16 @@
-import { useEffect, useState } from "react";
 import heroLoneTree from "@/assets/hero-lone-tree-sunny.jpg";
-import { daysLeft } from "@/lib/ics";
 import { wedding } from "@/lib/wedding";
-
-function DayCounter() {
-  const [days, setDays] = useState<number | null>(null);
-
-  useEffect(() => {
-    setDays(daysLeft());
-  }, []);
-
-  if (days === null) return null;
-
-  return (
-    <p className="mt-8 text-[11px] tabular-nums tracking-[0.3em] text-brass-deep">
-      D-{days}
-    </p>
-  );
-}
 
 export function Hero() {
   const { date, venue } = wedding;
 
   return (
     <section id="top" className="relative min-h-[100svh] overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="hero-image-intro absolute inset-0 overflow-hidden">
         <img
           src={heroLoneTree}
           alt="맑은 날 올림픽공원 언덕, 그 위에 홀로 서 있는 나무"
-          className="h-full w-full object-cover object-[center_22%] sm:drift sm:scale-100 sm:object-center"
+          className="photo-parallax h-full w-full object-cover object-[center_22%] sm:object-center"
         />
       </div>
 
@@ -56,8 +38,6 @@ export function Hero() {
           <p className="rise mt-2 text-sm text-ink-soft [animation-delay:460ms]">
             서울 잠실 · {venue.park} {venue.hall}
           </p>
-
-          <DayCounter />
         </div>
 
         <div className="mt-auto flex justify-center">

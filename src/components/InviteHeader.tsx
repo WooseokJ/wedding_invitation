@@ -1,8 +1,8 @@
 import { wedding } from "@/lib/wedding";
 
 const links = [
+  { href: "#calendar", label: "예식 날짜" },
   { href: "#venue", label: "장소" },
-  { href: "#guestbook", label: "방명록" },
 ];
 
 export function InviteHeader() {
@@ -13,7 +13,7 @@ export function InviteHeader() {
           href="#top"
           className="shrink-0 font-display text-xs font-bold tracking-[0.12em] text-ink sm:text-sm sm:tracking-[0.2em]"
         >
-          {wedding.groom.first} · {wedding.bride.first}
+          Wedding of {wedding.groom.first} · {wedding.bride.first}
         </a>
 
         <nav className="flex items-center gap-2 text-[11px] tracking-wide text-ink-soft sm:gap-5 sm:text-xs">
@@ -26,12 +26,6 @@ export function InviteHeader() {
               {link.label}
             </a>
           ))}
-          <a
-            href="#guestbook"
-            className="shrink-0 rounded-full border border-brass/45 px-2.5 py-1.5 text-ink transition-colors duration-300 hover:border-brass hover:bg-brass hover:text-paper sm:px-3"
-          >
-            참석
-          </a>
         </nav>
       </div>
     </header>

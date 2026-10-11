@@ -1,5 +1,5 @@
 import venueStone from "@/assets/venue-stone.jpg";
-import heroLoneTree from "@/assets/hero-lone-tree.jpg";
+import heroLoneTree from "@/assets/hero-lone-tree.png";
 import { Reveal } from "@/components/Reveal";
 import {
   Carousel,
@@ -11,8 +11,8 @@ import {
 import { wedding } from "@/lib/wedding";
 
 const venueImages = [
-  { src: venueStone, alt: "예식장 위치 안내 지도" },
-  { src: heroLoneTree, alt: "언덕 위 나무와 도시 풍경" },
+  { src: venueStone, alt: "예식장 위치 안내 지도", parallax: false },
+  { src: heroLoneTree, alt: "언덕 위 나무와 도시 풍경", parallax: true },
 ];
 
 export function Venue() {
@@ -27,12 +27,21 @@ export function Venue() {
               {venueImages.map((image) => (
                 <CarouselItem key={image.src} className="pl-0">
                   <div className="aspect-[590/401] overflow-hidden rounded-[min(1vw,12px)] bg-paper-deep/30 shadow-soft">
-                    <img
-                      src={image.src}
-                      alt={image.alt}
-                      loading="lazy"
-                      className="h-full w-full object-contain"
-                    />
+                    {image.parallax ? (
+                      <img
+                        src={image.src}
+                        alt={image.alt}
+                        loading="lazy"
+                        className="photo-parallax h-full w-full object-contain"
+                      />
+                    ) : (
+                      <img
+                        src={image.src}
+                        alt={image.alt}
+                        loading="lazy"
+                        className="h-full w-full object-contain"
+                      />
+                    )}
                   </div>
                 </CarouselItem>
               ))}

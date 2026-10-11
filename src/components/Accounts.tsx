@@ -32,16 +32,18 @@ export function Accounts() {
         </Reveal>
 
         <div className="mt-8 grid gap-8 sm:mt-10 md:grid-cols-2 md:gap-6">
-          {accountGroups.map((group, index) => (
-            <Reveal key={group.side} delay={index * 100}>
-              <section aria-label={`${group.side} 계좌`}>
+          {accountGroups.map((group, groupIndex) => (
+            <section key={group.side} aria-label={`${group.side} 계좌`}>
+              <Reveal delay={groupIndex * 100}>
                 <h3 className="eyebrow">{group.side}</h3>
-                <div className="mt-4 space-y-3">
-                  {group.accounts.map((account) => (
-                    <article
-                      key={account.role}
-                      className="rounded-[8px] bg-paper p-4 ring-1 ring-hair sm:p-5"
-                    >
+              </Reveal>
+              <div className="mt-4 space-y-3">
+                {group.accounts.map((account, accountIndex) => (
+                  <Reveal
+                    key={account.role}
+                    delay={groupIndex * 100 + accountIndex * 90}
+                  >
+                    <article className="rounded-[8px] bg-paper p-4 ring-1 ring-hair sm:p-5">
                       <p className="text-xs text-brass-deep">{account.role}</p>
                       <div className="mt-2 flex items-center justify-between gap-3">
                         <div className="min-w-0">
@@ -62,10 +64,10 @@ export function Accounts() {
                         </button>
                       </div>
                     </article>
-                  ))}
-                </div>
-              </section>
-            </Reveal>
+                  </Reveal>
+                ))}
+              </div>
+            </section>
           ))}
         </div>
       </div>

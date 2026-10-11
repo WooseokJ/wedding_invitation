@@ -1,18 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Accounts } from "@/components/Accounts";
 import { Gallery } from "@/components/Gallery";
-import { Guestbook } from "@/components/Guestbook";
 import { Hero } from "@/components/Hero";
 import { InviteFooter } from "@/components/InviteFooter";
 import { InviteHeader } from "@/components/InviteHeader";
+import { SakuraPetals } from "@/components/SakuraPetals";
 import { Venue } from "@/components/Venue";
+import { WeddingCalendar } from "@/components/WeddingCalendar";
 import { dateLine, wedding } from "@/lib/wedding";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       {
-        title: `${wedding.groom.first} · ${wedding.bride.first}의 혼례 — ${wedding.venue.park} ${wedding.venue.hall}`,
+        title: ``,
       },
       {
         name: "description",
@@ -34,12 +35,13 @@ function Index() {
   return (
     <div className="bg-paper">
       <InviteHeader />
+      <SakuraPetals />
       <main>
         <Hero />
+        <WeddingCalendar />
         <Venue />
         <Gallery />
         <Accounts />
-        <Guestbook />
       </main>
       <InviteFooter />
     </div>
