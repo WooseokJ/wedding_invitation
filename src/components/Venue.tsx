@@ -1,5 +1,12 @@
 import venueStone from "@/assets/venue-stone.jpg";
 import heroLoneTree from "@/assets/hero-lone-tree.png";
+import {
+  BusFront,
+  CircleParking,
+  ExternalLink,
+  MessageCircle,
+  TrainFront,
+} from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import {
   Carousel,
@@ -15,8 +22,28 @@ const venueImages = [
   { src: heroLoneTree, alt: "언덕 위 나무와 도시 풍경", parallax: true },
 ];
 
+const transitIcons = {
+  지하철: TrainFront,
+  시외버스: BusFront,
+  주차: CircleParking,
+};
+
+const subwayLineStyles = {
+  "2": "bg-[var(--subway-line-2)]",
+  "8": "bg-[var(--subway-line-8)]",
+};
+
 export function Venue() {
   const { venue } = wedding;
+  const searchQuery = `${venue.park} ${venue.hall} ${venue.address}`;
+  const mapLinks = [
+    { label: "네이버지도", href: venue.mapUrl, brand: "naver" },
+    {
+      label: "카카오맵",
+      href: `https://map.kakao.com/link/search/${encodeURIComponent(searchQuery)}`,
+      brand: "kakao",
+    },
+  ];
 
   return (
     <section id="venue" className="border-t border-hair">
@@ -64,27 +91,78 @@ export function Venue() {
           </p>
 
           <dl className="mt-8 space-y-3 border-t border-hair pt-6 text-sm">
-            {venue.transit.map((row) => (
-              <div key={row.kind} className="flex gap-4">
-                <dt className="w-16 shrink-0 text-xs tracking-[0.18em] text-brass-deep">
-                  {row.kind}
-                </dt>
-                <dd className="text-pretty whitespace-pre-line text-ink">
-                  {row.detail}
-                </dd>
-              </div>
-            ))}
+            {venue.transit.map((row) => {
+              const TransitIcon = transitIcons[row.kind];
+
+              return (
+                <div key={row.kind} className="flex gap-4">
+                  <dt className="flex w-[5.5rem] shrink-0 items-center gap-1.5 text-xs tracking-[0.18em] text-brass-deep">
+                    <TransitIcon aria-hidden="true" className="size-4 shrink-0" />
+                    {row.kind}
+                  </dt>
+                  <dd className="text-pretty text-ink">
+                    {row.kind === "지하철" ? (
+                      <div className="space-y-2">
+                        {row.detail.split("\n").map((line, lineIndex) => {
+                          const lineMatch = line.trim().match(/^([28])호선\s*(.*)$/);
+                          if (!lineMatch) {
+                            return <p key={`${line}-${lineIndex}`}>{line.trim()}</p>;
+                          }
+
+                          const lineNumber = lineMatch[1] as keyof typeof subwayLineStyles;
+
+                          return (
+                            <p key={`${line}-${lineIndex}`} className="flex items-center gap-2">
+                              <span
+                                role="img"
+                                aria-label={`${lineNumber}호선`}
+                                className={`grid size-6 shrink-0 place-items-center rounded-full text-xs font-semibold text-white ${subwayLineStyles[lineNumber]}`}
+                              >
+                                {lineNumber}
+                              </span>
+                              <span>{lineMatch[2]}</span>
+                            </p>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <span className="whitespace-pre-line">{row.detail}</span>
+                    )}
+                  </dd>
+                </div>
+              );
+            })}
           </dl>
 
-          <a
-            href={venue.mapUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-8 inline-flex items-center gap-2 rounded-full border border-brass/45 px-5 py-2.5 text-sm text-ink transition-colors duration-300 hover:border-brass hover:bg-brass hover:text-paper"
-          >
-            지도 열기
-            <span aria-hidden="true">→</span>
-          </a>
+          <div className="mt-8 grid grid-cols-2 gap-2">
+            {mapLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex min-h-11 items-center justify-center gap-1 rounded-full border border-brass/45 px-2 py-2.5 text-xs text-ink transition-colors duration-300 hover:border-brass hover:bg-brass hover:text-paper sm:gap-2 sm:px-4 sm:text-sm"
+              >
+                {link.brand === "naver" ? (
+                  <span
+                    aria-hidden="true"
+                    className="grid size-[18px] shrink-0 place-items-center rounded-[4px] bg-[var(--naver-green)] text-[11px] font-black leading-none text-white"
+                  >
+                    N
+                  </span>
+                ) : (
+                  <span className="relative grid size-[18px] shrink-0 place-items-center" aria-hidden="true">
+                    <MessageCircle className="absolute size-[18px] fill-[var(--kakao-yellow)] text-[var(--kakao-yellow)]" />
+                    <span className="relative z-10 text-[9px] font-bold leading-none text-[var(--kakao-ink)]">
+                      K
+                    </span>
+                  </span>
+                )}
+                {link.label}
+                <ExternalLink aria-hidden="true" className="size-3.5 shrink-0" />
+              </a>
+            ))}
+          </div>
         </Reveal>
       </div>
     </section>

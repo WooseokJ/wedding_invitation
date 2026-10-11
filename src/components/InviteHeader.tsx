@@ -15,10 +15,41 @@ export function InviteHeader() {
     const audio = audioRef.current;
     if (!audio) return;
 
+    let isMounted = true;
+    const removeResumeListeners = () => {
+      window.removeEventListener("pointerdown", resumeOnInteraction);
+      window.removeEventListener("keydown", resumeOnInteraction);
+    };
+    const startPlayback = async () => {
+      try {
+        await audio.play();
+        if (!isMounted) return;
+        setIsPlaying(true);
+        removeResumeListeners();
+      } catch {
+        if (isMounted) setIsPlaying(false);
+      }
+    };
+    const resumeOnInteraction = (event: Event) => {
+      removeResumeListeners();
+      if (
+        event.target instanceof Element &&
+        event.target.closest("[data-music-toggle]")
+      ) {
+        return;
+      }
+      void startPlayback();
+    };
+
     audio.volume = 0.4;
-    void audio.play()
-      .then(() => setIsPlaying(true))
-      .catch(() => setIsPlaying(false));
+    window.addEventListener("pointerdown", resumeOnInteraction);
+    window.addEventListener("keydown", resumeOnInteraction);
+    void startPlayback();
+
+    return () => {
+      isMounted = false;
+      removeResumeListeners();
+    };
   }, []);
 
   const toggleMusic = async () => {
@@ -64,6 +95,7 @@ export function InviteHeader() {
           </nav>
           <button
             type="button"
+            data-music-toggle
             onClick={() => void toggleMusic()}
             aria-label={isPlaying ? "배경 음악 끄기" : "배경 음악 켜기"}
             aria-pressed={isPlaying}
