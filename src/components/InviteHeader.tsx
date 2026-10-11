@@ -68,7 +68,7 @@ export function InviteHeader() {
           </button>
           <audio
             ref={audioRef}
-            src="/backgroundMusic.mp3"
+            src="/backgroundMusic2.m4a"
             loop
             preload="none"
             onError={() => setIsPlaying(false)}
