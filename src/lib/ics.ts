@@ -4,6 +4,22 @@ function stamp(d: Date) {
   return d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
 }
 
+const seoulDateFormatter = new Intl.DateTimeFormat("en-US", {
+  timeZone: "Asia/Seoul",
+  year: "numeric",
+  month: "numeric",
+  day: "numeric",
+});
+
+function seoulDay(date: Date) {
+  const parts = Object.fromEntries(
+    seoulDateFormatter
+      .formatToParts(date)
+      .map(({ type, value }) => [type, value]),
+  );
+  return Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day));
+}
+
 /** Data URL for a calendar file so guests can save the day with one tap. */
 export function invitationIcsHref() {
   const start = new Date(wedding.date.iso);
@@ -36,12 +52,7 @@ export function invitationIcsHref() {
 
 /** Days remaining until the ceremony, for the quiet D-day line in the hero. */
 export function daysLeft() {
-  const target = new Date(wedding.date.iso).getTime();
-  const today = new Date();
-  const midnight = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate(),
-  ).getTime();
-  return Math.max(0, Math.round((target - midnight) / 86400000));
+  const target = seoulDay(new Date(wedding.date.iso));
+  const today = seoulDay(new Date());
+  return Math.max(0, (target - today) / 86400000);
 }

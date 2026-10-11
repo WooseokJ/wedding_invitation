@@ -4,8 +4,8 @@
  */
 
 export const wedding = {
-  groom: { first: "우석", full: "조우석", family: "영철 · 미영의 아들" },
-  bride: { first: "소현", full: "심소현", family: "재호 · 지원의 딸" },
+  groom: { first: "우석", full: "조우석", family: "조형곤 · 이미송의 아들" },
+  bride: { first: "소현", full: "심소현", family: "심영하 · 김은순의 딸" },
 
   /** Displayed date parts. `iso` drives the countdown + .ics export. */
   date: {
@@ -22,19 +22,19 @@ export const wedding = {
   rsvpDeadline: { iso: "2027-04-30T23:59:00+09:00", label: "4월 30일" },
 
   venue: {
-    park: "올림픽공원",
-    hall: "올림픽홀",
-    address: "서울특별시 송파구 올림픽로 424",
+    park: "더베네치아",
+    hall: "웨딩홀 3층",
+    address: "서울 송파구 올림픽로35다길 42",
     mapUrl:
       "https://map.naver.com/p/search/%EB%8D%94%EB%B2%A0%EB%84%A4%EC%B9%98%EC%95%84%20%EC%9B%A8%EB%94%A9?c=15.00,0,0,0,dh&placePath=%2Fhome%3Ffrom%3Dmap%26fromPanelNum%3D1%26additionalHeight%3D76%26timestamp%3D202610051616%26locale%3Dko%26svcName%3Dmap_pcv5%26searchText%3D%EB%8D%94%EB%B2%A0%EB%84%A4%EC%B9%98%EC%95%84%20%EC%9B%A8%EB%94%A9",
-    note: "몽촌토성 언덕 아래, 은행나무 길이 가장 아름다운 계절에 두 사람을 모십니다.",
+    note: "",
     transit: [
       {
         kind: "지하철",
-        detail: "9호선 올림픽공원역 3번 출구 도보 8분 · 8호선 몽촌토성역 1번 출구 도보 12분",
+        detail: "2호선 잠실역 8번 출구, 도보 4분\n 8호선 잠실역 9번 출구, 도보 3분",
       },
-      { kind: "버스", detail: "올림픽공원 하차 · 지선 3315, 3412, 3416" },
-      { kind: "주차", detail: "88문 주차장 이용 · 예식 2시간 전 도착 권장" },
+      { kind: "시외버스", detail: "추천-잠실행: 잠실역 6번 출구 앞 하차, 도보 9분" },
+      { kind: "주차", detail: "웨딩홀 지하주차장 2시간 무료(추가 천원/30분)\n주차 부족 시 옆건물(대한제당) 안내 받아 주차 가능" },
     ],
   },
 

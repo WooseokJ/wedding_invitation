@@ -28,8 +28,6 @@ export function Hero() {
         <img
           src={heroLoneTree}
           alt="맑은 날 올림픽공원 언덕, 그 위에 홀로 서 있는 나무"
-          width={1600}
-          height={1120}
           className="h-full w-full object-cover object-[center_22%] sm:drift sm:scale-100 sm:object-center"
         />
       </div>

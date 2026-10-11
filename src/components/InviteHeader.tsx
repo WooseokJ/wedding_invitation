@@ -1,7 +1,6 @@
 import { wedding } from "@/lib/wedding";
 
 const links = [
-  { href: "#when", label: "예식" },
   { href: "#venue", label: "장소" },
   { href: "#guestbook", label: "방명록" },
 ];

@@ -2,11 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Gallery } from "@/components/Gallery";
 import { Guestbook } from "@/components/Guestbook";
 import { Hero } from "@/components/Hero";
-import { Invitation } from "@/components/Invitation";
 import { InviteFooter } from "@/components/InviteFooter";
 import { InviteHeader } from "@/components/InviteHeader";
 import { Venue } from "@/components/Venue";
-import { WhenWhere } from "@/components/WhenWhere";
 import { dateLine, wedding } from "@/lib/wedding";
 
 export const Route = createFileRoute("/")({
@@ -37,8 +35,6 @@ function Index() {
       <InviteHeader />
       <main>
         <Hero />
-        <WhenWhere />
-        <Invitation />
         <Venue />
         <Gallery />
         <Guestbook />

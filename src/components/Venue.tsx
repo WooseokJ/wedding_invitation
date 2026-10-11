@@ -1,6 +1,19 @@
 import venueStone from "@/assets/venue-stone.jpg";
+import heroLoneTree from "@/assets/hero-lone-tree.jpg";
 import { Reveal } from "@/components/Reveal";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { wedding } from "@/lib/wedding";
+
+const venueImages = [
+  { src: venueStone, alt: "예식장 위치 안내 지도" },
+  { src: heroLoneTree, alt: "언덕 위 나무와 도시 풍경" },
+];
 
 export function Venue() {
   const { venue } = wedding;
@@ -9,14 +22,24 @@ export function Venue() {
     <section id="venue" className="border-t border-hair">
       <div className="mx-auto grid max-w-[900px] items-center gap-8 px-5 py-16 sm:px-6 sm:py-20 md:grid-cols-2 md:gap-10 md:py-28">
         <Reveal>
-          <img
-            src={venueStone}
-            alt="올림픽공원 올림픽홀 앞 백석 광장과 은행나무 길"
-            width={1200}
-            height={1200}
-            loading="lazy"
-            className="aspect-square w-full rounded-[min(1vw,12px)] object-cover shadow-soft"
-          />
+          <Carousel opts={{ loop: true }} aria-label="장소 이미지">
+            <CarouselContent className="ml-0">
+              {venueImages.map((image) => (
+                <CarouselItem key={image.src} className="pl-0">
+                  <div className="aspect-[590/401] overflow-hidden rounded-[min(1vw,12px)] bg-paper-deep/30 shadow-soft">
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      loading="lazy"
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-3 size-10 border-hair bg-paper/90 text-ink hover:bg-paper" />
+            <CarouselNext className="right-3 size-10 border-hair bg-paper/90 text-ink hover:bg-paper" />
+          </Carousel>
         </Reveal>
 
         <Reveal delay={140}>
