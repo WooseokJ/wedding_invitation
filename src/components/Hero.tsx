@@ -1,4 +1,4 @@
-import heroLoneTree from "@/assets/image10.jpg";
+import heroLoneTree from "@/assets/image1.jpg";
 import { wedding } from "@/lib/wedding";
 
 export function Hero() {

@@ -1,6 +1,9 @@
-import image1 from "@/assets/image10.jpg";
-import image2 from "@/assets/image20.jpg";
-import image3 from "@/assets/image30.jpg";
+import image1 from "@/assets/image1.jpg";
+import image2 from "@/assets/image2.jpg";
+import image3 from "@/assets/image3.jpg";
+import image4 from "@/assets/image4.jpg";
+import image5 from "@/assets/image5.jpg";
+
 
 
 
@@ -15,6 +18,7 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 const galleryImages = [
   {
@@ -31,6 +35,18 @@ const galleryImages = [
   },
   {
     src: image3,
+    alt: "가로수를 이루는 은행나무 길",
+    width: 1008,
+    height: 752,
+  },
+    {
+    src: image4,
+    alt: "가로수를 이루는 은행나무 길",
+    width: 1008,
+    height: 752,
+  },
+    {
+    src: image5,
     alt: "가로수를 이루는 은행나무 길",
     width: 1008,
     height: 752,
@@ -61,17 +77,11 @@ export function Gallery() {
       <div className="mx-auto max-w-[900px] px-5 py-16 sm:px-6 sm:py-28">
         <Reveal className="text-center">
           <p className="eyebrow">함께한 순간</p>
-          <h2 className="mt-4 font-display text-2xl font-bold text-pretty text-ink">
-            
-          </h2>
+          <h2 className="mt-4 font-display text-2xl font-bold text-pretty text-ink"></h2>
         </Reveal>
 
         <Reveal className="mx-auto mt-9 w-full max-w-[900px] sm:mt-14">
-          <Carousel
-            opts={{ loop: true }}
-            setApi={setCarouselApi}
-            aria-label="함께한 순간 사진"
-          >
+          <Carousel opts={{ loop: true }} setApi={setCarouselApi} aria-label="함께한 순간 사진">
             <CarouselContent className="ml-0">
               {galleryImages.map((image) => (
                 <CarouselItem key={image.src} className="pl-0">
@@ -103,6 +113,37 @@ export function Gallery() {
           >
             {currentSlide + 1} / {galleryImages.length}
           </p>
+          <Dialog>
+            <DialogTrigger asChild>
+              <button
+                type="button"
+                className="mt-5 border-b border-brass-deep pb-1 text-sm text-ink transition-colors hover:text-brass-deep"
+              >
+                사진 전체보기
+              </button>
+            </DialogTrigger>
+            <DialogContent className="max-h-[85vh] w-[calc(100vw-2rem)] max-w-[900px] overflow-y-auto border-hair bg-paper p-5 text-ink sm:p-8">
+              <DialogTitle className="pr-8 font-display text-xl text-ink">
+                함께한 순간{" "}
+                <span className="font-body text-sm text-ink-soft">({galleryImages.length})</span>
+              </DialogTitle>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+                {galleryImages.map((image) => (
+                  <div
+                    key={image.src}
+                    className="aspect-[1008/752] overflow-hidden rounded-md bg-paper-deep/30"
+                  >
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      loading="lazy"
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
+                ))}
+              </div>
+            </DialogContent>
+          </Dialog>
         </Reveal>
       </div>
     </section>
