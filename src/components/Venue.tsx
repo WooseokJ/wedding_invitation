@@ -2,6 +2,7 @@ import venueStone from "@/assets/venue-stone.jpg";
 import heroLoneTree from "@/assets/hero-lone-tree.png";
 import {
   BusFront,
+  Banknote,
   CircleParking,
   ExternalLink,
   MessageCircle,
@@ -27,6 +28,7 @@ const transitIcons = {
   지하철: TrainFront,
   시외버스: BusFront,
   주차: CircleParking,
+  ATM: Banknote,
 };
 
 const subwayLineStyles = {
@@ -78,9 +80,11 @@ export function Venue() {
           <p className="mt-4 text-sm leading-relaxed text-pretty text-ink-soft">
             {venue.address}
           </p>
-          <p className="mt-3 text-sm leading-relaxed text-pretty text-ink-soft">
-            {venue.note}
-          </p>
+          {venue.note && (
+            <p className="mt-3 text-sm leading-relaxed text-pretty text-ink-soft">
+              {venue.note}
+            </p>
+          )}
 
           <dl className="mt-8 space-y-3 border-t border-hair pt-6 text-sm">
             {venue.transit.map((row) => {
