@@ -118,7 +118,19 @@ export function Venue() {
                         })}
                       </div>
                     ) : (
-                      <span className="whitespace-pre-line">{row.detail}</span>
+                      <span className="whitespace-pre-line">
+                        {row.kind === "주차"
+                          ? row.detail.split(/(안내 받아)/g).map((part, index) =>
+                              part === "안내 받아" ? (
+                                <u key={index} className="underline underline-offset-2">
+                                  {part}
+                                </u>
+                              ) : (
+                                part
+                              ),
+                            )
+                          : row.detail}
+                      </span>
                     )}
                   </dd>
                 </div>
