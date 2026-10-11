@@ -1,4 +1,4 @@
-import heroLoneTree from "@/assets/hero-lone-tree-sunny.jpg";
+import heroLoneTree from "@/assets/image10.jpg";
 import { wedding } from "@/lib/wedding";
 
 export function Hero() {
@@ -14,17 +14,20 @@ export function Hero() {
         />
       </div>
 
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-paper/95 via-paper/75 to-transparent sm:bg-gradient-to-l sm:from-paper/90 sm:via-paper/55 sm:to-transparent"
+      />
+
       {/* blends the photograph into the paper of the page below */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-b from-transparent to-paper" />
 
       <div className="relative mx-auto flex min-h-[100svh] max-w-[900px] flex-col px-6 pt-[16vh] pb-28">
         <div className="mx-auto w-full max-w-full text-center sm:mx-0 sm:ml-auto sm:mr-[7%] sm:max-w-[24ch]">
-          <p className="rise eyebrow [animation-delay:80ms]">초대합니다</p>
+          <p className="rise eyebrow [animation-delay:80ms]"></p>
 
           <h1 className="rise mt-6 whitespace-nowrap font-display text-4xl leading-[1.08] font-extrabold tracking-tight text-ink sm:text-6xl [animation-delay:180ms]">
-            {wedding.groom.first}
-            <span className="mx-2 font-normal text-brass">·</span>
-            {wedding.bride.first}
+            초대합니다
           </h1>
 
           <span className="draw-rule mx-auto mt-8 block h-px w-16 bg-brass/60 [animation-delay:520ms]" />

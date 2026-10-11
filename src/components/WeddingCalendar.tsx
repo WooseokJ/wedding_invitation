@@ -1,15 +1,44 @@
 import { useEffect, useState } from "react";
+import type { ComponentProps } from "react";
 import { ko } from "date-fns/locale";
+import { Heart } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar, CalendarDayButton } from "@/components/ui/calendar";
 import { timeUntilWedding } from "@/lib/ics";
 import { wedding } from "@/lib/wedding";
+import { cn } from "@/lib/utils";
 
 const ceremonyDate = new Date(
   wedding.date.year,
   wedding.date.month - 1,
   wedding.date.day,
 );
+
+function WeddingDayButton(props: ComponentProps<typeof CalendarDayButton>) {
+  if (!props.modifiers["valentines"]) {
+    return <CalendarDayButton {...props} />;
+  }
+
+  return (
+    <CalendarDayButton
+      {...props}
+      className={cn(
+        props.className,
+        "data-[selected-single=true]:bg-transparent data-[selected-single=true]:text-ink",
+      )}
+    >
+      <span className="relative grid size-full place-items-center">
+        <Heart
+          aria-hidden="true"
+          className="absolute !size-8 fill-[var(--sakura)] text-[var(--sakura)]"
+        />
+        <span className="relative z-10 text-xs font-semibold text-ink">
+          {props.day.date.getDate()}
+        </span>
+      </span>
+    </CalendarDayButton>
+  );
+}
 
 function DayCounter() {
   const [countdown, setCountdown] = useState<ReturnType<
@@ -50,10 +79,10 @@ export function WeddingCalendar() {
         <Reveal>
           <p className="eyebrow">예식 날짜</p>
           <h2 className="mt-4 font-display text-3xl font-bold text-balance text-ink">
-            {wedding.date.year}년 {wedding.date.month}월 {wedding.date.day}일 {wedding.date.weekday} {wedding.date.hourLabel}
+            {wedding.date.year}년 {wedding.date.month}월 {wedding.date.day}일 
           </h2>
-          <p className="mt-3 text-sm text-ink-soft">
-             
+          <p className="mt-4 font-display text-3xl font-bold text-balance text-ink">
+             {wedding.date.weekday} {wedding.date.hourLabel}
           </p>
           <DayCounter />
         </Reveal>
@@ -66,6 +95,8 @@ export function WeddingCalendar() {
             hideNavigation
             locale={ko}
             onSelect={() => undefined}
+            modifiers={{ valentines: ceremonyDate }}
+            components={{ DayButton: WeddingDayButton }}
             className="w-fit rounded-[8px] border border-hair bg-paper p-3 shadow-soft [--cell-size:2.5rem]"
           />
         </Reveal>

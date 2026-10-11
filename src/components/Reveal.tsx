@@ -45,7 +45,7 @@ export function Reveal({
   return (
     <div
       ref={ref}
-      className={cn(shown ? "reveal-in" : "reveal", className)}
+      className={cn("reveal-motion", shown ? "reveal-in" : "reveal", className)}
       style={{ transitionDelay: `${delay}ms` }}
     >
       {children}
