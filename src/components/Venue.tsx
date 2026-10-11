@@ -57,10 +57,12 @@ export function Venue() {
           <dl className="mt-8 space-y-3 border-t border-hair pt-6 text-sm">
             {venue.transit.map((row) => (
               <div key={row.kind} className="flex gap-4">
-                <dt className="w-12 shrink-0 text-xs tracking-[0.18em] text-brass-deep">
+                <dt className="w-16 shrink-0 text-xs tracking-[0.18em] text-brass-deep">
                   {row.kind}
                 </dt>
-                <dd className="text-pretty text-ink">{row.detail}</dd>
+                <dd className="text-pretty whitespace-pre-line text-ink">
+                  {row.detail}
+                </dd>
               </div>
             ))}
           </dl>

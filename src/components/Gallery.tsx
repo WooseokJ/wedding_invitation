@@ -1,6 +1,7 @@
 import galleryLake from "@/assets/gallery-lake.jpg";
 import galleryLeaf from "@/assets/gallery-leaf.jpg";
 import heroGinkgo from "@/assets/hero-ginkgo.jpg";
+import { Images } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import {
   Carousel,
@@ -9,6 +10,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const galleryImages = [
   {
@@ -64,6 +72,46 @@ export function Gallery() {
             <CarouselNext className="right-3 size-10 border-hair bg-paper/90 text-ink hover:bg-paper" />
           </Carousel>
         </Reveal>
+
+        <div className="mt-5 flex justify-center">
+          <Dialog>
+            <DialogTrigger asChild>
+              <button
+                type="button"
+                className="inline-flex items-center gap-2 rounded-full border border-brass/45 px-4 py-2.5 text-sm text-ink transition-colors hover:border-brass hover:bg-brass hover:text-paper"
+              >
+                <Images aria-hidden="true" className="size-4" />
+                모든 사진 보기
+              </button>
+            </DialogTrigger>
+            <DialogContent className="max-h-[90svh] w-[calc(100%-2rem)] max-w-5xl overflow-y-auto border-hair bg-paper p-4 sm:p-7">
+              <div className="pr-8">
+                <DialogTitle className="font-display text-xl text-ink">
+                  함께한 순간
+                </DialogTitle>
+                <DialogDescription className="sr-only">
+                  갤러리 사진 전체
+                </DialogDescription>
+              </div>
+              <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                {galleryImages.map((image) => (
+                  <figure
+                    key={image.src}
+                    className="aspect-[4/3] overflow-hidden rounded-[8px] bg-paper-deep/40"
+                  >
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      width={image.width}
+                      height={image.height}
+                      className="h-full w-full object-contain"
+                    />
+                  </figure>
+                ))}
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
     </section>
   );
