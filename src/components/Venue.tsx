@@ -1,6 +1,6 @@
 import venueStone from "@/assets/venue-stone.jpg";
 import heroLoneTree from "@/assets/hero-lone-tree.png";
-import parking2 from "@/assets/parking2.png"
+// import parking2 from "@/assets/parking2.png"
 import {
   BusFront,
   Banknote,
@@ -33,12 +33,14 @@ const venueImages = [
     caption: wedding.venue.imageCaptions.surroundings,
     parallax: true,
   },
+  /*
   {
     src: parking2,
     alt: "주차장 안내",
     caption: wedding.venue.imageCaptions.parking,
     parallax: false,
   },
+  */
 ];
 
 const transitIcons = {
