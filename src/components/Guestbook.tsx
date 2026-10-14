@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -37,7 +37,7 @@ async function fetchEntries(): Promise<Entry[]> {
     .from("guestbook")
     .select("id, name, author_id, message, attending, created_at")
     .order("created_at", { ascending: false })
-    .limit(24);
+    .limit(100);
 
   if (error) throw error;
   return (data ?? []) as Entry[];
@@ -50,6 +50,120 @@ function when(iso: string) {
   });
 }
 
+const PREVIEW_COUNT = 5;
+
+function EntryCard({
+  entry,
+  canDelete,
+  onDelete,
+}: {
+  entry: Entry;
+  canDelete: boolean;
+  onDelete: (id: string) => void;
+}) {
+  return (
+    <article className="h-full rounded-[min(1vw,12px)] bg-paper p-5 ring-1 ring-hair">
+      <header className="flex items-start justify-between gap-3">
+        <span className="font-display text-base font-bold text-ink">
+          {entry.name}
+        </span>
+        <div className="flex items-center gap-2">
+          <span className="text-[11px] text-ink-soft">
+            {when(entry.created_at)}
+          </span>
+          {canDelete && (
+            <button
+              type="button"
+              aria-label="삭제"
+              onClick={() => onDelete(entry.id)}
+              className="flex size-6 items-center justify-center rounded-full text-sm text-ink-soft transition-colors hover:bg-paper-deep hover:text-ink"
+            >
+              ×
+            </button>
+          )}
+        </div>
+      </header>
+      <p className="mt-1 text-[11px] text-ink-soft">
+        {entry.attending ? "참석" : "함께하지 못함"}
+      </p>
+      <p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed text-pretty text-ink-soft">
+        {entry.message}
+      </p>
+    </article>
+  );
+}
+
+function EntriesModal({
+  open,
+  onClose,
+  entries,
+  authorId,
+  onDelete,
+}: {
+  open: boolean;
+  onClose: () => void;
+  entries: Entry[];
+  authorId: string;
+  onDelete: (id: string) => void;
+}) {
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 sm:items-center sm:p-4"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label="전체 방명록"
+    >
+      <div
+        className="flex max-h-[85vh] w-full max-w-lg flex-col rounded-t-2xl bg-paper-deep shadow-xl sm:rounded-2xl"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="flex items-center justify-between border-b border-hair px-5 py-4">
+          <h3 className="font-display text-base font-bold text-ink">
+            전체 방명록{" "}
+            <span className="font-normal text-ink-soft">({entries.length})</span>
+          </h3>
+          <button
+            type="button"
+            aria-label="닫기"
+            onClick={onClose}
+            className="flex size-8 items-center justify-center rounded-full text-lg text-ink-soft transition-colors hover:bg-paper hover:text-ink"
+          >
+            ×
+          </button>
+        </div>
+
+        <div className="space-y-3 overflow-y-auto overscroll-contain p-5">
+          {entries.map((entry) => (
+            <EntryCard
+              key={entry.id}
+              entry={entry}
+              canDelete={entry.author_id === authorId}
+              onDelete={onDelete}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function Guestbook() {
   const authorId = useMemo(() => readGuestbookAuthorId(), []);
   const [name, setName] = useState("");
@@ -57,10 +171,21 @@ export function Guestbook() {
   const [attending, setAttending] = useState(true);
   const [sending, setSending] = useState(false);
 
+  const [modalOpen, setModalOpen] = useState(false);
+
   const { data, isPending, isError, refetch } = useQuery({
     queryKey: ["guestbook"],
     queryFn: fetchEntries,
   });
+
+  // 서버에서 created_at 내림차순(최신순)으로 가져옵니다.
+  const entries = data ?? [];
+  const preview = entries.slice(0, PREVIEW_COUNT);
+
+  // 삭제 등으로 5개 이하가 되면 모달을 자동으로 닫습니다.
+  useEffect(() => {
+    if (entries.length <= PREVIEW_COUNT) setModalOpen(false);
+  }, [entries.length]);
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
@@ -214,7 +339,7 @@ export function Guestbook() {
 
           {!isPending && !isError && (data?.length ?? 0) > 0 && (
             <p className="text-xs text-ink-soft sm:col-span-3">
-              최근 인사 {data?.length}개를 보여 드립니다.
+              최근 인사 {Math.min(entries.length, PREVIEW_COUNT)}개를 보여 드립니다.
             </p>
           )}
 
@@ -224,39 +349,36 @@ export function Guestbook() {
             </p>
           )}
 
-          {(data ?? []).map((entry, index) => (
-            <Reveal key={entry.id} delay={Math.min(index, 5) * 80}>
-              <article className="h-full rounded-[min(1vw,12px)] bg-paper p-5 ring-1 ring-hair">
-                <header className="flex items-start justify-between gap-3">
-                  <span className="font-display text-base font-bold text-ink">
-                    {entry.name}
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[11px] text-ink-soft">
-                      {when(entry.created_at)}
-                    </span>
-                    {entry.author_id === authorId && (
-                      <button
-                        type="button"
-                        aria-label="삭제"
-                        onClick={() => void deleteEntry(entry.id)}
-                        className="flex size-6 items-center justify-center rounded-full text-sm text-ink-soft transition-colors hover:bg-paper-deep hover:text-ink"
-                      >
-                        ×
-                      </button>
-                    )}
-                  </div>
-                </header>
-                <p className="mt-1 text-[11px] text-ink-soft">
-                  {entry.attending ? "참석" : "함께하지 못함"}
-                </p>
-                <p className="mt-3 text-sm leading-relaxed text-pretty text-ink-soft">
-                  {entry.message}
-                </p>
-              </article>
+          {preview.map((entry, index) => (
+            <Reveal key={entry.id} delay={index * 80}>
+              <EntryCard
+                entry={entry}
+                canDelete={entry.author_id === authorId}
+                onDelete={(id) => void deleteEntry(id)}
+              />
             </Reveal>
           ))}
+
+          {entries.length > PREVIEW_COUNT && (
+            <div className="mt-2 text-center sm:col-span-3">
+              <button
+                type="button"
+                onClick={() => setModalOpen(true)}
+                className="rounded-full bg-paper px-5 py-2.5 text-sm text-ink ring-1 ring-hair transition-colors hover:bg-paper-deep"
+              >
+                전체 메시지 보기 ({entries.length})
+              </button>
+            </div>
+          )}
         </div>
+
+        <EntriesModal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          entries={entries}
+          authorId={authorId}
+          onDelete={(id) => void deleteEntry(id)}
+        />
       </div>
     </section>
   );
