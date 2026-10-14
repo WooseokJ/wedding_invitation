@@ -115,6 +115,7 @@ export function Guestbook() {
             함께해 주시겠습니까
           </h2>
           <p className="mt-3 text-sm text-ink-soft">
+            참석 여부와 두 사람에게 전하는 축하의 말을 남겨 주세요.
           </p>
         </Reveal>
 
@@ -132,7 +133,9 @@ export function Guestbook() {
                   value={name}
                   onChange={(event) => setName(event.target.value)}
                   maxLength={20}
-                  placeholder=""
+                  required
+                  autoComplete="name"
+                  placeholder="이름을 입력해 주세요."
                   className="field-line"
                 />
               </label>
@@ -173,6 +176,7 @@ export function Guestbook() {
                 onChange={(event) => setMessage(event.target.value)}
                 maxLength={300}
                 rows={3}
+                required
                 placeholder="두 사람에게 전하고 싶은 말을 남겨 주세요."
                 className="field-line resize-none"
               />
@@ -191,13 +195,26 @@ export function Guestbook() {
         <div className="mt-14 grid gap-4 sm:grid-cols-3">
           {isPending && (
             <p className="text-sm text-ink-soft sm:col-span-3">
-              
+              방명록을 불러오고 있습니다.
             </p>
           )}
 
           {isError && (
-            <p className="text-sm text-ink-soft sm:col-span-3">
-              
+            <div className="text-center text-sm text-ink-soft sm:col-span-3">
+              <p role="alert">방명록을 불러오지 못했습니다. 네트워크 연결을 확인해 주세요.</p>
+              <button
+                type="button"
+                onClick={() => void refetch()}
+                className="mt-3 underline underline-offset-4 transition-colors hover:text-ink"
+              >
+                다시 불러오기
+              </button>
+            </div>
+          )}
+
+          {!isPending && !isError && (data?.length ?? 0) > 0 && (
+            <p className="text-xs text-ink-soft sm:col-span-3">
+              최근 인사 {data?.length}개를 보여 드립니다.
             </p>
           )}
 

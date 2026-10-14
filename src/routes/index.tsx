@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Accounts } from "@/components/Accounts";
 import { Gallery } from "@/components/Gallery";
+import { Guestbook } from "@/components/Guestbook";
 import { Hero } from "@/components/Hero";
 import { InviteFooter } from "@/components/InviteFooter";
 import { InviteHeader } from "@/components/InviteHeader";
@@ -47,6 +48,7 @@ function Index() {
           <Venue />
           <Gallery />
           <Accounts />
+          <Guestbook />
         </main>
         <InviteFooter />
       </div>
