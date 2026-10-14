@@ -54,7 +54,7 @@ function when(iso: string) {
   });
 }
 
-const PREVIEW_COUNT = 5;
+const PREVIEW_COUNT = 3;
 
 function EntryCard({
   entry,
