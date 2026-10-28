@@ -58,6 +58,7 @@ const subwayLineStyles = {
 export function Venue() {
   const { venue } = wedding;
   const searchQuery = `${venue.park} ${venue.hall} ${venue.address}`;
+  const searchQuery2 = `${venue.park} ${venue.hall}`;
   const mapLinks = [
     { label: "네이버지도", href: venue.mapUrl, brand: "naver" },
     {
@@ -67,7 +68,7 @@ export function Venue() {
     },
     {
       label: "티맵",
-      href: `tmap://search?name=${encodeURIComponent(searchQuery)}`,
+      href: `tmap://search?name=${encodeURIComponent(searchQuery2)}`,
       brand: "tmap",
     },
   ];
