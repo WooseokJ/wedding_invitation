@@ -1,5 +1,6 @@
 import venueStone from "@/assets/venue-stone.jpg";
 import heroLoneTree from "@/assets/hero-lone-tree.png";
+import tmapIcon from "@/assets/tmap-icon.svg";
 // import parking2 from "@/assets/parking2.png"
 import {
   BusFront,
@@ -193,12 +194,12 @@ export function Venue() {
                     </span>
                   </span>
                 ) : (
-                  <span
+                  <img
+                    src={tmapIcon}
+                    alt=""
                     aria-hidden="true"
-                    className="grid size-[18px] shrink-0 place-items-center rounded-[4px] bg-primary text-[11px] font-black leading-none text-primary-foreground"
-                  >
-                    T
-                  </span>
+                    className="size-[18px] shrink-0 rounded-[4px]"
+                  />
                 )}
                 {link.label}
                 <ExternalLink aria-hidden="true" className="size-3.5 shrink-0" />
