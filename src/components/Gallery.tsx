@@ -3,19 +3,13 @@ import image2 from "@/assets/image2.jpg";
 import image3 from "@/assets/image3.jpg";
 import image4 from "@/assets/image4.jpg";
 import image5 from "@/assets/image5.jpg";
-import { ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 
 import { useEffect, useState } from "react";
 import { Reveal } from "@/components/Reveal";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-  type CarouselApi,
-} from "@/components/ui/carousel";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+
+const INITIAL_VISIBLE_IMAGES = 3;
 
 const galleryImages = [
   {
@@ -51,10 +45,12 @@ const galleryImages = [
 ];
 
 export function Gallery() {
-  const [carouselApi, setCarouselApi] = useState<CarouselApi>();
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [showAllImages, setShowAllImages] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const selectedImage = selectedIndex === null ? null : galleryImages[selectedIndex];
+  const visibleImages = showAllImages
+    ? galleryImages
+    : galleryImages.slice(0, INITIAL_VISIBLE_IMAGES);
 
   const showPreviousImage = () => {
     setSelectedIndex((index) =>
@@ -85,21 +81,6 @@ export function Gallery() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [selectedIndex]);
 
-  useEffect(() => {
-    if (!carouselApi) return;
-
-    const updateCurrentSlide = () => {
-      setCurrentSlide(carouselApi.selectedScrollSnap());
-    };
-
-    updateCurrentSlide();
-    carouselApi.on("select", updateCurrentSlide);
-
-    return () => {
-      carouselApi.off("select", updateCurrentSlide);
-    };
-  }, [carouselApi]);
-
   return (
     <section className="border-t border-hair bg-paper-deep/40 paper-fibre">
       <div className="mx-auto max-w-[900px] px-5 py-16 sm:px-6 sm:py-28">
@@ -109,91 +90,55 @@ export function Gallery() {
         </Reveal>
 
         <Reveal className="mx-auto mt-9 w-full max-w-[900px] sm:mt-14">
-          <Carousel opts={{ loop: true }} setApi={setCarouselApi} aria-label="함께한 순간 사진">
-            <CarouselContent className="ml-0">
-              {galleryImages.map((image, index) => (
-                <CarouselItem key={image.src} className="pl-0">
-                  <div className="aspect-[1008/752] overflow-hidden rounded-[min(1vw,12px)] bg-paper-deep/30 shadow-soft">
-                    <button
-                      type="button"
-                      aria-label={`이미지 확대: ${image.alt}`}
-                      onClick={() => setSelectedIndex(index)}
-                      className="group relative block h-full w-full cursor-zoom-in"
-                    >
-                      <img
-                        src={image.src}
-                        alt={image.alt}
-                        width={image.width}
-                        height={image.height}
-                        loading="lazy"
-                        className="h-full w-full object-contain object-center transition-transform duration-300 group-hover:scale-[1.02]"
-                      />
-                      <span
-                        aria-hidden="true"
-                        className="pointer-events-none absolute right-3 top-3 grid size-9 place-items-center rounded-full border border-hair bg-paper/90 text-ink shadow-soft"
-                      >
-                        <ZoomIn className="size-4" />
-                      </span>
-                    </button>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <div className="mt-3 flex items-center justify-between px-1">
-              <CarouselPrevious className="static left-auto right-auto top-auto bottom-auto size-10 translate-y-0 border-hair bg-paper/90 text-ink hover:bg-paper" />
-              <CarouselNext className="static left-auto right-auto top-auto bottom-auto size-10 translate-y-0 border-hair bg-paper/90 text-ink hover:bg-paper" />
-            </div>
-          </Carousel>
-        </Reveal>
-
-        <Reveal delay={220} className="mt-4 text-center">
-          <p
-            aria-live="polite"
-            aria-atomic="true"
-            className="text-xs tabular-nums tracking-[0.18em] text-ink-soft"
+          <div
+            id="wedding-gallery-more"
+            role="group"
+            className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4"
+            aria-label="함께한 순간 사진"
           >
-            {currentSlide + 1} / {galleryImages.length}
-          </p>
-          <Dialog>
-            <DialogTrigger asChild>
+            {visibleImages.map((image) => {
+              const index = galleryImages.indexOf(image);
+
+              return (
+                <button
+                  key={image.src}
+                  type="button"
+                  aria-label={`사진 확대: ${image.alt}`}
+                  onClick={() => setSelectedIndex(index)}
+                  className="group relative aspect-[1008/752] cursor-zoom-in overflow-hidden rounded-[min(1vw,12px)] bg-paper-deep/30 shadow-soft focus-visible:outline-2 focus-visible:outline-brass"
+                >
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    width={image.width}
+                    height={image.height}
+                    loading="lazy"
+                    className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+                  />
+                  <span
+                    aria-hidden="true"
+                    className="absolute right-2 top-2 grid size-8 place-items-center rounded-full border border-hair bg-paper/90 text-ink opacity-0 shadow-soft transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    <ZoomIn className="size-4" />
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          {!showAllImages && galleryImages.length > INITIAL_VISIBLE_IMAGES && (
+            <div className="mt-7 text-center">
               <button
                 type="button"
-                className="mt-5 border-b border-brass-deep pb-1 text-sm text-ink transition-colors hover:text-brass-deep"
+                aria-expanded={showAllImages}
+                aria-controls="wedding-gallery-more"
+                onClick={() => setShowAllImages(true)}
+                className="inline-flex min-h-11 items-center gap-2 rounded-full border border-brass/45 px-5 py-2 text-sm text-ink transition-colors hover:border-brass hover:bg-brass hover:text-paper"
               >
-                사진 전체보기
+                더보기
+                <ChevronDown aria-hidden="true" className="size-4" />
               </button>
-            </DialogTrigger>
-            <DialogContent className="max-h-[85vh] w-[calc(100vw-2rem)] max-w-[900px] overflow-y-auto border-hair bg-paper p-5 text-ink sm:p-8">
-              <DialogTitle className="pr-8 font-display text-xl text-ink">
-                함께한 순간{" "}
-                <span className="font-body text-sm text-ink-soft">({galleryImages.length})</span>
-              </DialogTitle>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
-                {galleryImages.map((image, index) => (
-                  <button
-                    key={image.src}
-                    type="button"
-                    aria-label={`사진 확대: ${image.alt}`}
-                    onClick={() => setSelectedIndex(index)}
-                    className="group relative aspect-[1008/752] cursor-zoom-in overflow-hidden rounded-md bg-paper-deep/30 focus-visible:outline-2 focus-visible:outline-brass"
-                  >
-                    <img
-                      src={image.src}
-                      alt={image.alt}
-                      loading="lazy"
-                      className="h-full w-full object-contain"
-                    />
-                    <span
-                      aria-hidden="true"
-                      className="absolute right-2 top-2 grid size-8 place-items-center rounded-full border border-hair bg-paper/90 text-ink opacity-0 shadow-soft transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
-                    >
-                      <ZoomIn className="size-4" />
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </DialogContent>
-          </Dialog>
+            </div>
+          )}
           <Dialog
             open={selectedIndex !== null}
             onOpenChange={(open) => {

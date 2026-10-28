@@ -220,22 +220,22 @@ export function Venue() {
                 href={link.href}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex min-h-11 items-center justify-center gap-1 rounded-full border border-brass/45 px-2 py-2.5 text-xs text-ink transition-colors duration-300 hover:border-brass hover:bg-brass hover:text-paper sm:gap-2 sm:px-4 sm:text-sm"
+                className="inline-flex min-h-9 items-center justify-center gap-1 rounded-full border border-brass/45 px-2 py-1.5 text-[11px] text-ink transition-colors duration-300 hover:border-brass hover:bg-brass hover:text-paper sm:gap-1.5 sm:px-3 sm:py-2 sm:text-xs"
               >
                 {link.brand === "naver" ? (
                   <span
                     aria-hidden="true"
-                    className="grid size-[18px] shrink-0 place-items-center rounded-[4px] bg-[var(--naver-green)] text-[11px] font-black leading-none text-white"
+                    className="grid size-4 shrink-0 place-items-center rounded-[4px] bg-[var(--naver-green)] text-[10px] font-black leading-none text-white"
                   >
                     N
                   </span>
                 ) : link.brand === "kakao" ? (
                   <span
-                    className="relative grid size-[18px] shrink-0 place-items-center"
+                    className="relative grid size-4 shrink-0 place-items-center"
                     aria-hidden="true"
                   >
-                    <MessageCircle className="absolute size-[18px] fill-[var(--kakao-yellow)] text-[var(--kakao-yellow)]" />
-                    <span className="relative z-10 text-[9px] font-bold leading-none text-[var(--kakao-ink)]">
+                    <MessageCircle className="absolute size-4 fill-[var(--kakao-yellow)] text-[var(--kakao-yellow)]" />
+                    <span className="relative z-10 text-[8px] font-bold leading-none text-[var(--kakao-ink)]">
                       K
                     </span>
                   </span>
@@ -244,11 +244,11 @@ export function Venue() {
                     src={tmapIcon}
                     alt=""
                     aria-hidden="true"
-                    className="size-[18px] shrink-0 rounded-[4px]"
+                    className="size-4 shrink-0 rounded-[4px]"
                   />
                 )}
                 {link.label}
-                <ExternalLink aria-hidden="true" className="size-3.5 shrink-0" />
+                <ExternalLink aria-hidden="true" className="size-3 shrink-0" />
               </a>
             ))}
           </div>
