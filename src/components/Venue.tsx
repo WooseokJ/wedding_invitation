@@ -65,6 +65,11 @@ export function Venue() {
       href: `https://map.kakao.com/link/search/${encodeURIComponent(searchQuery)}`,
       brand: "kakao",
     },
+    {
+      label: "티맵",
+      href: `tmap://search?name=${encodeURIComponent(searchQuery)}`,
+      brand: "tmap",
+    },
   ];
 
   return (
@@ -99,13 +104,9 @@ export function Venue() {
           <h2 className="mt-3 font-display text-3xl font-bold text-balance text-ink">
             {venue.park} {venue.hall}
           </h2>
-          <p className="mt-4 text-sm leading-relaxed text-pretty text-ink-soft">
-            {venue.address}
-          </p>
+          <p className="mt-4 text-sm leading-relaxed text-pretty text-ink-soft">{venue.address}</p>
           {venue.note && (
-            <p className="mt-3 text-sm leading-relaxed text-pretty text-ink-soft">
-              {venue.note}
-            </p>
+            <p className="mt-3 text-sm leading-relaxed text-pretty text-ink-soft">{venue.note}</p>
           )}
 
           <dl className="mt-8 space-y-3 border-t border-hair pt-6 text-sm">
@@ -164,7 +165,7 @@ export function Venue() {
             })}
           </dl>
 
-          <div className="mt-8 grid grid-cols-2 gap-2">
+          <div className="mt-8 grid grid-cols-2 gap-2 sm:grid-cols-3">
             {mapLinks.map((link) => (
               <a
                 key={link.label}
@@ -180,12 +181,22 @@ export function Venue() {
                   >
                     N
                   </span>
-                ) : (
-                  <span className="relative grid size-[18px] shrink-0 place-items-center" aria-hidden="true">
+                ) : link.brand === "kakao" ? (
+                  <span
+                    className="relative grid size-[18px] shrink-0 place-items-center"
+                    aria-hidden="true"
+                  >
                     <MessageCircle className="absolute size-[18px] fill-[var(--kakao-yellow)] text-[var(--kakao-yellow)]" />
                     <span className="relative z-10 text-[9px] font-bold leading-none text-[var(--kakao-ink)]">
                       K
                     </span>
+                  </span>
+                ) : (
+                  <span
+                    aria-hidden="true"
+                    className="grid size-[18px] shrink-0 place-items-center rounded-[4px] bg-primary text-[11px] font-black leading-none text-primary-foreground"
+                  >
+                    T
                   </span>
                 )}
                 {link.label}
