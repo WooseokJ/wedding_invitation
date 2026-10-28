@@ -81,18 +81,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "우석 · 소현 — 올림픽공원에서의 초대" },
+      { title: "우석 · 소현 — Wedding Invitation" },
       {
         name: "description",
         content:
           "2027년 2월 14일 일요일 낮 12시, 서울 잠실 올림픽공원 올림픽홀. 두 사람의 시작을 함께해 주세요.",
       },
-      { name: "author", content: "도현 · 서연" },
-      { property: "og:title", content: "도현 · 서연 — 올림픽공원에서의 초대" },
+      { name: "author", content: "" },
+      { property: "og:title", content: "" },
       {
         property: "og:description",
-        content:
-          "은행나무 길이 가장 아름다운 계절에, 올림픽공원 올림픽홀에서 두 사람을 모십니다.",
+        content: "",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -144,6 +143,24 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    const viewport = document.querySelector<HTMLMetaElement>('meta[name="viewport"]');
+    const isTouchPhone =
+      window.matchMedia("(pointer: coarse)").matches &&
+      navigator.maxTouchPoints > 0 &&
+      Math.min(window.screen.width, window.screen.height) <= 600;
+
+    if (!viewport || !isTouchPhone) return;
+
+    const updatePhoneViewport = () => {
+      viewport.content = `width=${window.screen.width}, initial-scale=1`;
+    };
+
+    updatePhoneViewport();
+    window.addEventListener("orientationchange", updatePhoneViewport);
+    return () => window.removeEventListener("orientationchange", updatePhoneViewport);
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
