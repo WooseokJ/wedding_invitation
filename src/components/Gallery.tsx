@@ -3,14 +3,10 @@ import image2 from "@/assets/image2.jpg";
 import image3 from "@/assets/image3.jpg";
 import image4 from "@/assets/image4.jpg";
 import image5 from "@/assets/image5.jpg";
-import { ZoomIn } from "lucide-react";
-
-
-
+import { ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 
 import { useEffect, useState } from "react";
 import { Reveal } from "@/components/Reveal";
-import { ZoomableImage } from "@/components/ZoomableImage";
 import {
   Carousel,
   CarouselContent,
@@ -40,13 +36,13 @@ const galleryImages = [
     width: 1008,
     height: 752,
   },
-    {
+  {
     src: image4,
     alt: "가로수를 이루는 은행나무 길",
     width: 1008,
     height: 752,
   },
-    {
+  {
     src: image5,
     alt: "가로수를 이루는 은행나무 길",
     width: 1008,
@@ -57,7 +53,37 @@ const galleryImages = [
 export function Gallery() {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [selectedImage, setSelectedImage] = useState<(typeof galleryImages)[number] | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const selectedImage = selectedIndex === null ? null : galleryImages[selectedIndex];
+
+  const showPreviousImage = () => {
+    setSelectedIndex((index) =>
+      index === null ? null : (index - 1 + galleryImages.length) % galleryImages.length,
+    );
+  };
+
+  const showNextImage = () => {
+    setSelectedIndex((index) => (index === null ? null : (index + 1) % galleryImages.length));
+  };
+
+  useEffect(() => {
+    if (selectedIndex === null) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        setSelectedIndex((index) =>
+          index === null ? null : (index - 1 + galleryImages.length) % galleryImages.length,
+        );
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        setSelectedIndex((index) => (index === null ? null : (index + 1) % galleryImages.length));
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedIndex]);
 
   useEffect(() => {
     if (!carouselApi) return;
@@ -85,17 +111,30 @@ export function Gallery() {
         <Reveal className="mx-auto mt-9 w-full max-w-[900px] sm:mt-14">
           <Carousel opts={{ loop: true }} setApi={setCarouselApi} aria-label="함께한 순간 사진">
             <CarouselContent className="ml-0">
-              {galleryImages.map((image) => (
+              {galleryImages.map((image, index) => (
                 <CarouselItem key={image.src} className="pl-0">
                   <div className="aspect-[1008/752] overflow-hidden rounded-[min(1vw,12px)] bg-paper-deep/30 shadow-soft">
-                    <ZoomableImage
-                      src={image.src}
-                      alt={image.alt}
-                      width={image.width}
-                      height={image.height}
-                      loading="lazy"
-                      className="h-full w-full object-contain object-center"
-                    />
+                    <button
+                      type="button"
+                      aria-label={`이미지 확대: ${image.alt}`}
+                      onClick={() => setSelectedIndex(index)}
+                      className="group relative block h-full w-full cursor-zoom-in"
+                    >
+                      <img
+                        src={image.src}
+                        alt={image.alt}
+                        width={image.width}
+                        height={image.height}
+                        loading="lazy"
+                        className="h-full w-full object-contain object-center transition-transform duration-300 group-hover:scale-[1.02]"
+                      />
+                      <span
+                        aria-hidden="true"
+                        className="pointer-events-none absolute right-3 top-3 grid size-9 place-items-center rounded-full border border-hair bg-paper/90 text-ink shadow-soft"
+                      >
+                        <ZoomIn className="size-4" />
+                      </span>
+                    </button>
                   </div>
                 </CarouselItem>
               ))}
@@ -130,12 +169,12 @@ export function Gallery() {
                 <span className="font-body text-sm text-ink-soft">({galleryImages.length})</span>
               </DialogTitle>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
-                {galleryImages.map((image) => (
+                {galleryImages.map((image, index) => (
                   <button
                     key={image.src}
                     type="button"
                     aria-label={`사진 확대: ${image.alt}`}
-                    onClick={() => setSelectedImage(image)}
+                    onClick={() => setSelectedIndex(index)}
                     className="group relative aspect-[1008/752] cursor-zoom-in overflow-hidden rounded-md bg-paper-deep/30 focus-visible:outline-2 focus-visible:outline-brass"
                   >
                     <img
@@ -156,19 +195,37 @@ export function Gallery() {
             </DialogContent>
           </Dialog>
           <Dialog
-            open={selectedImage !== null}
+            open={selectedIndex !== null}
             onOpenChange={(open) => {
-              if (!open) setSelectedImage(null);
+              if (!open) setSelectedIndex(null);
             }}
           >
             <DialogContent className="w-[96vw] max-w-[1100px] border-0 bg-transparent p-0 text-white shadow-none sm:rounded-[8px]">
               <DialogTitle className="sr-only">{selectedImage?.alt} 확대 이미지</DialogTitle>
               {selectedImage && (
-                <img
-                  src={selectedImage.src}
-                  alt={selectedImage.alt}
-                  className="mx-auto max-h-[85vh] max-w-full rounded-[8px] object-contain"
-                />
+                <div className="relative flex items-center justify-center">
+                  <button
+                    type="button"
+                    aria-label="이전 이미지"
+                    onClick={showPreviousImage}
+                    className="absolute left-2 z-10 grid size-11 place-items-center rounded-full border border-white/30 bg-black/45 text-white shadow-soft transition-colors hover:bg-black/70 sm:left-4"
+                  >
+                    <ChevronLeft className="size-6" />
+                  </button>
+                  <img
+                    src={selectedImage.src}
+                    alt={selectedImage.alt}
+                    className="mx-auto max-h-[85vh] max-w-full rounded-[8px] object-contain"
+                  />
+                  <button
+                    type="button"
+                    aria-label="다음 이미지"
+                    onClick={showNextImage}
+                    className="absolute right-2 z-10 grid size-11 place-items-center rounded-full border border-white/30 bg-black/45 text-white shadow-soft transition-colors hover:bg-black/70 sm:right-4"
+                  >
+                    <ChevronRight className="size-6" />
+                  </button>
+                </div>
               )}
             </DialogContent>
           </Dialog>
