@@ -213,14 +213,14 @@ export function Venue() {
             })}
           </dl>
 
-          <div className="mt-8 grid grid-cols-2 gap-2 sm:grid-cols-3">
+          <div className="mt-8 flex flex-wrap gap-2">
             {mapLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex min-h-9 items-center justify-center gap-1 rounded-full border border-brass/45 px-2 py-1.5 text-[11px] text-ink transition-colors duration-300 hover:border-brass hover:bg-brass hover:text-paper sm:gap-1.5 sm:px-3 sm:py-2 sm:text-xs"
+                className="inline-flex min-h-12 w-fit items-center justify-center gap-1 rounded-full border border-brass/45 px-3 py-2 text-[11px] text-ink transition-colors duration-300 hover:border-brass hover:bg-brass hover:text-paper sm:gap-1.5 sm:px-3 sm:text-xs"
               >
                 {link.brand === "naver" ? (
                   <span
