@@ -132,6 +132,15 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="ko">
       <head>
         <HeadContent />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(() => {
+              const touchDevice = navigator.maxTouchPoints > 0 || "ontouchstart" in window || matchMedia("(pointer: coarse)").matches;
+              const viewport = document.querySelector('meta[name="viewport"]');
+              if (touchDevice && viewport) viewport.content = 'width=' + Math.min(screen.width, 430) + ', initial-scale=1';
+            })();`,
+          }}
+        />
       </head>
       <body>
         {children}
@@ -154,7 +163,7 @@ function RootComponent() {
     if (!viewport || !isTouchDevice) return;
 
     const updatePhoneViewport = () => {
-      const mobileWidth = Math.min(window.screen.width, 600);
+      const mobileWidth = Math.min(window.screen.width, 430);
       viewport.content = `width=${mobileWidth}, initial-scale=1`;
     };
 
