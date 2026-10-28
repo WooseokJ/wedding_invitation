@@ -148,25 +148,32 @@ export function Gallery() {
             <DialogContent className="w-[96vw] max-w-[1100px] border-0 bg-transparent p-0 text-white shadow-none sm:rounded-[8px]">
               <DialogTitle className="sr-only">{selectedImage?.alt} 확대 이미지</DialogTitle>
               {selectedImage && (
-                <div className="relative flex items-center justify-center">
+                <div className="relative flex flex-col items-center justify-center">
                   <button
                     type="button"
                     aria-label="이전 이미지"
                     onClick={showPreviousImage}
-                    className="absolute left-2 z-10 grid size-11 place-items-center rounded-full border border-white/30 bg-black/45 text-white shadow-soft transition-colors hover:bg-black/70 sm:left-4"
+                    className="absolute left-2 top-1/2 z-10 grid size-11 -translate-y-1/2 place-items-center rounded-full border border-white/30 bg-black/45 text-white shadow-soft transition-colors hover:bg-black/70 sm:left-4"
                   >
                     <ChevronLeft className="size-6" />
                   </button>
                   <img
                     src={selectedImage.src}
                     alt={selectedImage.alt}
-                    className="mx-auto max-h-[85vh] max-w-full rounded-[8px] object-contain"
+                    className="mx-auto max-h-[80vh] max-w-full rounded-[8px] object-contain"
                   />
+                  <p
+                    aria-live="polite"
+                    aria-atomic="true"
+                    className="mt-3 text-xs tabular-nums tracking-[0.18em] text-white/90"
+                  >
+                    {selectedIndex + 1} / {galleryImages.length}
+                  </p>
                   <button
                     type="button"
                     aria-label="다음 이미지"
                     onClick={showNextImage}
-                    className="absolute right-2 z-10 grid size-11 place-items-center rounded-full border border-white/30 bg-black/45 text-white shadow-soft transition-colors hover:bg-black/70 sm:right-4"
+                    className="absolute right-2 top-1/2 z-10 grid size-11 -translate-y-1/2 place-items-center rounded-full border border-white/30 bg-black/45 text-white shadow-soft transition-colors hover:bg-black/70 sm:right-4"
                   >
                     <ChevronRight className="size-6" />
                   </button>
