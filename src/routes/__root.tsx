@@ -146,19 +146,16 @@ function RootComponent() {
 
   useEffect(() => {
     const viewport = document.querySelector<HTMLMetaElement>('meta[name="viewport"]');
-    const scale = Math.max(window.devicePixelRatio || 1, 1);
-    const rawShortSide = Math.min(window.screen.width, window.screen.height);
-    const pixelScale = rawShortSide > 700 && scale >= 1.5 ? scale : 1;
-    const deviceShortSide = Math.round(rawShortSide / pixelScale);
-    const isTouchPhone = navigator.maxTouchPoints > 0 && deviceShortSide <= 700;
+    const isTouchDevice =
+      navigator.maxTouchPoints > 0 ||
+      "ontouchstart" in window ||
+      window.matchMedia("(pointer: coarse)").matches;
 
-    if (!viewport || !isTouchPhone) return;
+    if (!viewport || !isTouchDevice) return;
 
     const updatePhoneViewport = () => {
-      const currentScale = Math.max(window.devicePixelRatio || 1, 1);
-      const currentShortSide = Math.min(window.screen.width, window.screen.height);
-      const currentPixelScale = currentShortSide > 700 && currentScale >= 1.5 ? currentScale : 1;
-      viewport.content = `width=${Math.round(window.screen.width / currentPixelScale)}, initial-scale=1`;
+      const mobileWidth = Math.min(window.screen.width, 600);
+      viewport.content = `width=${mobileWidth}, initial-scale=1`;
     };
 
     updatePhoneViewport();
