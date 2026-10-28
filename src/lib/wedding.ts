@@ -20,7 +20,7 @@ export const wedding = {
     bride: [
       { role: "신부 아버지", bank: "신한은행", number: "110-550-485126", holder: "심영하" },
       { role: "신부 어머니", bank: "농협은행", number: "356-0984-8586-53", holder: "김은순" },
-      { role: "신부", bank: "신한은행", number: "010-6376-1558", holder: "심소현" }
+      { role: "신부", bank: "국민은행", number: "010-6376-1558", holder: "심소현" }
     ],
   },
 
