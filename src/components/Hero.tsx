@@ -1,4 +1,4 @@
-import heroLoneTree from "@/assets/wedding3.jpg";
+import heroLoneTree from "@/assets/wedding3-hero.jpg";
 import { wedding } from "@/lib/wedding";
 
 export function Hero() {
@@ -10,6 +10,7 @@ export function Hero() {
         <img
           src={heroLoneTree}
           alt="맑은 날 올림픽공원 언덕, 그 위에 홀로 서 있는 나무"
+          fetchPriority="high"
           className="photo-parallax h-full w-full object-cover object-[center_22%] sm:object-contain sm:object-center"
         />
       </div>

@@ -1,13 +1,13 @@
-import image1 from "@/assets/image1.jpg";
-import image2 from "@/assets/image2.jpg";
-import image3 from "@/assets/image3.jpg";
-import image4 from "@/assets/image4.jpg";
-import image5 from "@/assets/image5.jpg";
-import wedding1 from "@/assets/wedding1.jpg";
-import wedding2 from "@/assets/wedding2.jpg";
-import wedding3 from "@/assets/wedding3.jpg";
-import wedding4 from "@/assets/wedding4.jpg";
-import wedding5 from "@/assets/wedding5.jpg";
+import image1 from "@/assets/image1-gallery.jpg";
+import image2 from "@/assets/image2-gallery.jpg";
+import image3 from "@/assets/image3-gallery.jpg";
+import image4 from "@/assets/image4-gallery.jpg";
+import image5 from "@/assets/image5-gallery.jpg";
+import wedding1 from "@/assets/wedding1-gallery.jpg";
+import wedding2 from "@/assets/wedding2-gallery.jpg";
+import wedding3 from "@/assets/wedding3-gallery.jpg";
+import wedding4 from "@/assets/wedding4-gallery.jpg";
+import wedding5 from "@/assets/wedding5-gallery.jpg";
 import { ChevronDown, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 
 import { useEffect, useState } from "react";
