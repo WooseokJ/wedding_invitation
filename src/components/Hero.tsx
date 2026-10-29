@@ -1,4 +1,4 @@
-import heroLoneTree from "@/assets/image1.jpg";
+import heroLoneTree from "@/assets/wedding3.jpg";
 import { wedding } from "@/lib/wedding";
 
 export function Hero() {
@@ -10,7 +10,7 @@ export function Hero() {
         <img
           src={heroLoneTree}
           alt="맑은 날 올림픽공원 언덕, 그 위에 홀로 서 있는 나무"
-          className="photo-parallax h-full w-full object-cover object-[center_22%] sm:object-center"
+          className="photo-parallax h-full w-full object-cover object-[center_22%] sm:object-contain sm:object-center"
         />
       </div>
 
@@ -23,7 +23,7 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-b from-transparent to-paper" />
 
       <div className="relative mx-auto flex min-h-[100svh] max-w-[900px] flex-col px-6 pt-[16vh] pb-28">
-        <div className="mx-auto w-full max-w-full text-center sm:mx-0 sm:ml-auto sm:mr-[7%] sm:max-w-[24ch]">
+        <div className="mx-auto w-full max-w-full text-center">
           <p className="opening-kicker eyebrow">{invitation.label}</p>
 
           <h1 className="opening-title mt-6 whitespace-nowrap font-display text-5xl leading-[1.12] font-medium text-ink sm:text-7xl">
