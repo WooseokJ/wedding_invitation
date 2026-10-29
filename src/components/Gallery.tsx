@@ -3,6 +3,11 @@ import image2 from "@/assets/image2.jpg";
 import image3 from "@/assets/image3.jpg";
 import image4 from "@/assets/image4.jpg";
 import image5 from "@/assets/image5.jpg";
+import wedding1 from "@/assets/wedding1.jpg";
+import wedding2 from "@/assets/wedding2.jpg";
+import wedding3 from "@/assets/wedding3.jpg";
+import wedding4 from "@/assets/wedding4.jpg";
+import wedding5 from "@/assets/wedding5.jpg";
 import { ChevronDown, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 
 import { useEffect, useState } from "react";
@@ -12,6 +17,36 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 const INITIAL_VISIBLE_IMAGES = 3;
 
 const galleryImages = [
+  {
+    src: wedding1,
+    alt: "결혼식 사진",
+    width: 1008,
+    height: 752,
+  },
+  {
+    src: wedding2,
+    alt: "결혼식 사진",
+    width: 1008,
+    height: 752,
+  },
+  {
+    src: wedding3,
+    alt: "결혼식 사진",
+    width: 1008,
+    height: 752,
+  },
+  {
+    src: wedding4,
+    alt: "결혼식 사진",
+    width: 1008,
+    height: 752,
+  },
+  {
+    src: wedding5,
+    alt: "결혼식 사진",
+    width: 1008,
+    height: 752,
+  },
   {
     src: image1,
     alt: "여덟손이 호숫가 버드나무 아래를 걷는 두 사람",
@@ -41,7 +76,7 @@ const galleryImages = [
     alt: "가로수를 이루는 은행나무 길",
     width: 1008,
     height: 752,
-  },
+  }
 ];
 
 export function Gallery() {
