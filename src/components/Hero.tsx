@@ -36,10 +36,10 @@ export function Hero() {
           <p className="opening-detail mt-8 font-display text-lg text-pretty text-ink [animation-delay:1250ms]">
             {date.hangul}
           </p>
-          <p className="opening-detail mt-3 text-sm tabular-nums text-ink-soft [animation-delay:1420ms]">
+          <p className="opening-detail text-outline-white mt-3 text-[1.05rem] tabular-nums text-ink [animation-delay:1420ms]">
             {date.numeric} ({date.weekday}) {date.hourLabel}
           </p>
-          <p className="opening-detail mt-2 text-sm text-ink-soft [animation-delay:1580ms]">
+          <p className="opening-detail text-outline-white mt-2 text-[1.05rem] text-ink [animation-delay:1580ms]">
             서울 잠실 · {venue.park} {venue.hall}
           </p>
         </div>

@@ -4,6 +4,33 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@font-face {
+  font-family: "Maru Buri";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: "Maru Buri";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-SemiBold.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: "Maru Buri";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Bold.woff2")
+    format("woff2");
+}
+
 /*
  * Olympic Park wedding invitation — design system.
  *
@@ -19,6 +46,7 @@
 
   /* palette */
   --paper: oklch(0.983973 0.007979 36.554);
+  --outline-white: oklch(1 0 0);
   --paper-deep: oklch(0.932 0.021 82);
   --paper-shade: oklch(0.885 0.028 78);
   --ink: oklch(0.245 0.022 60);
@@ -167,8 +195,8 @@
 }
 
 @theme {
-  --font-display: "Nanum Myeongjo", "Noto Serif KR", serif;
-  --font-body: "Pretendard Variable", "Pretendard", -apple-system, sans-serif;
+  --font-display: "Maru Buri", "Noto Serif KR", serif;
+  --font-body: "Maru Buri", "Noto Serif KR", serif;
 }
 
 @layer base {
@@ -625,11 +653,24 @@
 }
 
 @utility eyebrow {
-  font-family: var(--font-body);
-  font-size: 0.6875rem;
+  font-family: var(--font-display);
+  font-size: 1.2rem; /* 6875*/
+  font-weight: 700;
   letter-spacing: 0.32em;
   text-transform: uppercase;
   color: var(--color-brass-deep);
+}
+
+@utility text-outline-white {
+  text-shadow:
+    -1px -1px 0 var(--outline-white),
+    0 -1px 0 var(--outline-white),
+    1px -1px 0 var(--outline-white),
+    -1px 0 0 var(--outline-white),
+    1px 0 0 var(--outline-white),
+    -1px 1px 0 var(--outline-white),
+    0 1px 0 var(--outline-white),
+    1px 1px 0 var(--outline-white);
 }
 
 @utility field-line {
