@@ -162,12 +162,12 @@ export function Venue() {
               const TransitIcon = transitIcons[row.kind];
 
               return (
-                <div key={row.kind} className="flex gap-4">
-                  <dt className="flex w-[5.5rem] shrink-0 items-center gap-1.5 text-xs tracking-[0.18em] text-brass-deep">
+                <div key={row.kind} className="flex items-start gap-3 sm:gap-4">
+                  <dt className="flex w-24 shrink-0 items-center gap-1.5 font-display text-xs leading-snug font-bold tracking-[0.04em] text-brass-deep">
                     <TransitIcon aria-hidden="true" className="size-4 shrink-0" />
                     {row.kind}
                   </dt>
-                  <dd className="text-pretty text-ink">
+                  <dd className="min-w-0 flex-1 break-keep leading-relaxed text-ink">
                     {row.kind === "지하철" ? (
                       <div className="space-y-2">
                         {row.detail.split("\n").map((line, lineIndex) => {
@@ -193,7 +193,7 @@ export function Venue() {
                         })}
                       </div>
                     ) : (
-                      <span className="whitespace-pre-line">
+                      <span className="whitespace-pre-line break-keep">
                         {row.kind === "주차"
                           ? row.detail.split(/(안내 받아)/g).map((part, index) =>
                               part === "안내 받아" ? (
