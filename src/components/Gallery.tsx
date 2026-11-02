@@ -1,8 +1,12 @@
-import image1 from "@/assets/image1-gallery.jpg";
-import image2 from "@/assets/image2-gallery.jpg";
-import image3 from "@/assets/image3-gallery.jpg";
-import image4 from "@/assets/image4-gallery.jpg";
-import image5 from "@/assets/image5-gallery.jpg";
+import image1 from "@/assets/paris1.jpeg";
+import image2 from "@/assets/paris2.jpeg";
+import image3 from "@/assets/paris3.jpeg";
+import image4 from "@/assets/paris4.jpeg";
+import image5 from "@/assets/paris5.jpeg";
+import image6 from "@/assets/paris6.jpeg";
+import image7 from "@/assets/paris7.jpeg";
+import image8 from "@/assets/paris8.jpeg";
+
 import wedding1 from "@/assets/wedding1-gallery.jpg";
 import wedding2 from "@/assets/wedding2-gallery.jpg";
 import wedding3 from "@/assets/wedding3-gallery.jpg";
@@ -50,35 +54,72 @@ const galleryImages = [
     height: 752,
   },
   {
-    src: image1,
+    src: wedding5,
     alt: "여덟손이 호숫가 버드나무 아래를 걷는 두 사람",
     width: 1008,
     height: 752,
   },
   {
-    src: image2,
+    src: wedding5,
     alt: "손편지에 접어 넣은 은행잎과 반지",
     width: 1008,
     height: 752,
   },
   {
-    src: image3,
+    src: wedding5,
     alt: "가로수를 이루는 은행나무 길",
     width: 1008,
     height: 752,
   },
   {
+    src: image1,
+    alt: "가로수를 이루는 은행나무 길",
+    width: 1008,
+    height: 752,
+  },
+  {
+    src: image2,
+    alt: "가로수를 이루는 은행나무 길",
+    width: 1008,
+    height: 752,
+  },
+    {
+    src: image3,
+    alt: "가로수를 이루는 은행나무 길",
+    width: 1008,
+    height: 752,
+  },
+    {
     src: image4,
     alt: "가로수를 이루는 은행나무 길",
     width: 1008,
     height: 752,
   },
   {
+    src: image7,
+    alt: "가로수를 이루는 은행나무 길",
+    width: 1008,
+    height: 752,
+  },
+  {
+    src: image8,
+    alt: "가로수를 이루는 은행나무 길",
+    width: 1008,
+    height: 752,
+  },
+    {
     src: image5,
     alt: "가로수를 이루는 은행나무 길",
     width: 1008,
     height: 752,
   },
+  {
+    src: image6,
+    alt: "가로수를 이루는 은행나무 길",
+    width: 1008,
+    height: 752,
+  }
+
 ];
 
 const photoStrips = Array.from(
