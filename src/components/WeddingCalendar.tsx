@@ -2,17 +2,14 @@ import { useEffect, useState } from "react";
 import type { ComponentProps } from "react";
 import { ko } from "date-fns/locale";
 import { Heart } from "lucide-react";
+import weddingDateIllustration from "@/assets/dateImage.png";
 import { Reveal } from "@/components/Reveal";
 import { Calendar, CalendarDayButton } from "@/components/ui/calendar";
 import { timeUntilWedding } from "@/lib/ics";
 import { wedding } from "@/lib/wedding";
 import { cn } from "@/lib/utils";
 
-const ceremonyDate = new Date(
-  wedding.date.year,
-  wedding.date.month - 1,
-  wedding.date.day,
-);
+const ceremonyDate = new Date(wedding.date.year, wedding.date.month - 1, wedding.date.day);
 
 function WeddingDayButton(props: ComponentProps<typeof CalendarDayButton>) {
   if (!props.modifiers["valentines"]) {
@@ -41,9 +38,7 @@ function WeddingDayButton(props: ComponentProps<typeof CalendarDayButton>) {
 }
 
 function DayCounter() {
-  const [countdown, setCountdown] = useState<ReturnType<
-    typeof timeUntilWedding
-  > | null>(null);
+  const [countdown, setCountdown] = useState<ReturnType<typeof timeUntilWedding> | null>(null);
 
   useEffect(() => {
     const updateCountdown = () => setCountdown(timeUntilWedding());
@@ -63,7 +58,8 @@ function DayCounter() {
     >
       <span className="font-display text-lg">D-{countdown.days}</span>
       <span className="ml-2 text-xs">
-        {String(countdown.hours).padStart(2, "0")}시간 {String(countdown.minutes).padStart(2, "0")}분 {String(countdown.seconds).padStart(2, "0")}초
+        {String(countdown.hours).padStart(2, "0")}시간 {String(countdown.minutes).padStart(2, "0")}
+        분 {String(countdown.seconds).padStart(2, "0")}초
       </span>
     </div>
   );
@@ -71,18 +67,25 @@ function DayCounter() {
 
 export function WeddingCalendar() {
   return (
-    <section
-      id="calendar"
-      className="border-y border-hair bg-paper-deep/70 paper-fibre"
-    >
+    <section id="calendar" className="border-y border-hair bg-paper-deep/70 paper-fibre">
       <div className="mx-auto grid max-w-[900px] items-center gap-8 px-5 py-14 sm:px-6 sm:py-16 md:grid-cols-[1fr_auto] md:gap-12">
+        <Reveal className="w-full md:col-span-2">
+          <img
+            src={weddingDateIllustration}
+            alt="꽃 장식 속 토끼 신부와 곰돌이 신랑, 우석과 소현의 2월 14일 예식 일러스트"
+            loading="lazy"
+            decoding="async"
+            className="h-auto w-full rounded-[100px] shadow-soft"
+          />
+        </Reveal>
+
         <Reveal>
           <p className="eyebrow">예식 날짜</p>
           <h2 className="mt-4 font-display text-3xl font-bold text-balance text-ink">
-            {wedding.date.year}년 {wedding.date.month}월 {wedding.date.day}일 
+            {wedding.date.year}년 {wedding.date.month}월 {wedding.date.day}일
           </h2>
           <p className="mt-4 font-display text-3xl font-bold text-balance text-ink">
-             {wedding.date.weekday} {wedding.date.hourLabel}
+            {wedding.date.weekday} {wedding.date.hourLabel}
           </p>
           <DayCounter />
         </Reveal>
