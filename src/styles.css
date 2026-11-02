@@ -271,6 +271,95 @@
   animation: guestbook-ticket-open 1250ms var(--ease-soft) both;
 }
 
+.photo-strip {
+  border: 1px solid var(--hair);
+  background: var(--paper);
+  padding: 0.55rem;
+  box-shadow: var(--shadow-soft);
+  transition:
+    transform 400ms var(--ease-soft),
+    box-shadow 400ms var(--ease-soft);
+}
+
+.photo-strip:nth-child(3n + 1) {
+  transform: rotate(-1deg);
+}
+.photo-strip:nth-child(3n + 2) {
+  transform: rotate(0.8deg);
+}
+.photo-strip:nth-child(3n) {
+  transform: rotate(-0.4deg);
+}
+.photo-strip:hover {
+  z-index: 1;
+  transform: translateY(-4px) rotate(0) scale(1.015);
+  box-shadow: var(--shadow-lift);
+}
+
+.photo-strip-heading,
+.photo-strip-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--ink-soft);
+  font-family: var(--font-body);
+  font-size: 0.5rem;
+  letter-spacing: 0.16em;
+}
+
+.photo-strip-heading {
+  padding: 0.1rem 0 0.5rem;
+}
+.photo-strip-footer {
+  padding: 0.55rem 0.05rem 0.05rem;
+}
+.photo-strip-footer span:last-child {
+  color: var(--brass);
+  font-size: 0.75rem;
+}
+
+.photo-strip-cuts {
+  display: grid;
+  gap: 0.25rem;
+  background: var(--ink);
+  padding: 0.25rem;
+}
+
+.photo-strip-cut {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  cursor: zoom-in;
+  overflow: hidden;
+  background: var(--paper-deep);
+}
+
+.photo-strip-cut:focus-visible {
+  z-index: 2;
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+}
+
+.photo-strip-zoom {
+  position: absolute;
+  right: 0.35rem;
+  top: 0.35rem;
+  display: grid;
+  width: 1.75rem;
+  height: 1.75rem;
+  place-items: center;
+  border: 1px solid var(--hair);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+
+.photo-strip-cut:hover .photo-strip-zoom,
+.photo-strip-cut:focus-visible .photo-strip-zoom {
+  opacity: 1;
+}
+
 @keyframes opening-title-in {
   from {
     opacity: 0;
@@ -623,5 +712,11 @@
 
   .guestbook-ticket-opening {
     animation-duration: 1ms;
+  }
+
+  .photo-strip,
+  .photo-strip:hover {
+    transform: none;
+    transition: none;
   }
 }

@@ -13,8 +13,10 @@ import { ChevronDown, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Reveal } from "@/components/Reveal";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { wedding } from "@/lib/wedding";
 
-const INITIAL_VISIBLE_IMAGES = 3;
+const CUTS_PER_STRIP = 4;
+const INITIAL_VISIBLE_STRIPS = 2;
 
 const galleryImages = [
   {
@@ -76,16 +78,23 @@ const galleryImages = [
     alt: "가로수를 이루는 은행나무 길",
     width: 1008,
     height: 752,
-  }
+  },
 ];
+
+const photoStrips = Array.from(
+  { length: Math.ceil(galleryImages.length / CUTS_PER_STRIP) },
+  (_, stripIndex) =>
+    Array.from({ length: CUTS_PER_STRIP }, (_, cutIndex) => {
+      const imageIndex = stripIndex * CUTS_PER_STRIP + cutIndex;
+      return galleryImages[imageIndex] ?? galleryImages[imageIndex % galleryImages.length];
+    }),
+);
 
 export function Gallery() {
   const [showAllImages, setShowAllImages] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const selectedImage = selectedIndex === null ? null : galleryImages[selectedIndex];
-  const visibleImages = showAllImages
-    ? galleryImages
-    : galleryImages.slice(0, INITIAL_VISIBLE_IMAGES);
+  const visibleStrips = showAllImages ? photoStrips : photoStrips.slice(0, INITIAL_VISIBLE_STRIPS);
 
   const showPreviousImage = () => {
     setSelectedIndex((index) =>
@@ -128,39 +137,49 @@ export function Gallery() {
           <div
             id="wedding-gallery-more"
             role="group"
-            className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4"
+            className="grid grid-cols-2 items-start gap-4 sm:grid-cols-3 sm:gap-6"
             aria-label="함께한 순간 사진"
           >
-            {visibleImages.map((image) => {
-              const index = galleryImages.indexOf(image);
-
-              return (
-                <button
-                  key={image.src}
-                  type="button"
-                  aria-label={`사진 확대: ${image.alt}`}
-                  onClick={() => setSelectedIndex(index)}
-                  className="group relative aspect-[1008/752] cursor-zoom-in overflow-hidden rounded-[min(1vw,12px)] bg-paper-deep/30 shadow-soft focus-visible:outline-2 focus-visible:outline-brass"
-                >
-                  <img
-                    src={image.src}
-                    alt={image.alt}
-                    width={image.width}
-                    height={image.height}
-                    loading="lazy"
-                    className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-[1.02]"
-                  />
-                  <span
-                    aria-hidden="true"
-                    className="absolute right-2 top-2 grid size-8 place-items-center rounded-full border border-hair bg-paper/90 text-ink opacity-0 shadow-soft transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
-                  >
-                    <ZoomIn className="size-4" />
-                  </span>
-                </button>
-              );
-            })}
+            {visibleStrips.map((strip, stripIndex) => (
+              <article key={`strip-${stripIndex}`} className="photo-strip">
+                <div className="photo-strip-heading">
+                  <span>{wedding.gallery.stripLabel}</span>
+                  <span>NO. {String(stripIndex + 1).padStart(2, "0")}</span>
+                </div>
+                <div className="photo-strip-cuts">
+                  {strip.map((image, cutIndex) => {
+                    const index = galleryImages.indexOf(image);
+                    return (
+                      <button
+                        key={`${image.src}-${cutIndex}`}
+                        type="button"
+                        aria-label={`사진 확대: ${image.alt}`}
+                        onClick={() => setSelectedIndex(index)}
+                        className="photo-strip-cut group"
+                      >
+                        <img
+                          src={image.src}
+                          alt={image.alt}
+                          width={image.width}
+                          height={image.height}
+                          loading="lazy"
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <span aria-hidden="true" className="photo-strip-zoom">
+                          <ZoomIn className="size-4" />
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+                <div className="photo-strip-footer" aria-hidden="true">
+                  <span>{wedding.gallery.stripFooter}</span>
+                  <span>♥</span>
+                </div>
+              </article>
+            ))}
           </div>
-          {!showAllImages && galleryImages.length > INITIAL_VISIBLE_IMAGES && (
+          {!showAllImages && photoStrips.length > INITIAL_VISIBLE_STRIPS && (
             <div className="mt-7 text-center">
               <button
                 type="button"

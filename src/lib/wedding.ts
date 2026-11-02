@@ -108,6 +108,10 @@ export const wedding = {
   ],
 
   guestbookSeed: [],
+  gallery: {
+    stripLabel: "PHOTO BOOTH",
+    stripFooter: "TOGETHER, ALWAYS",
+  },
 } as const;
 
 export type Wedding = typeof wedding;
