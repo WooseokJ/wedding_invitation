@@ -215,6 +215,62 @@
   }
 }
 
+@keyframes guestbook-ticket-open {
+  0% {
+    opacity: 0;
+    filter: blur(5px);
+    transform: perspective(1000px) rotateX(-42deg) rotateY(-18deg) translateY(42px) scale(0.84);
+  }
+  52% {
+    opacity: 1;
+    filter: blur(0);
+    transform: perspective(1000px) rotateX(10deg) rotateY(7deg) translateY(-8px) scale(1.04);
+  }
+  72% {
+    transform: perspective(1000px) rotateX(-5deg) rotateY(-3deg) translateY(2px) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: perspective(1000px) rotateX(0) rotateY(0) translateY(0) scale(1);
+  }
+}
+
+.guestbook-ticket {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--hair-strong);
+  border-radius: var(--radius);
+  background: var(--paper);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-soft);
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+.guestbook-ticket::before,
+.guestbook-ticket::after {
+  position: absolute;
+  top: 50%;
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid var(--hair-strong);
+  border-radius: 999px;
+  background: var(--paper-deep);
+  content: "";
+  transform: translateY(-50%);
+}
+
+.guestbook-ticket::before {
+  left: -0.55rem;
+}
+.guestbook-ticket::after {
+  right: -0.55rem;
+}
+.guestbook-ticket-opening {
+  animation: guestbook-ticket-open 1250ms var(--ease-soft) both;
+}
+
 @keyframes opening-title-in {
   from {
     opacity: 0;
@@ -475,16 +531,8 @@
 
 @utility paper-fibre {
   background-image:
-    repeating-linear-gradient(
-      90deg,
-      oklch(0.245 0.022 60 / 0.022) 0 1px,
-      transparent 1px 4px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      oklch(0.245 0.022 60 / 0.018) 0 1px,
-      transparent 1px 5px
-    );
+    repeating-linear-gradient(90deg, oklch(0.245 0.022 60 / 0.022) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(0deg, oklch(0.245 0.022 60 / 0.018) 0 1px, transparent 1px 5px);
 }
 
 @utility eyebrow {
@@ -571,5 +619,9 @@
   .photo-parallax {
     transform: none;
     will-change: auto;
+  }
+
+  .guestbook-ticket-opening {
+    animation-duration: 1ms;
   }
 }

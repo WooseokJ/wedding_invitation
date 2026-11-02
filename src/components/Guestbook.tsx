@@ -68,13 +68,9 @@ function EntryCard({
   return (
     <article className="h-full rounded-[min(1vw,12px)] bg-paper p-5 ring-1 ring-hair">
       <header className="flex items-start justify-between gap-3">
-        <span className="font-display text-base font-bold text-ink">
-          {entry.name}
-        </span>
+        <span className="font-display text-base font-bold text-ink">{entry.name}</span>
         <div className="flex items-center gap-2">
-          <span className="text-[11px] text-ink-soft">
-            {when(entry.created_at)}
-          </span>
+          <span className="text-[11px] text-ink-soft">{when(entry.created_at)}</span>
           {canDelete && (
             <button
               type="button"
@@ -87,9 +83,7 @@ function EntryCard({
           )}
         </div>
       </header>
-      <p className="mt-1 text-[11px] text-ink-soft">
-        {entry.attending ? "참석" : "함께하지 못함"}
-      </p>
+      <p className="mt-1 text-[11px] text-ink-soft">{entry.attending ? "참석" : "함께하지 못함"}</p>
       <p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed text-pretty text-ink-soft">
         {entry.message}
       </p>
@@ -140,8 +134,7 @@ function EntriesModal({
       >
         <div className="flex items-center justify-between border-b border-hair px-5 py-4">
           <h3 className="font-display text-base font-bold text-ink">
-            전체 방명록{" "}
-            <span className="font-normal text-ink-soft">({entries.length})</span>
+            전체 방명록 <span className="font-normal text-ink-soft">({entries.length})</span>
           </h3>
           <button
             type="button"
@@ -174,8 +167,21 @@ export function Guestbook() {
   const [message, setMessage] = useState("");
   const [attending, setAttending] = useState(true);
   const [sending, setSending] = useState(false);
+  const [ticketState, setTicketState] = useState<"closed" | "opening" | "open">("closed");
 
   const [modalOpen, setModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (ticketState !== "opening") return;
+    const timer = window.setTimeout(() => setTicketState("open"), 1300);
+    return () => window.clearTimeout(timer);
+  }, [ticketState]);
+
+  function openTicket() {
+    setTicketState(
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "open" : "opening",
+    );
+  }
 
   const { data, isPending, isError, refetch } = useQuery({
     queryKey: ["guestbook"],
@@ -238,151 +244,206 @@ export function Guestbook() {
   return (
     <section id="guestbook" className="border-t border-hair">
       <div className="mx-auto max-w-[900px] px-5 py-16 sm:px-6 sm:py-28">
-        <Reveal className="text-center">
-          <p className="eyebrow">방명록 · 참석</p>
-          <h2 className="mt-4 font-display text-2xl font-bold text-pretty text-ink">
-            함께해 주시겠습니까
-          </h2>
-          <p className="mt-3 text-sm text-ink-soft">
-            참석 여부와 두 사람에게 전하는 축하의 말을 남겨 주세요.
-          </p>
-        </Reveal>
+        {ticketState !== "closed" && (
+          <Reveal className="text-center">
+            <p className="eyebrow">방명록 · 참석</p>
+            <h2 className="mt-4 font-display text-2xl font-bold text-pretty text-ink">
+              함께해 주시겠습니까
+            </h2>
+            <p className="mt-3 text-sm text-ink-soft">
+              참석 여부와 두 사람에게 전하는 축하의 말을 남겨 주세요.
+            </p>
+          </Reveal>
+        )}
 
-        <Reveal delay={120}>
-          <form
-            onSubmit={submit}
-            className="mt-9 rounded-[min(1vw,12px)] bg-paper-deep/50 p-5 ring-1 ring-hair sm:mt-12 sm:p-10"
-          >
-            <div className="grid gap-7 sm:grid-cols-1">
-              <label className="block">
-                <span className="mb-1 block text-xs tracking-[0.18em] text-brass-deep">
-                  이름
-                </span>
-                <input
-                  value={name}
-                  onChange={(event) => setName(event.target.value)}
-                  maxLength={20}
-                  required
-                  autoComplete="name"
-                  placeholder="이름을 입력해 주세요."
-                  className="field-line"
-                />
-              </label>
+        {ticketState === "closed" ? (
+          <Reveal delay={120}>
+            <div className="mt-9 flex flex-col items-center rounded-[min(1vw,12px)] bg-paper-deep/50 px-5 py-10 text-center ring-1 ring-hair sm:mt-12 sm:py-14">
+              <p className="text-xs tracking-[0.24em] text-brass-deep">
+                {wedding.guestbookTicket.introEyebrow}
+              </p>
+              <p className="mt-3 font-display text-lg text-ink">
+                {wedding.guestbookTicket.introTitle}
+              </p>
+              <p className="mt-2 text-sm text-ink-soft">{wedding.guestbookTicket.introBody}</p>
+              <button
+                type="button"
+                onClick={openTicket}
+                className="mt-7 rounded-full bg-ink px-7 py-3 text-sm tracking-wide text-paper transition-colors hover:bg-brass-deep"
+              >
+                {wedding.guestbookTicket.openLabel}
+              </button>
             </div>
-
-            <div className="mt-7">
-              <span className="mb-3 block text-xs tracking-[0.18em] text-brass-deep">
-                참석 여부
-              </span>
-              <div className="flex flex-col gap-2 min-[360px]:flex-row min-[360px]:gap-3">
-                {[
-                  { value: true, label: "참석합니다" },
-                  { value: false, label: "함께하지 못합니다" },
-                ].map((option) => (
-                  <button
-                    key={option.label}
-                    type="button"
-                    onClick={() => setAttending(option.value)}
-                    className={cn(
-                      "flex-1 rounded-[8px] py-3 text-sm transition-colors duration-300",
-                      attending === option.value
-                        ? "bg-ink text-paper"
-                        : "bg-paper text-ink ring-1 ring-hair",
-                    )}
-                  >
-                    {option.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <label className="mt-7 block">
-              <span className="mb-1 block text-xs tracking-[0.18em] text-brass-deep">
-                축하의 한마디
-              </span>
-              <textarea
-                value={message}
-                onChange={(event) => setMessage(event.target.value)}
-                maxLength={300}
-                rows={3}
-                required
-                placeholder="두 사람에게 전하고 싶은 말을 남겨 주세요."
-                className="field-line resize-none"
-              />
-            </label>
-
-            <button
-              type="submit"
-              disabled={sending}
-              className="mt-8 w-full rounded-[8px] bg-ink py-3.5 text-sm tracking-wide text-paper transition-colors duration-300 hover:bg-brass-deep disabled:opacity-60"
+          </Reveal>
+        ) : (
+          <div className="mt-9 sm:mt-12">
+            <div
+              className={cn(
+                "guestbook-ticket mx-auto max-w-xl",
+                ticketState === "opening" && "guestbook-ticket-opening",
+              )}
             >
-              {sending ? "보내는 중…" : "답장 보내기"}
-            </button>
-          </form>
-        </Reveal>
-
-        <div className="mt-14 grid gap-4 sm:grid-cols-3">
-          {isPending && (
-            <p className="text-sm text-ink-soft sm:col-span-3">
-              방명록을 불러오고 있습니다.
-            </p>
-          )}
-
-          {isError && (
-            <div className="text-center text-sm text-ink-soft sm:col-span-3">
-              <p role="alert">방명록을 불러오지 못했습니다. 네트워크 연결을 확인해 주세요.</p>
-              <button
-                type="button"
-                onClick={() => void refetch()}
-                className="mt-3 underline underline-offset-4 transition-colors hover:text-ink"
-              >
-                다시 불러오기
-              </button>
+              <div className="flex items-center justify-between border-b border-hair pb-4">
+                <span className="text-[10px] tracking-[0.24em] text-brass-deep">
+                  {wedding.guestbookTicket.ticketLabel}
+                </span>
+                <span className="text-xs text-ink-soft">
+                  {wedding.guestbookTicket.ticketNumber}
+                </span>
+              </div>
+              <p className="mt-6 font-display text-2xl font-bold text-ink">
+                {wedding.groom.first} <span className="text-brass">&</span> {wedding.bride.first}
+              </p>
+              <p className="mt-2 text-sm text-ink-soft">
+                {wedding.date.numeric} ({wedding.date.weekday}) · {wedding.date.hourLabel}
+              </p>
+              <div className="my-5 border-t border-dashed border-hair-strong" />
+              <p className="text-sm font-medium text-ink">
+                {wedding.venue.park} {wedding.venue.hall}
+              </p>
+              <p className="mt-1 text-xs text-ink-soft">{wedding.guestbookTicket.note}</p>
             </div>
-          )}
+            {ticketState === "open" && (
+              <Reveal delay={120}>
+                <form
+                  onSubmit={submit}
+                  className="mt-9 rounded-[min(1vw,12px)] bg-paper-deep/50 p-5 ring-1 ring-hair sm:mt-12 sm:p-10"
+                >
+                  <div className="grid gap-7 sm:grid-cols-1">
+                    <label className="block">
+                      <span className="mb-1 block text-xs tracking-[0.18em] text-brass-deep">
+                        이름
+                      </span>
+                      <input
+                        value={name}
+                        onChange={(event) => setName(event.target.value)}
+                        maxLength={20}
+                        required
+                        autoComplete="name"
+                        placeholder="이름을 입력해 주세요."
+                        className="field-line"
+                      />
+                    </label>
+                  </div>
 
-          {!isPending && !isError && (data?.length ?? 0) > 0 && (
-            <p className="text-xs text-ink-soft sm:col-span-3">
-              최근 인사 {Math.min(entries.length, PREVIEW_COUNT)}개를 보여 드립니다.
-            </p>
-          )}
+                  <div className="mt-7">
+                    <span className="mb-3 block text-xs tracking-[0.18em] text-brass-deep">
+                      참석 여부
+                    </span>
+                    <div className="flex flex-col gap-2 min-[360px]:flex-row min-[360px]:gap-3">
+                      {[
+                        { value: true, label: "참석합니다" },
+                        { value: false, label: "함께하지 못합니다" },
+                      ].map((option) => (
+                        <button
+                          key={option.label}
+                          type="button"
+                          onClick={() => setAttending(option.value)}
+                          className={cn(
+                            "flex-1 rounded-[8px] py-3 text-sm transition-colors duration-300",
+                            attending === option.value
+                              ? "bg-ink text-paper"
+                              : "bg-paper text-ink ring-1 ring-hair",
+                          )}
+                        >
+                          {option.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
 
-          {!isPending && !isError && (data?.length ?? 0) === 0 && (
-            <p className="text-sm text-ink-soft sm:col-span-3">
-              아직 첫 인사가 없습니다. 가장 먼저 축하를 남겨 주세요.
-            </p>
-          )}
+                  <label className="mt-7 block">
+                    <span className="mb-1 block text-xs tracking-[0.18em] text-brass-deep">
+                      축하의 한마디
+                    </span>
+                    <textarea
+                      value={message}
+                      onChange={(event) => setMessage(event.target.value)}
+                      maxLength={300}
+                      rows={3}
+                      required
+                      placeholder="두 사람에게 전하고 싶은 말을 남겨 주세요."
+                      className="field-line resize-none"
+                    />
+                  </label>
 
-          {preview.map((entry, index) => (
-            <Reveal key={entry.id} delay={index * 80}>
-              <EntryCard
-                entry={entry}
-                canDelete={entry.author_id === authorId}
-                onDelete={(id) => void deleteEntry(id)}
-              />
-            </Reveal>
-          ))}
+                  <button
+                    type="submit"
+                    disabled={sending}
+                    className="mt-8 w-full rounded-[8px] bg-ink py-3.5 text-sm tracking-wide text-paper transition-colors duration-300 hover:bg-brass-deep disabled:opacity-60"
+                  >
+                    {sending ? "보내는 중…" : "답장 보내기"}
+                  </button>
+                </form>
+              </Reveal>
+            )}
+          </div>
+        )}
 
-          {entries.length > PREVIEW_COUNT && (
-            <div className="mt-2 text-center sm:col-span-3">
-              <button
-                type="button"
-                onClick={() => setModalOpen(true)}
-                className="rounded-full bg-paper px-5 py-2.5 text-sm text-ink ring-1 ring-hair transition-colors hover:bg-paper-deep"
-              >
-                전체 메시지 보기 ({entries.length})
-              </button>
-            </div>
-          )}
-        </div>
+        {ticketState === "open" && (
+          <div className="mt-14 grid gap-4 sm:grid-cols-3">
+            {isPending && (
+              <p className="text-sm text-ink-soft sm:col-span-3">방명록을 불러오고 있습니다.</p>
+            )}
 
-        <EntriesModal
-          open={modalOpen}
-          onClose={() => setModalOpen(false)}
-          entries={entries}
-          authorId={authorId}
-          onDelete={(id) => void deleteEntry(id)}
-        />
+            {isError && (
+              <div className="text-center text-sm text-ink-soft sm:col-span-3">
+                <p role="alert">방명록을 불러오지 못했습니다. 네트워크 연결을 확인해 주세요.</p>
+                <button
+                  type="button"
+                  onClick={() => void refetch()}
+                  className="mt-3 underline underline-offset-4 transition-colors hover:text-ink"
+                >
+                  다시 불러오기
+                </button>
+              </div>
+            )}
+
+            {!isPending && !isError && (data?.length ?? 0) > 0 && (
+              <p className="text-xs text-ink-soft sm:col-span-3">
+                최근 인사 {Math.min(entries.length, PREVIEW_COUNT)}개를 보여 드립니다.
+              </p>
+            )}
+
+            {!isPending && !isError && (data?.length ?? 0) === 0 && (
+              <p className="text-sm text-ink-soft sm:col-span-3">
+                아직 첫 인사가 없습니다. 가장 먼저 축하를 남겨 주세요.
+              </p>
+            )}
+
+            {preview.map((entry, index) => (
+              <Reveal key={entry.id} delay={index * 80}>
+                <EntryCard
+                  entry={entry}
+                  canDelete={entry.author_id === authorId}
+                  onDelete={(id) => void deleteEntry(id)}
+                />
+              </Reveal>
+            ))}
+
+            {entries.length > PREVIEW_COUNT && (
+              <div className="mt-2 text-center sm:col-span-3">
+                <button
+                  type="button"
+                  onClick={() => setModalOpen(true)}
+                  className="rounded-full bg-paper px-5 py-2.5 text-sm text-ink ring-1 ring-hair transition-colors hover:bg-paper-deep"
+                >
+                  전체 메시지 보기 ({entries.length})
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {ticketState === "open" && (
+          <EntriesModal
+            open={modalOpen}
+            onClose={() => setModalOpen(false)}
+            entries={entries}
+            authorId={authorId}
+            onDelete={(id) => void deleteEntry(id)}
+          />
+        )}
       </div>
     </section>
   );

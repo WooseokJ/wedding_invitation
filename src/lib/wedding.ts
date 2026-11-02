@@ -11,16 +11,25 @@ export const wedding = {
     title: "초대합니다",
     enterLabel: "초대장 열기",
   },
+  guestbookTicket: {
+    introEyebrow: "A LITTLE WEDDING TICKET",
+    introTitle: "두 사람의 예식에 초대합니다",
+    introBody: "티켓을 열고 참석 여부와 축하의 말을 전해 주세요.",
+    openLabel: "초대 티켓 열기",
+    ticketLabel: "WEDDING TICKET",
+    ticketNumber: "INVITATION · ADMIT ONE",
+    note: "함께해 주셔서 고맙습니다. 따뜻한 마음을 남겨 주세요.",
+  },
   accounts: {
     groom: [
       { role: "신랑 아버지", bank: "국민은행", number: "000-0000-0002", holder: "조형곤" },
       { role: "신랑 어머니", bank: "국민은행", number: "000-0000-0003", holder: "이미송" },
-      { role: "신랑", bank: "카카오뱅크", number: "3333-07-8619963", holder: "조우석" }
+      { role: "신랑", bank: "카카오뱅크", number: "3333-07-8619963", holder: "조우석" },
     ],
     bride: [
       { role: "신부 아버지", bank: "신한은행", number: "110-550-485126", holder: "심영하" },
       { role: "신부 어머니", bank: "농협은행", number: "356-0984-8586-53", holder: "김은순" },
-      { role: "신부", bank: "신한은행", number: "110-357-711990", holder: "심소현" }
+      { role: "신부", bank: "신한은행", number: "110-357-711990", holder: "심소현" },
     ],
   },
 
@@ -56,7 +65,11 @@ export const wedding = {
         detail: "2호선 잠실역 8번 출구, 도보 4분\n 8호선 잠실역 9번 출구, 도보 3분",
       },
       { kind: "시외버스", detail: "춘천-잠실행: 잠실역 6번 출구 앞 하차, 도보 9분" },
-      { kind: "주차", detail: "웨딩홀 지하주차장 2시간 무료(추가 천원/10분)\n주차 부족 시 옆건물(대한제당) 안내 받아 주차 가능" },
+      {
+        kind: "주차",
+        detail:
+          "웨딩홀 지하주차장 2시간 무료(추가 천원/10분)\n주차 부족 시 옆건물(대한제당) 안내 받아 주차 가능",
+      },
       { kind: "ATM", detail: "정문 1층 우리은행 ATM" },
     ],
   },
@@ -94,9 +107,7 @@ export const wedding = {
     },
   ],
 
-  guestbookSeed: [
-
-  ],
+  guestbookSeed: [],
 } as const;
 
 export type Wedding = typeof wedding;
