@@ -11,6 +11,7 @@ export function Hero() {
           src={heroLoneTree}
           alt="맑은 날 올림픽공원 언덕, 그 위에 홀로 서 있는 나무"
           fetchPriority="high"
+          decoding="async"
           className="photo-parallax h-full w-full object-cover object-[center_22%] sm:object-contain sm:object-center"
         />
       </div>

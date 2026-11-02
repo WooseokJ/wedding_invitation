@@ -1,5 +1,5 @@
 import venueStone from "@/assets/venue-stone.jpg";
-import heroLoneTree from "@/assets/hero-lone-tree.png";
+import heroLoneTree from "@/assets/hero-lone-tree-optimized.jpg";
 import tmapIcon from "@/assets/tmap-icon.svg";
 // import parking2 from "@/assets/parking2.png"
 import {

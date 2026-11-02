@@ -1,11 +1,11 @@
-import image1 from "@/assets/paris1.jpeg";
-import image2 from "@/assets/paris2.jpeg";
-import image3 from "@/assets/paris3.jpeg";
-import image4 from "@/assets/paris4.jpeg";
-import image5 from "@/assets/paris5.jpeg";
-import image6 from "@/assets/paris6.jpeg";
-import image7 from "@/assets/paris7.jpeg";
-import image8 from "@/assets/paris8.jpeg";
+import image1 from "@/assets/paris1-optimized.jpg";
+import image2 from "@/assets/paris2-optimized.jpg";
+import image3 from "@/assets/paris3-optimized.jpg";
+import image4 from "@/assets/paris4-optimized.jpg";
+import image5 from "@/assets/paris5-optimized.jpg";
+import image6 from "@/assets/paris6-optimized.jpg";
+import image7 from "@/assets/paris7-optimized.jpg";
+import image8 from "@/assets/paris8-optimized.jpg";
 
 import wedding1 from "@/assets/wedding1-gallery.jpg";
 import wedding2 from "@/assets/wedding2-gallery.jpg";
@@ -74,52 +74,51 @@ const galleryImages = [
   {
     src: image1,
     alt: "가로수를 이루는 은행나무 길",
-    width: 1008,
-    height: 752,
+    width: 1264,
+    height: 2000,
   },
   {
     src: image2,
     alt: "가로수를 이루는 은행나무 길",
-    width: 1008,
-    height: 752,
+    width: 1272,
+    height: 2000,
   },
-    {
+  {
     src: image3,
     alt: "가로수를 이루는 은행나무 길",
-    width: 1008,
-    height: 752,
+    width: 1291,
+    height: 2000,
   },
-    {
+  {
     src: image4,
     alt: "가로수를 이루는 은행나무 길",
-    width: 1008,
-    height: 752,
+    width: 1269,
+    height: 2000,
   },
   {
     src: image7,
     alt: "가로수를 이루는 은행나무 길",
-    width: 1008,
-    height: 752,
+    width: 1333,
+    height: 2000,
   },
   {
     src: image8,
     alt: "가로수를 이루는 은행나무 길",
-    width: 1008,
-    height: 752,
+    width: 1333,
+    height: 2000,
   },
-    {
+  {
     src: image5,
     alt: "가로수를 이루는 은행나무 길",
-    width: 1008,
-    height: 752,
+    width: 2000,
+    height: 1291,
   },
   {
     src: image6,
     alt: "가로수를 이루는 은행나무 길",
-    width: 1008,
-    height: 752,
-  }
-
+    width: 2000,
+    height: 1291,
+  },
 ];
 
 const photoStrips = Array.from(
@@ -204,6 +203,7 @@ export function Gallery() {
                           width={image.width}
                           height={image.height}
                           loading="lazy"
+                          decoding="async"
                           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                         <span aria-hidden="true" className="photo-strip-zoom">
