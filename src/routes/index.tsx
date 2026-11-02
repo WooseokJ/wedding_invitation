@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Accounts } from "@/components/Accounts";
+import { CoupleIntroduction } from "@/components/CoupleIntroduction";
 import { Gallery } from "@/components/Gallery";
 import { Guestbook } from "@/components/Guestbook";
 import { Hero } from "@/components/Hero";
@@ -44,6 +45,7 @@ function Index() {
         <SakuraPetals />
         <main>
           <Hero />
+          <CoupleIntroduction />
           <WeddingCalendar />
           <Venue />
           <Gallery />

@@ -4,12 +4,20 @@
  */
 
 export const wedding = {
-  groom: { first: "우석", full: "조우석", family: "조형곤 · 이미송의 아들" },
-  bride: { first: "소현", full: "심소현", family: "심영하 · 김은순의 딸" },
+  groom: { first: "우석", full: "조우석", family: "조형곤 · 이미송의 장남" },
+  bride: { first: "소현", full: "심소현", family: "심영하 · 김은순의 차녀" },
   invitation: {
     label: "WEDDING INVITATION",
     title: "초대합니다",
     enterLabel: "초대장 열기",
+  },
+  familyIntroduction: {
+    eyebrow: "인사말",
+    title: "두 사람의 결혼식에 초대합니다.",
+    description: "장난스러운 가을 바람이 불어 만난 두 사람",
+    description2: "이제 부부로서 함께 합니다.",
+    groomLabel: "신랑",
+    brideLabel: "신부",
   },
   guestbookTicket: {
     introEyebrow: "A LITTLE WEDDING TICKET",
