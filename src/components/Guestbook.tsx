@@ -285,14 +285,14 @@ export function Guestbook() {
             >
               <div className="flex items-center justify-between border-b border-hair pb-4">
                 <span className="text-[10px] tracking-[0.24em] text-brass-deep">
-                  {wedding.guestbookTicket.ticketLabel}
+                  📩
                 </span>
                 <span className="text-xs text-ink-soft">
                   {wedding.guestbookTicket.ticketNumber}
                 </span>
               </div>
               <p className="mt-6 font-display text-2xl font-bold text-ink">
-                {wedding.groom.first} <span className="text-brass">&</span> {wedding.bride.first}
+                INVITATION
               </p>
               <p className="mt-2 text-sm text-ink-soft">
                 {wedding.date.numeric} ({wedding.date.weekday}) · {wedding.date.hourLabel}

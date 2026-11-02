@@ -25,7 +25,7 @@ export const wedding = {
     introBody: "티켓을 열고 참석 여부와 축하의 말을 전해 주세요.",
     openLabel: "초대 티켓 열기",
     ticketLabel: "WEDDING TICKET",
-    ticketNumber: "INVITATION · ADMIT ONE",
+    ticketNumber: "WEDDING TICKET",
     note: "함께해 주셔서 고맙습니다. 따뜻한 마음을 남겨 주세요.",
   },
   accounts: {

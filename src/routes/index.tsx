@@ -36,7 +36,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const [hasEntered, setHasEntered] = useState(false);
+  const [hasEntered, setHasEntered] = useState(true);
 
   return (
     <div className={hasEntered ? "bg-paper" : "h-svh overflow-hidden bg-paper"}>
@@ -54,7 +54,7 @@ function Index() {
         </main>
         <InviteFooter />
       </div>
-      {!hasEntered && <OpeningScreen onEnter={() => setHasEntered(true)} />}
+      {/* {!hasEntered && <OpeningScreen onEnter={() => setHasEntered(true)} />} */}
     </div>
   );
 }

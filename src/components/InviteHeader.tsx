@@ -3,6 +3,7 @@ import { Volume2, VolumeX } from "lucide-react";
 import { wedding } from "@/lib/wedding";
 
 const links = [
+  
   { href: "#calendar", label: "예식 날짜" },
   { href: "#venue", label: "장소" },
   { href: "#guestbook", label: "방명록" },
