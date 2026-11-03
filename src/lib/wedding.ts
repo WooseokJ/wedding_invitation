@@ -14,8 +14,10 @@ export const wedding = {
   familyIntroduction: {
     eyebrow: "인사말",
     title: "두 사람의 결혼식에 초대합니다.",
-    description: "장난스러운 가을 바람이 불어 만난 두 사람",
-    description2: "이제 부부로서 함께 합니다.",
+    description: "곁에서 아껴준 고마운 분들을 초대합니다.",
+    description2: "누군가 사랑이 무엇인지 물어왔을 때",
+    description3: "한 치의 망설임 없이 서로를 떠올리는 이 마음 그대로",
+    description4: "저희 둘, 결혼합니다.",
     groomLabel: "신랑",
     brideLabel: "신부",
   },

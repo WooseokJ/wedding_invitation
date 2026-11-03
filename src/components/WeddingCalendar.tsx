@@ -69,15 +69,7 @@ export function WeddingCalendar() {
   return (
     <section id="calendar" className="border-y border-hair bg-paper-deep/70 paper-fibre">
       <div className="mx-auto grid max-w-[900px] items-center gap-8 px-5 py-14 sm:px-6 sm:py-16 md:grid-cols-[1fr_auto] md:gap-12">
-        <Reveal className="w-full md:col-span-2">
-          <img
-            src={weddingDateIllustration}
-            alt="꽃 장식 속 토끼 신부와 곰돌이 신랑, 우석과 소현의 2월 14일 예식 일러스트"
-            loading="lazy"
-            decoding="async"
-            className="h-auto w-full rounded-[100px] shadow-soft"
-          />
-        </Reveal>
+
 
         <Reveal>
           <p className="eyebrow">예식 날짜</p>

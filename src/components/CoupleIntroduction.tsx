@@ -13,17 +13,18 @@ export function CoupleIntroduction() {
       <div className="mx-auto max-w-[900px] px-5 py-12 sm:px-6 sm:py-16">
         <Reveal className="text-center">
           <p className="eyebrow">{familyIntroduction.eyebrow}</p>
-          <h2
-            id="couple-introduction-title"
-            className="mt-3 font-display text-xl font-bold text-ink sm:text-2xl"
-          >
-            {familyIntroduction.title}
-          </h2>
+
           <p className="mx-auto mt-7 max-w-[38ch] text-base leading-8 text-pretty text-ink-soft sm:mt-8 sm:text-lg">
             {familyIntroduction.description}
           </p>
           <p className="mx-auto mt-7 max-w-[38ch] text-base leading-8 text-pretty text-ink-soft sm:mt-8 sm:text-lg">
             {familyIntroduction.description2}
+          </p>
+            <p className="mx-auto mt-7 max-w-[38ch] text-base leading-8 text-pretty text-ink-soft sm:mt-8 sm:text-lg">
+            {familyIntroduction.description3}
+          </p>
+            <p className="mx-auto mt-7 max-w-[38ch] text-base leading-8 text-pretty text-ink-soft sm:mt-8 sm:text-lg">
+            {familyIntroduction.description4}
           </p>
         </Reveal>
 
