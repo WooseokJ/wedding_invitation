@@ -42,6 +42,16 @@ export const wedding = {
       { role: "신부", bank: "신한은행", number: "110-357-711990", holder: "심소현" },
     ],
   },
+  meal: {
+    eyebrow: "식사 안내",
+    title: "예식 후 식사가 준비되어 있습니다.",
+    description: "* 연회장은 지하 1층에 있습니다.",
+    description2: "뷔페 형식으로, 120여가지 이상의 메뉴가 있으며",
+    description3: "800석 규모의 넓은 좌석과 커피와 주류, 와인이 무제한",
+    description4: "도가니탕, 육회, 전복 등 맛좋은 메뉴를 추천드립니다",
+    
+    
+  },
 
   /** Displayed date parts. `iso` drives the countdown + .ics export. */
   date: {

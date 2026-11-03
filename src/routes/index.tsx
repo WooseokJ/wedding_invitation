@@ -7,6 +7,7 @@ import { Guestbook } from "@/components/Guestbook";
 import { Hero } from "@/components/Hero";
 import { InviteFooter } from "@/components/InviteFooter";
 import { InviteHeader } from "@/components/InviteHeader";
+import { MealGuide } from "@/components/MealGuide";
 import { OpeningScreen } from "@/components/OpeningScreen";
 import { SakuraPetals } from "@/components/SakuraPetals";
 import { Venue } from "@/components/Venue";
@@ -49,6 +50,7 @@ function Index() {
           <WeddingCalendar />
           <Venue />
           <Gallery />
+          <MealGuide />
           <Accounts />
           <Guestbook />
         </main>
