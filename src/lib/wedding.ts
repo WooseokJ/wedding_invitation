@@ -16,8 +16,9 @@ export const wedding = {
     title: "두 사람의 결혼식에 초대합니다.",
     description: "곁에서 아껴준 고마운 분들을 초대합니다.",
     description2: "누군가 사랑이 무엇인지 물어왔을 때",
-    description3: "한 치의 망설임 없이 서로를 떠올리는 이 마음 그대로",
-    description4: "저희 둘, 결혼합니다.",
+    description3: "한 치의 망설임 없이 ",
+    description4: "서로를 떠올리는 이 마음 그대로",
+    description5: "저희 둘, 결혼합니다.",
     groomLabel: "신랑",
     brideLabel: "신부",
   },
@@ -45,11 +46,10 @@ export const wedding = {
   meal: {
     eyebrow: "식사 안내",
     title: "예식 후 식사가 준비되어 있습니다.",
-    description: "* 연회장은 지하 1층에 있습니다.",
-    description2: "뷔페 형식으로, 120여가지 이상의 메뉴가 있으며",
-    description3: "800석 규모의 넓은 좌석과 커피와 주류, 와인이 무제한",
-    description4: "도가니탕, 육회, 전복 등 맛좋은 메뉴를 추천드립니다",
-    
+    description2: "뷔페 형식으로, 130여가지 이상의 메뉴가 있으며",
+    description3: "400석 규모의 넓은 좌석과 커피와 주류, 와인이 무제한",
+    description4: "도가니탕, 깐풍기, 갈비찜 등 맛좋은 메뉴를 추천드립니다",
+    description: "* 연회장은 지하 1층에 있습니다.(초등학생 미만은 식대 무료)",
     
   },
 

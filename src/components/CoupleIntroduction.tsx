@@ -26,6 +26,9 @@ export function CoupleIntroduction() {
             <p className="mx-auto mt-7 max-w-[38ch] text-base leading-8 text-pretty text-ink-soft sm:mt-8 sm:text-lg">
             {familyIntroduction.description4}
           </p>
+          <p className="mx-auto mt-7 max-w-[38ch] text-base leading-8 text-pretty text-ink-soft sm:mt-8 sm:text-lg">
+            {familyIntroduction.description5}
+          </p>
         </Reveal>
 
         <div className="mx-auto mt-12 grid max-w-[660px] sm:mt-16 sm:grid-cols-2">
