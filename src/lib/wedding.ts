@@ -34,7 +34,7 @@ export const wedding = {
   accounts: {
     groom: [
       { role: "신랑 아버지", bank: "국민은행", number: "000-0000-0002", holder: "조형곤" },
-      { role: "신랑 어머니", bank: "국민은행", number: "000-0000-0003", holder: "이미송" },
+      { role: "신랑 어머니", bank: "SC제일은행", number: "433-20-285876", holder: "이미송" },
       { role: "신랑", bank: "카카오뱅크", number: "3333-07-8619963", holder: "조우석" },
     ],
     bride: [
@@ -48,7 +48,7 @@ export const wedding = {
     title: "예식 후 식사가 준비되어 있습니다.",
     description2: "뷔페 형식으로, 130여가지 이상의 메뉴가 있으며",
     description3: "400석 규모의 넓은 좌석과 커피와 주류, 와인이 무제한",
-    description4: "도가니탕, 깐풍기, 갈비찜 등 맛좋은 메뉴를 추천드립니다",
+    description4: "도가니탕, 딤섬만두, 갈비찜 등 맛좋은 메뉴를 추천드립니다",
     description: "* 연회장은 지하 1층에 있습니다.(초등학생 미만은 식대 무료)",
     
   },

@@ -25,8 +25,8 @@ export function MealGuide() {
           <p className="mt-3 text-sm leading-relaxed text-ink-soft">{meal.description2}</p>
           <p className="mt-3 text-sm leading-relaxed text-ink-soft">{meal.description3}</p>
           <p className="mt-3 text-sm leading-relaxed text-ink-soft">
-            {meal.description4.split(/(도가니탕|깐풍기|갈비찜)/g).map((part, index) =>
-              ["도가니탕", "깐풍기", "갈비찜"].includes(part) ? (
+            {meal.description4.split(/(도가니탕|딤섬만두|갈비찜)/g).map((part, index) =>
+              ["도가니탕", "딤섬만두", "갈비찜"].includes(part) ? (
                 <u key={index} className="underline underline-offset-2">
                   {part}
                 </u>
