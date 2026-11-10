@@ -45,14 +45,9 @@ const galleryImages = [
     width: 1008,
     height: 752,
   },
+
   {
     src: wedding7,
-    alt: "결혼식 사진",
-    width: 1008,
-    height: 752,
-  },
-  {
-    src: wedding2,
     alt: "결혼식 사진",
     width: 1008,
     height: 752,
@@ -63,8 +58,14 @@ const galleryImages = [
     width: 1008,
     height: 752,
   },
+    {
+    src: wedding2,
+    alt: "결혼식 사진",
+    width: 1008,
+    height: 752,
+  },
 
-  /*2 */
+  
   {
     src: wedding3,
     alt: "결혼식 사진",
@@ -77,6 +78,9 @@ const galleryImages = [
     width: 1008,
     height: 752,
   },
+
+
+  /*2 */
   {
     src: wedding8,
     alt: "손편지에 접어 넣은 은행잎과 반지",
@@ -89,10 +93,6 @@ const galleryImages = [
     width: 1008,
     height: 752,
   },
-
-
-
-  /*3 */
    {
     src: indoor2,
     alt: "가로수를 이루는 은행나무 길",
@@ -101,25 +101,14 @@ const galleryImages = [
     
   },
   {
-    src: indoor3,
-    alt: "가로수를 이루는 은행나무 길",
-    width: 1272,
-    height: 2000,
-  },
-  {
     src: indoor4,
     alt: "가로수를 이루는 은행나무 길",
     width: 1291,
     height: 2000,
   },
-  {
-    src: indoor1,
-    alt: "가로수를 이루는 은행나무 길",
-    width: 1269,
-    height: 2000,
-  },
 
-  /**4 */
+
+  /*3 */
     {
     src: white1,
     alt: "가로수를 이루는 은행나무 길",
@@ -131,37 +120,11 @@ const galleryImages = [
     alt: "가로수를 이루는 은행나무 길",
     width: 1272,
     height: 2000,
-  },
-  {
-    src: white1,
-    alt: "가로수를 이루는 은행나무 길",
-    width: 1291,
-    height: 2000,
-  },
-  {
-    src: white2,
-    alt: "가로수를 이루는 은행나무 길",
-    width: 1269,
-    height: 2000,
-  },
-
-  /**5 */
+  },  
   {
     src: image1,
     alt: "가로수를 이루는 은행나무 길",
     width: 1264,
-    height: 2000,
-  },
-  {
-    src: image3,
-    alt: "가로수를 이루는 은행나무 길",
-    width: 1272,
-    height: 2000,
-  },
-  {
-    src: image2,
-    alt: "가로수를 이루는 은행나무 길",
-    width: 1291,
     height: 2000,
   },
   {
@@ -172,19 +135,7 @@ const galleryImages = [
   },
 
 
-  /*6*/
-  {
-    src: image7,
-    alt: "가로수를 이루는 은행나무 길",
-    width: 1333,
-    height: 2000,
-  },
-  {
-    src: image8,
-    alt: "가로수를 이루는 은행나무 길",
-    width: 1333,
-    height: 2000,
-  },
+  /**4 */
   {
     src: image5,
     alt: "가로수를 이루는 은행나무 길",
@@ -197,7 +148,7 @@ const galleryImages = [
     width: 2000,
     height: 1291,
   },
-
+  
 
 
 ];
