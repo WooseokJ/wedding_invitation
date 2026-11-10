@@ -1,4 +1,4 @@
-import image1 from "@/assets/paris1-optimized.jpg";
+import image1 from "@/assets/paris1-optimized.jpeg";
 import image2 from "@/assets/paris2-optimized.jpg";
 import image3 from "@/assets/paris3-optimized.jpg";
 import image4 from "@/assets/paris4-optimized.jpg";
@@ -12,6 +12,18 @@ import wedding2 from "@/assets/wedding2-gallery.jpg";
 import wedding3 from "@/assets/wedding3-gallery.jpg";
 import wedding4 from "@/assets/wedding4-gallery.jpg";
 import wedding5 from "@/assets/wedding5-gallery.jpg";
+import wedding6 from "@/assets/wedding6-gallery.jpeg";
+import wedding7 from "@/assets/wedding7-gallery.jpeg";
+import wedding8 from "@/assets/wedding8-gallery.jpeg";
+import wedding9 from "@/assets/wedding9-gallery.jpeg";
+
+import indoor1 from "@/assets/wedding1-indoor.jpeg";
+import indoor2 from "@/assets/wedding2-indoor.jpeg";
+import indoor3 from "@/assets/wedding3-indoor.jpeg";
+import indoor4 from "@/assets/wedding4-indoor.jpeg";
+
+
+
 import { ChevronDown, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 
 import { useEffect, useState } from "react";
@@ -23,8 +35,16 @@ const CUTS_PER_STRIP = 4;
 const INITIAL_VISIBLE_STRIPS = 2;
 
 const galleryImages = [
+
+  /*1 */
   {
     src: wedding1,
+    alt: "결혼식 사진",
+    width: 1008,
+    height: 752,
+  },
+  {
+    src: wedding7,
     alt: "결혼식 사진",
     width: 1008,
     height: 752,
@@ -36,6 +56,14 @@ const galleryImages = [
     height: 752,
   },
   {
+    src: wedding6,
+    alt: "결혼식 사진",
+    width: 1008,
+    height: 752,
+  },
+
+  /*2 */
+  {
     src: wedding3,
     alt: "결혼식 사진",
     width: 1008,
@@ -43,34 +71,53 @@ const galleryImages = [
   },
   {
     src: wedding4,
-    alt: "결혼식 사진",
-    width: 1008,
-    height: 752,
-  },
-  {
-    src: wedding5,
-    alt: "결혼식 사진",
-    width: 1008,
-    height: 752,
-  },
-  {
-    src: wedding5,
     alt: "여덟손이 호숫가 버드나무 아래를 걷는 두 사람",
     width: 1008,
     height: 752,
   },
   {
-    src: wedding5,
+    src: wedding8,
     alt: "손편지에 접어 넣은 은행잎과 반지",
     width: 1008,
     height: 752,
   },
   {
-    src: wedding5,
+    src: wedding9,
     alt: "가로수를 이루는 은행나무 길",
     width: 1008,
     height: 752,
   },
+
+
+
+  /*3 */
+   {
+    src: indoor2,
+    alt: "가로수를 이루는 은행나무 길",
+    width: 1264,
+    height: 2000,
+    
+  },
+  {
+    src: indoor3,
+    alt: "가로수를 이루는 은행나무 길",
+    width: 1272,
+    height: 2000,
+  },
+  {
+    src: indoor4,
+    alt: "가로수를 이루는 은행나무 길",
+    width: 1291,
+    height: 2000,
+  },
+  {
+    src: indoor1,
+    alt: "가로수를 이루는 은행나무 길",
+    width: 1269,
+    height: 2000,
+  },
+
+  /**4 */
   {
     src: image1,
     alt: "가로수를 이루는 은행나무 길",
@@ -78,13 +125,13 @@ const galleryImages = [
     height: 2000,
   },
   {
-    src: image2,
+    src: image3,
     alt: "가로수를 이루는 은행나무 길",
     width: 1272,
     height: 2000,
   },
   {
-    src: image3,
+    src: image2,
     alt: "가로수를 이루는 은행나무 길",
     width: 1291,
     height: 2000,
@@ -95,6 +142,9 @@ const galleryImages = [
     width: 1269,
     height: 2000,
   },
+
+
+  /*5 */
   {
     src: image7,
     alt: "가로수를 이루는 은행나무 길",
@@ -119,6 +169,9 @@ const galleryImages = [
     width: 2000,
     height: 1291,
   },
+
+
+
 ];
 
 const photoStrips = Array.from(
@@ -204,7 +257,7 @@ export function Gallery() {
                           height={image.height}
                           loading="lazy"
                           decoding="async"
-                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          className="block h-auto w-full"
                         />
                         <span aria-hidden="true" className="photo-strip-zoom">
                           <ZoomIn className="size-4" />

@@ -355,7 +355,8 @@
 
 .photo-strip-cut {
   position: relative;
-  aspect-ratio: 4 / 3;
+  display: block;
+  width: 100%;
   cursor: zoom-in;
   overflow: hidden;
   background: var(--paper-deep);
