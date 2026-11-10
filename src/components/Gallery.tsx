@@ -36,7 +36,15 @@ import { wedding } from "@/lib/wedding";
 const CUTS_PER_STRIP = 4;
 const INITIAL_VISIBLE_STRIPS = 2;
 
-const galleryImages = [
+type GalleryImage = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  fit?: "cover";
+};
+
+const galleryImages: GalleryImage[] = [
 
   /*1 */
   {
@@ -47,13 +55,14 @@ const galleryImages = [
   },
 
   {
-    src: wedding7,
+    src: wedding6,
     alt: "결혼식 사진",
     width: 1008,
     height: 752,
+    
   },
   {
-    src: wedding6,
+    src: wedding7,
     alt: "결혼식 사진",
     width: 1008,
     height: 752,
@@ -63,7 +72,9 @@ const galleryImages = [
     alt: "결혼식 사진",
     width: 1008,
     height: 752,
+    
   },
+
 
   
   {
@@ -121,6 +132,8 @@ const galleryImages = [
     width: 1272,
     height: 2000,
   },  
+
+  /**4 */
   {
     src: image1,
     alt: "가로수를 이루는 은행나무 길",
@@ -135,7 +148,7 @@ const galleryImages = [
   },
 
 
-  /**4 */
+  
   {
     src: image5,
     alt: "가로수를 이루는 은행나무 길",
@@ -209,7 +222,7 @@ export function Gallery() {
           <div
             id="wedding-gallery-more"
             role="group"
-            className="grid grid-cols-2 items-start gap-4 sm:grid-cols-3 sm:gap-6"
+            className="grid grid-cols-1 items-start gap-5 sm:grid-cols-2 sm:gap-6"
             aria-label="함께한 순간 사진"
           >
             {visibleStrips.map((strip, stripIndex) => (
@@ -236,7 +249,9 @@ export function Gallery() {
                           height={image.height}
                           loading="lazy"
                           decoding="async"
-                          className="block h-auto w-full"
+                          className={`block w-full ${
+                            image.fit === "cover" ? "aspect-[4/3] object-cover" : "h-auto"
+                          }`}
                         />
                         <span aria-hidden="true" className="photo-strip-zoom">
                           <ZoomIn className="size-4" />
