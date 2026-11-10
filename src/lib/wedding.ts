@@ -33,7 +33,7 @@ export const wedding = {
   },
   accounts: {
     groom: [
-      { role: "신랑 아버지", bank: "국민은행", number: "9335020-00-084490", holder: "조형곤" },
+      { role: "신랑 아버지", bank: "국민은행", number: "9335020-00-84490", holder: "조형곤" },
       { role: "신랑 어머니", bank: "SC제일은행", number: "433-20-285876", holder: "이미송" },
       { role: "신랑", bank: "신한은행", number: "110-577-811202", holder: "조우석" },
     ],

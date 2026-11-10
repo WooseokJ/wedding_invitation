@@ -11,7 +11,9 @@ import wedding1 from "@/assets/wedding1-gallery.jpg";
 import wedding2 from "@/assets/wedding2-gallery.jpg";
 import wedding3 from "@/assets/wedding3-gallery.jpg";
 import wedding4 from "@/assets/wedding4-gallery.jpg";
-import wedding5 from "@/assets/wedding5-gallery.jpg";
+import white1 from "@/assets/white-wedding1.jpg";
+import white2 from "@/assets/white-wedding2.jpeg";
+
 import wedding6 from "@/assets/wedding6-gallery.jpeg";
 import wedding7 from "@/assets/wedding7-gallery.jpeg";
 import wedding8 from "@/assets/wedding8-gallery.jpeg";
@@ -118,6 +120,32 @@ const galleryImages = [
   },
 
   /**4 */
+    {
+    src: white1,
+    alt: "가로수를 이루는 은행나무 길",
+    width: 1264,
+    height: 2000,
+  },
+  {
+    src: white2,
+    alt: "가로수를 이루는 은행나무 길",
+    width: 1272,
+    height: 2000,
+  },
+  {
+    src: white1,
+    alt: "가로수를 이루는 은행나무 길",
+    width: 1291,
+    height: 2000,
+  },
+  {
+    src: white2,
+    alt: "가로수를 이루는 은행나무 길",
+    width: 1269,
+    height: 2000,
+  },
+
+  /**5 */
   {
     src: image1,
     alt: "가로수를 이루는 은행나무 길",
@@ -144,7 +172,7 @@ const galleryImages = [
   },
 
 
-  /*5 */
+  /*6*/
   {
     src: image7,
     alt: "가로수를 이루는 은행나무 길",
