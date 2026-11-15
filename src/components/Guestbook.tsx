@@ -32,7 +32,7 @@ type Entry = {
   created_at: string;
 };
 
-async function fetchEntries(): Promise<Entry[]> {
+async function fetchEntries(authorId: string): Promise<Entry[]> {
   const { data, error } = await supabase
     .from("guestbook")
     .select("id, name, author_id, message, attending, created_at")
@@ -40,7 +40,22 @@ async function fetchEntries(): Promise<Entry[]> {
     .limit(100);
 
   if (error) throw error;
-  return (data ?? []) as Entry[];
+
+  const entries = (data ?? []) as Entry[];
+  if (!authorId) return entries;
+
+  const { data: ownEntry, error: ownEntryError } = await supabase
+    .from("guestbook")
+    .select("id, name, author_id, message, attending, created_at")
+    .eq("author_id", authorId)
+    .maybeSingle();
+
+  if (ownEntryError) throw ownEntryError;
+  if (ownEntry && !entries.some((entry) => entry.id === ownEntry.id)) {
+    entries.push(ownEntry as Entry);
+    entries.sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at));
+  }
+  return entries;
 }
 
 function when(iso: string) {
@@ -59,10 +74,14 @@ const PREVIEW_COUNT = 3;
 function EntryCard({
   entry,
   canDelete,
+  canEdit,
+  onEdit,
   onDelete,
 }: {
   entry: Entry;
   canDelete: boolean;
+  canEdit: boolean;
+  onEdit: (entry: Entry) => void;
   onDelete: (id: string) => void;
 }) {
   return (
@@ -71,6 +90,16 @@ function EntryCard({
         <span className="font-display text-base font-bold text-ink">{entry.name}</span>
         <div className="flex items-center gap-2">
           <span className="text-[11px] text-ink-soft">{when(entry.created_at)}</span>
+          {canEdit && (
+            <button
+              type="button"
+              aria-label="수정"
+              onClick={() => onEdit(entry)}
+              className="flex size-6 items-center justify-center rounded-full text-xs text-ink-soft transition-colors hover:bg-paper-deep hover:text-ink"
+            >
+              ✎
+            </button>
+          )}
           {canDelete && (
             <button
               type="button"
@@ -96,12 +125,14 @@ function EntriesModal({
   onClose,
   entries,
   authorId,
+  onEdit,
   onDelete,
 }: {
   open: boolean;
   onClose: () => void;
   entries: Entry[];
   authorId: string;
+  onEdit: (entry: Entry) => void;
   onDelete: (id: string) => void;
 }) {
   useEffect(() => {
@@ -152,6 +183,8 @@ function EntriesModal({
               key={entry.id}
               entry={entry}
               canDelete={entry.author_id === authorId}
+              canEdit={entry.author_id === authorId}
+              onEdit={onEdit}
               onDelete={onDelete}
             />
           ))}
@@ -167,6 +200,7 @@ export function Guestbook() {
   const [message, setMessage] = useState("");
   const [attending, setAttending] = useState(true);
   const [sending, setSending] = useState(false);
+  const [editingEntry, setEditingEntry] = useState<Entry | null>(null);
   const [ticketState, setTicketState] = useState<"closed" | "opening" | "open">("closed");
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -184,12 +218,13 @@ export function Guestbook() {
   }
 
   const { data, isPending, isError, refetch } = useQuery({
-    queryKey: ["guestbook"],
-    queryFn: fetchEntries,
+    queryKey: ["guestbook", authorId],
+    queryFn: () => fetchEntries(authorId),
   });
 
   // 서버에서 created_at 내림차순(최신순)으로 가져옵니다.
   const entries = data ?? [];
+  const ownEntry = entries.find((entry) => entry.author_id === authorId);
   const preview = entries.slice(0, PREVIEW_COUNT);
 
   // 삭제 등으로 5개 이하가 되면 모달을 자동으로 닫습니다.
@@ -203,26 +238,64 @@ export function Guestbook() {
       toast.error("이름과 축하의 말을 입력해 주세요.");
       return;
     }
+    if (ownEntry && !editingEntry) {
+      toast.error("이미 방명록을 작성하셨습니다. 기존 글을 수정해 주세요.");
+      return;
+    }
 
     setSending(true);
-    const { error } = await supabase.from("guestbook").insert({
+    const values = {
       name: name.trim(),
-      author_id: authorId,
       message: message.trim(),
       attending,
-    });
+    };
+    const result = editingEntry
+      ? await supabase
+          .from("guestbook")
+          .update(values)
+          .eq("id", editingEntry.id)
+          .eq("author_id", authorId)
+          .select("id")
+          .maybeSingle()
+      : await supabase.from("guestbook").insert({ ...values, author_id: authorId });
     setSending(false);
 
-    if (error) {
+    if (result.error) {
+      if (result.error.code === "23505") {
+        toast.error("이미 방명록을 작성하셨습니다. 기존 글을 수정해 주세요.");
+        void refetch();
+        return;
+      }
       toast.error("답장이 닿지 않았습니다. 잠시 후 다시 시도해 주세요.");
       return;
     }
 
-    toast.success("따뜻한 답장을 남겼습니다. 감사합니다.");
+    if (editingEntry && !result.data) {
+      toast.error("작성자 본인 글만 수정할 수 있습니다.");
+      return;
+    }
+
+    toast.success(editingEntry ? "방명록을 수정했어요." : "따뜻한 답장을 남겼습니다. 감사합니다.");
     setName("");
     setMessage("");
     setAttending(true);
+    setEditingEntry(null);
     void refetch();
+  }
+
+  function startEditing(entry: Entry) {
+    setEditingEntry(entry);
+    setName(entry.name);
+    setMessage(entry.message);
+    setAttending(entry.attending);
+    setModalOpen(false);
+  }
+
+  function cancelEditing() {
+    setEditingEntry(null);
+    setName("");
+    setMessage("");
+    setAttending(true);
   }
 
   async function deleteEntry(entryId: string) {
@@ -284,16 +357,12 @@ export function Guestbook() {
               )}
             >
               <div className="flex items-center justify-between border-b border-hair pb-4">
-                <span className="text-[10px] tracking-[0.24em] text-brass-deep">
-                  📩
-                </span>
+                <span className="text-[10px] tracking-[0.24em] text-brass-deep">📩</span>
                 <span className="text-xs text-ink-soft">
                   {wedding.guestbookTicket.ticketNumber}
                 </span>
               </div>
-              <p className="mt-6 font-display text-2xl font-bold text-ink">
-                INVITATION
-              </p>
+              <p className="mt-6 font-display text-2xl font-bold text-ink">INVITATION</p>
               <p className="mt-2 text-sm text-ink-soft">
                 {wedding.date.numeric} ({wedding.date.weekday}) · {wedding.date.hourLabel}
               </p>
@@ -305,76 +374,105 @@ export function Guestbook() {
             </div>
             {ticketState === "open" && (
               <Reveal delay={120}>
-                <form
-                  onSubmit={submit}
-                  className="mt-9 rounded-[min(1vw,12px)] bg-paper-deep/50 p-5 ring-1 ring-hair sm:mt-12 sm:p-10"
-                >
-                  <div className="grid gap-7 sm:grid-cols-1">
-                    <label className="block">
-                      <span className="mb-1 block text-xs tracking-[0.18em] text-brass-deep">
-                        이름
+                {!ownEntry || editingEntry ? (
+                  <form
+                    onSubmit={submit}
+                    className="mt-9 rounded-[min(1vw,12px)] bg-paper-deep/50 p-5 ring-1 ring-hair sm:mt-12 sm:p-10"
+                  >
+                    {editingEntry && (
+                      <p className="mb-6 text-sm text-ink-soft">
+                        남겨 주신 방명록을 수정하고 있습니다.
+                      </p>
+                    )}
+                    <div className="grid gap-7 sm:grid-cols-1">
+                      <label className="block">
+                        <span className="mb-1 block text-xs tracking-[0.18em] text-brass-deep">
+                          이름
+                        </span>
+                        <input
+                          value={name}
+                          onChange={(event) => setName(event.target.value)}
+                          maxLength={20}
+                          required
+                          autoComplete="name"
+                          placeholder="이름을 입력해 주세요."
+                          className="field-line"
+                        />
+                      </label>
+                    </div>
+
+                    <div className="mt-7">
+                      <span className="mb-3 block text-xs tracking-[0.18em] text-brass-deep">
+                        참석 여부
                       </span>
-                      <input
-                        value={name}
-                        onChange={(event) => setName(event.target.value)}
-                        maxLength={20}
+                      <div className="flex flex-col gap-2 min-[360px]:flex-row min-[360px]:gap-3">
+                        {[
+                          { value: true, label: "참석합니다" },
+                          { value: false, label: "함께하지 못합니다" },
+                        ].map((option) => (
+                          <button
+                            key={option.label}
+                            type="button"
+                            onClick={() => setAttending(option.value)}
+                            className={cn(
+                              "flex-1 rounded-[8px] py-3 text-sm transition-colors duration-300",
+                              attending === option.value
+                                ? "bg-ink text-paper"
+                                : "bg-paper text-ink ring-1 ring-hair",
+                            )}
+                          >
+                            {option.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <label className="mt-7 block">
+                      <span className="mb-1 block text-xs tracking-[0.18em] text-brass-deep">
+                        축하의 한마디
+                      </span>
+                      <textarea
+                        value={message}
+                        onChange={(event) => setMessage(event.target.value)}
+                        maxLength={300}
+                        rows={3}
                         required
-                        autoComplete="name"
-                        placeholder="이름을 입력해 주세요."
-                        className="field-line"
+                        placeholder="두 사람에게 전하고 싶은 말을 남겨 주세요."
+                        className="field-line resize-none"
                       />
                     </label>
+
+                    <button
+                      type="submit"
+                      disabled={sending}
+                      className="mt-8 w-full rounded-[8px] bg-ink py-3.5 text-sm tracking-wide text-paper transition-colors duration-300 hover:bg-brass-deep disabled:opacity-60"
+                    >
+                      {sending ? "보내는 중…" : editingEntry ? "수정사항 저장" : "답장 보내기"}
+                    </button>
+                    {editingEntry && (
+                      <button
+                        type="button"
+                        onClick={cancelEditing}
+                        className="mt-3 w-full rounded-[8px] py-3 text-sm text-ink-soft transition-colors hover:text-ink"
+                      >
+                        수정 취소
+                      </button>
+                    )}
+                  </form>
+                ) : (
+                  <div className="mt-9 rounded-[min(1vw,12px)] bg-paper-deep/50 p-5 text-center ring-1 ring-hair sm:mt-12 sm:p-10">
+                    <p className="text-sm text-ink-soft">
+                      이미 방명록을 남기셨어요. 기존 인사를 수정할 수 있습니다.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => startEditing(ownEntry)}
+                      className="mt-4 rounded-full bg-ink px-6 py-2.5 text-sm text-paper transition-colors hover:bg-brass-deep"
+                    >
+                      내 글 수정하기
+                    </button>
                   </div>
-
-                  <div className="mt-7">
-                    <span className="mb-3 block text-xs tracking-[0.18em] text-brass-deep">
-                      참석 여부
-                    </span>
-                    <div className="flex flex-col gap-2 min-[360px]:flex-row min-[360px]:gap-3">
-                      {[
-                        { value: true, label: "참석합니다" },
-                        { value: false, label: "함께하지 못합니다" },
-                      ].map((option) => (
-                        <button
-                          key={option.label}
-                          type="button"
-                          onClick={() => setAttending(option.value)}
-                          className={cn(
-                            "flex-1 rounded-[8px] py-3 text-sm transition-colors duration-300",
-                            attending === option.value
-                              ? "bg-ink text-paper"
-                              : "bg-paper text-ink ring-1 ring-hair",
-                          )}
-                        >
-                          {option.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <label className="mt-7 block">
-                    <span className="mb-1 block text-xs tracking-[0.18em] text-brass-deep">
-                      축하의 한마디
-                    </span>
-                    <textarea
-                      value={message}
-                      onChange={(event) => setMessage(event.target.value)}
-                      maxLength={300}
-                      rows={3}
-                      required
-                      placeholder="두 사람에게 전하고 싶은 말을 남겨 주세요."
-                      className="field-line resize-none"
-                    />
-                  </label>
-
-                  <button
-                    type="submit"
-                    disabled={sending}
-                    className="mt-8 w-full rounded-[8px] bg-ink py-3.5 text-sm tracking-wide text-paper transition-colors duration-300 hover:bg-brass-deep disabled:opacity-60"
-                  >
-                    {sending ? "보내는 중…" : "답장 보내기"}
-                  </button>
-                </form>
+                )}
               </Reveal>
             )}
           </div>
@@ -416,6 +514,8 @@ export function Guestbook() {
                 <EntryCard
                   entry={entry}
                   canDelete={entry.author_id === authorId}
+                  canEdit={entry.author_id === authorId}
+                  onEdit={startEditing}
                   onDelete={(id) => void deleteEntry(id)}
                 />
               </Reveal>
@@ -441,6 +541,7 @@ export function Guestbook() {
             onClose={() => setModalOpen(false)}
             entries={entries}
             authorId={authorId}
+            onEdit={startEditing}
             onDelete={(id) => void deleteEntry(id)}
           />
         )}
