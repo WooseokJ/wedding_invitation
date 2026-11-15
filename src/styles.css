@@ -299,6 +299,140 @@
   animation: guestbook-ticket-open 1250ms var(--ease-soft) both;
 }
 
+@keyframes fortune-pocket-burst {
+  0% {
+    opacity: 0;
+    transform: translateY(1.25rem) scale(0.45) rotate(-12deg);
+  }
+  35% {
+    opacity: 1;
+    transform: translateY(-0.25rem) scale(1.12) rotate(5deg);
+  }
+  58% {
+    opacity: 1;
+    transform: translateY(0) scale(0.94) rotate(-3deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-1.5rem) scale(0.35) rotate(18deg);
+  }
+}
+
+@keyframes fortune-spark-burst {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.25);
+  }
+  22% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--fortune-x), var(--fortune-y)) scale(1.15) rotate(75deg);
+  }
+}
+
+.fortune-burst-stage {
+  position: relative;
+  width: 10rem;
+  height: 7rem;
+  margin: 0 auto;
+}
+
+.fortune-pocket {
+  position: absolute;
+  bottom: 0.6rem;
+  left: 50%;
+  width: 4.5rem;
+  height: 3.8rem;
+  border: 1px solid var(--brass-deep);
+  border-radius: 45% 45% 40% 40%;
+  background: linear-gradient(155deg, var(--brass), var(--paper-shade));
+  box-shadow: var(--shadow-soft);
+  transform: translateX(-50%);
+  animation: fortune-pocket-burst 1050ms var(--ease-soft) both;
+}
+
+.fortune-pocket::before {
+  position: absolute;
+  top: -0.5rem;
+  left: 50%;
+  width: 2.8rem;
+  height: 0.9rem;
+  border: 1px solid var(--brass-deep);
+  border-radius: 50%;
+  background: var(--brass-deep);
+  content: "";
+  transform: translateX(-50%) rotate(-4deg);
+}
+
+.fortune-pocket-mark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: var(--paper);
+  font-size: 1.5rem;
+  transform: translate(-50%, -50%);
+}
+
+.fortune-spark {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  color: var(--brass);
+  font-size: 1.15rem;
+  opacity: 0;
+  animation: fortune-spark-burst 900ms ease-out both;
+}
+
+.fortune-spark-one {
+  --fortune-x: -4.5rem;
+  --fortune-y: -2.7rem;
+  animation-delay: 80ms;
+}
+
+.fortune-spark-two {
+  --fortune-x: -2.6rem;
+  --fortune-y: -3.2rem;
+  animation-delay: 130ms;
+}
+
+.fortune-spark-three {
+  --fortune-x: -0.8rem;
+  --fortune-y: -3.5rem;
+  animation-delay: 40ms;
+}
+
+.fortune-spark-four {
+  --fortune-x: 1.1rem;
+  --fortune-y: -3.2rem;
+  animation-delay: 160ms;
+}
+
+.fortune-spark-five {
+  --fortune-x: 3rem;
+  --fortune-y: -3rem;
+  animation-delay: 100ms;
+}
+
+.fortune-spark-six {
+  --fortune-x: 4.4rem;
+  --fortune-y: -1.5rem;
+  animation-delay: 190ms;
+}
+
+.fortune-spark-seven {
+  --fortune-x: -3.7rem;
+  --fortune-y: -0.9rem;
+  animation-delay: 210ms;
+}
+
+.fortune-spark-eight {
+  --fortune-x: 3.8rem;
+  --fortune-y: 0.2rem;
+  animation-delay: 60ms;
+}
+
 .photo-strip {
   border: 1px solid var(--hair);
   background: var(--paper);
@@ -755,6 +889,16 @@
 
   .guestbook-ticket-opening {
     animation-duration: 1ms;
+  }
+
+  .fortune-pocket {
+    animation: none;
+    opacity: 1;
+  }
+
+  .fortune-spark {
+    animation: none;
+    opacity: 1;
   }
 
   .photo-strip,

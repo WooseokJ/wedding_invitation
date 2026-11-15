@@ -11,6 +11,17 @@ export const wedding = {
     title: "초대합니다",
     enterLabel: "초대장 열기",
   },
+  fortunePocket: {
+    hint: "다섯 번 누르면 행운 주머니가 열려요.",
+    eyebrow: "A LITTLE FORTUNE",
+    title: "오늘의 행운",
+    messages: [
+      "🎉 축하합니다!",  
+    ],
+    messages2: [
+      "숨겨진 작은 행운을 발견한 만큼 행운이 있기를..💕",
+    ]
+  },
   familyIntroduction: {
     eyebrow: "인사말",
     title: "두 사람의 결혼식에 초대합니다.",
