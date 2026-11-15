@@ -249,31 +249,63 @@ export function Guestbook() {
       message: message.trim(),
       attending,
     };
-    const result = editingEntry
-      ? await supabase
-          .from("guestbook")
-          .update(values)
-          .eq("id", editingEntry.id)
-          .eq("author_id", authorId)
-          .select("id")
-          .maybeSingle()
-      : await supabase.from("guestbook").insert({ ...values, author_id: authorId });
-    setSending(false);
+    if (editingEntry) {
+      const { data: removedEntry, error: removeError } = await supabase
+        .from("guestbook")
+        .delete()
+        .eq("id", editingEntry.id)
+        .eq("author_id", authorId)
+        .select("id")
+        .maybeSingle();
 
-    if (result.error) {
-      if (result.error.code === "23505") {
-        toast.error("이미 방명록을 작성하셨습니다. 기존 글을 수정해 주세요.");
+      if (removeError || !removedEntry) {
+        setSending(false);
+        toast.error("기존 방명록을 찾지 못해 수정할 수 없습니다.");
+        return;
+      }
+
+      const { error: insertError } = await supabase.from("guestbook").insert({
+        id: editingEntry.id,
+        ...values,
+        author_id: authorId,
+        created_at: editingEntry.created_at,
+      });
+
+      if (insertError) {
+        const { error: restoreError } = await supabase.from("guestbook").insert({
+          id: editingEntry.id,
+          name: editingEntry.name,
+          message: editingEntry.message,
+          attending: editingEntry.attending,
+          author_id: authorId,
+          created_at: editingEntry.created_at,
+        });
+        setSending(false);
+        toast.error(
+          restoreError
+            ? "수정에 실패했고 기존 글도 복구하지 못했습니다."
+            : "수정에 실패해 기존 글을 복구했습니다.",
+        );
         void refetch();
         return;
       }
-      toast.error("답장이 닿지 않았습니다. 잠시 후 다시 시도해 주세요.");
-      return;
+    } else {
+      const { error } = await supabase.from("guestbook").insert({
+        ...values,
+        author_id: authorId,
+      });
+      if (error) {
+        setSending(false);
+        if (error.code === "23505") {
+          toast.error("이미 방명록을 작성하셨습니다. 기존 글을 수정해 주세요.");
+          void refetch();
+          return;
+        }
+        toast.error("답장이 닿지 않았습니다. 잠시 후 다시 시도해 주세요.");
+        return;
+      }
     }
-
-    if (editingEntry && !result.data) {
-      toast.error("작성자 본인 글만 수정할 수 있습니다.");
-      return;
-    }
+    setSending(false);
 
     toast.success(editingEntry ? "방명록을 수정했어요." : "따뜻한 답장을 남겼습니다. 감사합니다.");
     setName("");

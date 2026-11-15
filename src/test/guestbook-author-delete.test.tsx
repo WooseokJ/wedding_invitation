@@ -4,20 +4,18 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Guestbook } from "@/components/Guestbook";
 
 const mockUseQuery = vi.fn();
-const mockEq = vi.fn();
-const mockUpdateEq = vi.fn();
-const mockUpdateSelect = vi.fn();
-const mockUpdateMaybeSingle = vi.fn();
-const mockUpdate = vi.fn();
-const updateChain = {
-  eq: mockUpdateEq,
-  select: mockUpdateSelect,
-  maybeSingle: mockUpdateMaybeSingle,
+const mockDeleteEq = vi.fn();
+const mockDeleteSelect = vi.fn();
+const mockDeleteMaybeSingle = vi.fn();
+const mockInsert = vi.fn();
+const deleteChain = {
+  eq: mockDeleteEq,
+  select: mockDeleteSelect,
+  maybeSingle: mockDeleteMaybeSingle,
 };
 
-mockUpdateEq.mockImplementation(() => updateChain);
-mockUpdateSelect.mockImplementation(() => updateChain);
-mockUpdate.mockImplementation(() => updateChain);
+mockDeleteEq.mockImplementation(() => deleteChain);
+mockDeleteSelect.mockImplementation(() => deleteChain);
 
 async function openTicket() {
   vi.useFakeTimers();
@@ -35,11 +33,8 @@ vi.mock("@tanstack/react-query", () => ({
 vi.mock("@/integrations/supabase/client", () => ({
   supabase: {
     from: vi.fn(() => ({
-      insert: vi.fn(),
-      update: mockUpdate,
-      delete: () => ({
-        eq: mockEq,
-      }),
+      insert: mockInsert,
+      delete: () => deleteChain,
     })),
   },
 }));
@@ -53,17 +48,13 @@ describe("Guestbook author controls", () => {
     localStorage.clear();
     localStorage.setItem("wedding_guestbook_author_id", "me");
 
-    mockEq.mockReset();
-    mockEq.mockImplementation(() => ({
-      eq: mockEq,
-      then: undefined,
-    }));
-    mockUpdate.mockClear();
-    mockUpdateEq.mockClear();
-    mockUpdateMaybeSingle.mockResolvedValue({
+    mockDeleteEq.mockClear();
+    mockDeleteMaybeSingle.mockResolvedValue({
       data: { id: "entry-1" },
       error: null,
     });
+    mockInsert.mockReset();
+    mockInsert.mockResolvedValue({ error: null });
 
     mockUseQuery.mockReturnValue({
       data: [
@@ -98,11 +89,11 @@ describe("Guestbook author controls", () => {
     expect(buttons).toHaveLength(1);
 
     fireEvent.click(buttons[0]);
-    expect(mockEq.mock.calls).toContainEqual(["id", "entry-1"]);
-    expect(mockEq.mock.calls).toContainEqual(["author_id", "me"]);
+    expect(mockDeleteEq.mock.calls).toContainEqual(["id", "entry-1"]);
+    expect(mockDeleteEq.mock.calls).toContainEqual(["author_id", "me"]);
   });
 
-  it("updates the existing entry with the author's ID", async () => {
+  it("replaces the existing entry when the author saves an edit", async () => {
     render(<Guestbook />);
 
     await openTicket();
@@ -113,13 +104,16 @@ describe("Guestbook author controls", () => {
     fireEvent.click(screen.getByRole("button", { name: "수정사항 저장" }));
 
     await waitFor(() => {
-      expect(mockUpdate).toHaveBeenCalledWith({
+      expect(mockDeleteEq.mock.calls).toContainEqual(["id", "entry-1"]);
+      expect(mockDeleteEq.mock.calls).toContainEqual(["author_id", "me"]);
+      expect(mockInsert).toHaveBeenCalledWith({
+        id: "entry-1",
         name: "나",
         message: "고쳐 쓴 축하 인사",
         attending: true,
+        author_id: "me",
+        created_at: "2025-07-01T00:00:00.000Z",
       });
     });
-    expect(mockUpdateEq.mock.calls).toContainEqual(["id", "entry-1"]);
-    expect(mockUpdateEq.mock.calls).toContainEqual(["author_id", "me"]);
   });
 });
